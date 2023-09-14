@@ -20,8 +20,10 @@
 - Components devem estar numa pasta com o nome do component em PascalCase;
 - A pasta do componente terá: index.tsx - arquivo do componente, styled.ts - syled-component, <component>.test.ts - arquivo de teste;
 - Quando o componente necessitar de mais de uma tipagem, colocar as tipagens num arquivo chamado types.ts dentro da pasta do componente;
-- Tipagem de props deve seguir o padrao <ComponentName>Props;
+- Tipagem de props deve seguir o padrao ComponentNameProps;
 - Todos os arquivos deverão estar nas suas devidas pastas, conforme está estruturado o repositório;
+- Todo o código-fonte deve ser escrito em inglês. Isso inclui nomes de variáveis, funções, classes, etc;
+- Todos os commits devem seguir a  convenção de commits semânticos no tempo presente, ex: "adiciona tal funcionalidade";
 
 ## 🎲 Tecnologias e Bibliotecas
 
