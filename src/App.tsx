@@ -1,5 +1,16 @@
+import styled from 'styled-components';
+import { ThemeProviderContext } from './contexts/themeContext';
+
+const Test = styled.h1`
+  color: ${({ theme }) => theme.text.primary};
+`;
+
 function App() {
-  return <h1>Let the journey begin</h1>;
+  return (
+    <ThemeProviderContext>
+      <Test>Let the journey begin</Test>
+    </ThemeProviderContext>
+  );
 }
 
 export default App;
