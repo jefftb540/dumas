@@ -11,7 +11,7 @@ export const light: Theme = {
       dark: '#D95829'
     },
     secondary: {
-      main: '#8C0B0Bh',
+      main: '#8C0B0B',
       light: '#CA1E1E'
     },
     black: '#333333',
@@ -25,4 +25,21 @@ export const light: Theme = {
   }
 };
 
-export const dark: Theme = { ...light };
+export const dark: Theme = {
+  colors: {
+    ...light.colors,
+    background: {
+      main: '#262626',
+      light: '#FF5600'
+    },
+    primary: {
+      main: '#D45513',
+      dark: '#D95829'
+    },
+    black: '#333333',
+    white: '#EEEEEE',
+    text: {
+      main: '#FDFDFD'
+    }
+  }
+};
