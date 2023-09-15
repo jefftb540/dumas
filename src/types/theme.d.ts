@@ -14,6 +14,7 @@ type FontSize = {
 type FontWeight = {
   light: number;
   regular: number;
+  semiBold: number;
   bold: number;
 };
 
@@ -36,7 +37,8 @@ declare module 'styled-components' {
         primary: string;
         secondary?: string;
       };
-      size: FontSize;
+      text: FontSize;
+      header: FontSize;
       weight: FontWeight;
     };
   }

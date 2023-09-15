@@ -27,21 +27,28 @@ export const light: Theme = {
     family: {
       primary: 'Poppins'
     },
-    size: {
-      extraSmall: '16px',
-      small: '20px',
-      medium: '24px',
-      large: '28px'
+    text: {
+      small: '16px',
+      medium: '18px',
+      large: '20px'
     },
+    header: {
+      small: '24px',
+      medium: '28px',
+      large: '32px'
+    },
+
     weight: {
-      bold: 700,
       light: 400,
-      regular: 600
+      regular: 500,
+      semiBold: 600,
+      bold: 700
     }
   }
 };
 
 export const dark: Theme = {
+  ...light,
   colors: {
     ...light.colors,
     background: {
