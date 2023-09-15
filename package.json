@@ -14,10 +14,14 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
+    "@types/styled-components": "^5.1.27",
+    "formik": "^2.4.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.11.0",
     "react-router-dom": "^6.16.0",
-    "styled-components": "^6.0.8"
+    "styled-components": "^6.0.8",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.22.17",
