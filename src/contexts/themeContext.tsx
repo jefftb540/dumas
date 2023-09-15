@@ -1,7 +1,6 @@
 import { createContext, useState } from 'react';
-import { ThemeProvider, Theme } from 'styled-components';
+import { ThemeProvider, DefaultTheme } from 'styled-components';
 import { dark, light } from '../themes';
-// import { Theme } from '../types/theme';
 
 export type ThemeVariations = 'light' | 'dark';
 
@@ -20,7 +19,7 @@ interface ThemeProviderProps {
 
 export const ThemeProviderContext = ({ children }: ThemeProviderProps) => {
   const [theme, setTheme] = useState<ThemeVariations>('light');
-  const [activeTheme, setActiveTheme] = useState<Theme>(light);
+  const [activeTheme, setActiveTheme] = useState<DefaultTheme>(light);
 
   const toggle = () => {
     setActiveTheme(prev => (prev === light ? dark : light));

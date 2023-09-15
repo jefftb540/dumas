@@ -19,7 +19,7 @@ type FontWeight = {
 };
 
 declare module 'styled-components' {
-  export interface Theme {
+  export interface DefaultTheme {
     colors: {
       primary: ColorPalette;
       secondary: ColorPalette;
