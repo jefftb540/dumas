@@ -1,4 +1,4 @@
-# 🖥️ Título do Projeto
+# 🖥️ Dumas
 
 ## 📜 Descrição
 
@@ -109,18 +109,6 @@
           <b> Carolina Alves Ribeiro </b><br>
           <b> Desenvolvedora Web Frontend / Head de Design </b><br>
             <a href="https://www.linkedin.com/in/carolinaalvesribeiro/" alt="Linkedin"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"/ height="20"></a>
-
-
-  </tr>
-
-  <tr>
-    <td align="center">
-      <div>
-        <img src="https://media.licdn.com/dms/image/D4D03AQGC_mBLB89iBg/profile-displayphoto-shrink_200_200/0/1688139846956?e=1700092800&v=beta&t=W1m4lzpPXmWWhtT3pDgKNDhzIaiPaunPWKXtKjZqGI4" width="120px;" alt="Foto de Daniel"/><br>
-          <b> Daniel Ramalho de Carvalho </b><br>
-          <b> Desenvolvedor Web Frontend / Q.A. </b><br>
-            <a href="https://www.linkedin.com/in/carolinaalvesribeiro/" alt="Linkedin"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"/ height="20"></a>
-            
 
 
   </tr>
