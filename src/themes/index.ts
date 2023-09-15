@@ -22,6 +22,22 @@ export const light: Theme = {
     error: {
       main: '#FF0000'
     }
+  },
+  fonts: {
+    family: {
+      primary: 'Poppins'
+    },
+    size: {
+      extraSmall: '16px',
+      small: '20px',
+      medium: '24px',
+      large: '28px'
+    },
+    weight: {
+      bold: 700,
+      light: 400,
+      regular: 600
+    }
   }
 };
 

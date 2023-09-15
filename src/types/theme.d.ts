@@ -5,9 +5,11 @@ type ColorPalette = {
   dark?: string;
 };
 type FontSize = {
+  extraSmall?: string;
   small: string;
   medium: string;
   large: string;
+  extraLarge?: string;
 };
 type FontWeight = {
   light: number;
@@ -29,13 +31,13 @@ declare module 'styled-components' {
       white: string;
       black: string;
     };
-    // fonts: {
-    //   family: {
-    //     primary: string;
-    //     secondary: string;
-    //   };
-    //   size: FontSize;
-    //   weight: FontWeight;
-    // };
+    fonts: {
+      family: {
+        primary: string;
+        secondary?: string;
+      };
+      size: FontSize;
+      weight: FontWeight;
+    };
   }
 }
