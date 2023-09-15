@@ -8,7 +8,6 @@ export const Container = styled.div`
   font-weight: ${({ theme }) => theme.fonts.weight.light};
   border: 1px solid ${({ theme }) => theme.colors.white};
   display: flex;
-  flex-direction: row;
   gap: 8px;
   width: 380px;
 
