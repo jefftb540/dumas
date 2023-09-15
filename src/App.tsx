@@ -6,8 +6,8 @@ import { GlobalStyle } from './styles/global';
 function App() {
   return (
     <ThemeProviderContext>
+      <GlobalStyle />
       <BrowserRouter>
-        <GlobalStyle />
         <AppRoutes />
       </BrowserRouter>
     </ThemeProviderContext>
