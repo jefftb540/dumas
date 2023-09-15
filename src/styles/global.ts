@@ -13,7 +13,7 @@ html, body, #root {
   width: 100%;
   min-height: 100vh;
   font-size: 100%;
-  // font-family: ${({theme}) => theme.}
+  font-family: ${({ theme }) => theme.fonts.family.primary}
   -webkit-font-smoothing: antialiased;
 
   button {
