@@ -3,6 +3,8 @@ type ColorPalette = {
   main: string;
   light?: string;
   dark?: string;
+  primaryAccent?: string;
+  secondaryAccent?: string;
 };
 type FontSize = {
   extraSmall?: string;
@@ -31,6 +33,7 @@ declare module 'styled-components' {
       text: ColorPalette;
       white: string;
       black: string;
+      border: ColorPalette;
     };
     fonts: {
       family: {
