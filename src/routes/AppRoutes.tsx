@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { routes } from '.';
 import { Home } from '../pages/Home';
+import { PageLayout } from '../pages/PageLayout';
 
 const isAutenticated = () => true; //TODO: Implementar função no authContext
 
@@ -9,7 +10,9 @@ export const AppRoutes = () => {
     <Routes>
       {isAutenticated() ? (
         <>
-          <Route path={routes.home} element={<Home />} />
+          <Route path={routes.home} element={<PageLayout />}>
+            <Route path={routes.home} element={<Home />} />
+          </Route>
           <Route path="*" element={<Navigate to={routes.home} />} />
         </>
       ) : (
