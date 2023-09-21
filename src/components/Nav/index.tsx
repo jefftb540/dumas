@@ -19,7 +19,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 
 export const Navbar = () => {
   const [openSearch, setOpenSearch] = useState(false);
-  const cartItensNumber = 2;
+  const cartItensNumber = 0;
   return (
     <NavContainer>
       <NavLeft>
@@ -41,9 +41,9 @@ export const Navbar = () => {
           <MdOutlineKeyboardArrowDown />
         </UserMenuToggle>
         <IconContainer>
-          {cartItensNumber && (
+          {cartItensNumber ? (
             <TotalCartItensNumber>{cartItensNumber}</TotalCartItensNumber>
-          )}
+          ) : null}
           <FaShoppingCart />
         </IconContainer>
       </NavRight>
