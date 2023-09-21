@@ -9,6 +9,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { handleLogin, LoginProps } from '../../service/Auth/HandleLogin';
 import { User } from '../../types/Users';
+import secureLocalStorage from 'react-secure-storage';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -38,8 +39,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       if (response.token) {
         navigate('/home');
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
+        secureLocalStorage.setItem('token', response.token);
+        secureLocalStorage.setItem('user', JSON.stringify(response.user));
         setIsAuthenticated(true);
       }
     } catch (error) {
@@ -48,7 +49,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   function signOut() {
-    localStorage.clear();
+    secureLocalStorage.clear();
 
     navigate('/');
 
@@ -56,8 +57,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   }
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const authUser = localStorage.getItem('user');
+    const authUser = secureLocalStorage.getItem('user');
+    const token = secureLocalStorage.getItem('token');
 
     if (!token) {
       setIsAuthenticated(false);
@@ -65,7 +66,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
 
     if (authUser) {
-      setUser(JSON.parse(authUser));
+      setUser(JSON.parse(authUser as string));
     }
     setIsAuthenticated(true);
   }, []);
