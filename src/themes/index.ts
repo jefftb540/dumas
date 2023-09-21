@@ -16,8 +16,10 @@ export const light: DefaultTheme = {
     },
     black: '#333333',
     white: '#EEEEEE',
+
     text: {
-      main: '#333333'
+      main: '#333333',
+      light: '#ffffff'
     },
     error: {
       main: '#FF0000'
@@ -28,6 +30,7 @@ export const light: DefaultTheme = {
       primary: 'Poppins'
     },
     text: {
+      extraSmall: '14px',
       small: '16px',
       medium: '18px',
       large: '20px'

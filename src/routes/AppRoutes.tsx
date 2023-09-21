@@ -8,7 +8,7 @@ export const AppRoutes = () => {
     <Routes>
       {isAutenticated() ? (
         <>
-          <Route path={routes.home} element={<h1>Home placeholder</h1>} />
+          <Route path={routes.home} element={<h1>Home Placeholder</h1>} />
           <Route path="*" element={<Navigate to={routes.home} />} />
         </>
       ) : (
