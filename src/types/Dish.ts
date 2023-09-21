@@ -1,7 +1,9 @@
 import { Category } from './Category';
+import { Chef } from './Chef';
+import { Rating } from './Rating';
 
 export interface Dish {
-  id: string;
+  id?: string;
   chef_id: string;
   name: string;
   description: string;
@@ -9,4 +11,11 @@ export interface Dish {
   active: boolean;
   unit_price: number;
   categories: Category[];
+  latitude: number;
+  longitude: number;
+  images: string[];
+  ratings: Rating[];
+  chef: Chef;
+  liked_by_me: boolean;
+  disliked_by_me: boolean;
 }
