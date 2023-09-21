@@ -12,25 +12,44 @@ import {
   DishInfo,
   DishInfoContainer,
   DishTitle,
+  DistanceContainer,
   FavouriteIconContainer,
+  PriceAndRatingContainer,
   TitleAndIconContainer
 } from './styled';
 import { Dish } from '../../types/Dish';
 import { formatCurrency } from '../../utils/formatCurrency';
+import { dislikeDish, likeDish } from '../../service/api/dishes';
+import { useState } from 'react';
 
 interface CardProps {
   dish: Dish;
-  isFavourite: boolean;
-  rating: number;
-  distance: number;
 }
 
-export const Card = ({ dish, isFavourite, rating, distance }: CardProps) => {
+export const Card = ({ dish }: CardProps) => {
+  const [liked, setLiked] = useState(dish.liked_by_me);
+
+  const toogleLiked = (dish: Dish) => {
+    if (dish.liked_by_me) {
+      dislikeDish(dish.id!);
+    } else {
+      likeDish(dish.id!);
+    }
+    setLiked(prev => !prev);
+  };
+
+  const distance = 0;
+  const rating =
+    dish.ratings.length > 0
+      ? dish.ratings.reduce((acc, rating) => acc + rating.rate, 0) /
+        dish.ratings.length
+      : 0;
+
   return (
     <CardContainer>
-      <CardImage src="https://img.cybercook.com.br/publicidades/receita-de-buchada-de-bode-840x480.jpeg?q=75" />
-      <FavouriteIconContainer>
-        {isFavourite ? <BsHeartFill /> : <BsHeart />}
+      <CardImage src={dish.images[0] || 'images/image_placeholder.png'} />
+      <FavouriteIconContainer onClick={() => toogleLiked(dish)}>
+        {liked ? <BsHeartFill /> : <BsHeart />}
       </FavouriteIconContainer>
       <DishContainer>
         <TitleAndIconContainer>
@@ -41,12 +60,16 @@ export const Card = ({ dish, isFavourite, rating, distance }: CardProps) => {
         </TitleAndIconContainer>
 
         <DishInfoContainer>
-          <DishInfo>{formatCurrency(dish.unit_price)}</DishInfo>
-          <DishInfo>
-            {rating}
-            <BsFillStarFill />
-          </DishInfo>
-          <DishInfo>{distance} km</DishInfo>
+          <PriceAndRatingContainer>
+            <DishInfo>{formatCurrency(dish.unit_price)}</DishInfo>
+            <DishInfo>
+              {rating}
+              <BsFillStarFill />
+            </DishInfo>
+          </PriceAndRatingContainer>
+          <DistanceContainer>
+            <DishInfo>{distance} km</DishInfo>
+          </DistanceContainer>
         </DishInfoContainer>
       </DishContainer>
     </CardContainer>
