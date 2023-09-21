@@ -18,7 +18,6 @@ html, body {
 
   button {
     cursor: pointer;
-    /* background: none; */
     border: none;
   }
 
