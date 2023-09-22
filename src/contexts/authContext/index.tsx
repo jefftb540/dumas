@@ -10,6 +10,8 @@ import { handleLogin, LoginProps } from '../../service/auth';
 import { User } from '../../types/Users';
 import secureLocalStorage from 'react-secure-storage';
 import { api } from '../../service/api';
+import { handleLoginErrors } from '../../utils/handleLoginsErrors';
+import { AxiosError } from 'axios';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -21,6 +23,7 @@ interface AuthContextProps {
   signIn: (credentials: LoginProps) => Promise<void>;
   signOut: () => void;
   isAuthenticated: boolean;
+  error: string;
 }
 
 const AuthContext = createContext({} as AuthContextProps);
@@ -28,6 +31,7 @@ const AuthContext = createContext({} as AuthContextProps);
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User>();
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   function configureAxiosToken(token: string) {
@@ -48,13 +52,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (response.access_token) {
         navigate('/home');
         secureLocalStorage.setItem('token', response.access_token);
+        secureLocalStorage.setItem('refreshToken', response.refresh_token);
         secureLocalStorage.setItem('user', JSON.stringify(response.user));
         setIsAuthenticated(true);
 
         configureAxiosToken(response.access_token);
       }
     } catch (error) {
-      throw new Error(error as string);
+      const messageError = handleLoginErrors(error as AxiosError);
+      setError(messageError);
     }
   }
 
@@ -90,7 +96,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         signOut,
         isAuthenticated,
         user,
-        setUser
+        setUser,
+        error
       }}
     >
       {children}

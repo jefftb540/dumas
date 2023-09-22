@@ -18,8 +18,6 @@ export const handleLogin = async ({ email, password }: LoginProps) => {
       }
     });
 
-    console.log(response);
-
     const { data } = response;
     return data;
   } catch (error) {
