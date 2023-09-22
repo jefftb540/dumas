@@ -24,6 +24,7 @@ interface AuthContextProps {
   signOut: () => void;
   isAuthenticated: boolean;
   error: string;
+  loading: boolean;
 }
 
 const AuthContext = createContext({} as AuthContextProps);
@@ -32,6 +33,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User>();
   const [error, setError] = useState('');
+  const [loading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   async function signIn({ email, password }: LoginProps) {
@@ -50,6 +52,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         secureLocalStorage.setItem('user', JSON.stringify(response.user));
         secureLocalStorage.setItem('tokenExpDate', JSON.stringify(expDate));
         setIsAuthenticated(true);
+        setIsLoading(true);
 
         configureAxiosToken(response.access_token, response.refresh_token);
       }
@@ -57,6 +60,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       console.log(error);
       const messageError = handleLoginErrors(error as AxiosError);
       setError(messageError);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -93,7 +98,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         isAuthenticated,
         user,
         setUser,
-        error
+        error,
+        loading
       }}
     >
       {children}
