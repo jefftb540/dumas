@@ -5,11 +5,11 @@ import {
   useEffect,
   useState
 } from 'react';
-
 import { useNavigate } from 'react-router-dom';
-import { handleLogin, LoginProps } from '../../service/Auth/HandleLogin';
+import { handleLogin, LoginProps } from '../../service/auth';
 import { User } from '../../types/Users';
 import secureLocalStorage from 'react-secure-storage';
+import { api } from '../../service/api';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -30,18 +30,28 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User>();
   const navigate = useNavigate();
 
+  function configureAxiosToken(token: string) {
+    api.interceptors.request.use(function (config) {
+      config.headers.Authorization = `Bearer ${token}`;
+
+      return config;
+    });
+  }
+
   async function signIn({ email, password }: LoginProps) {
     try {
       const response = await handleLogin({
         email,
         password
       });
-
-      if (response.token) {
+      console.log('teste', response);
+      if (response.access_token) {
         navigate('/home');
-        secureLocalStorage.setItem('token', response.token);
+        secureLocalStorage.setItem('token', response.access_token);
         secureLocalStorage.setItem('user', JSON.stringify(response.user));
         setIsAuthenticated(true);
+
+        configureAxiosToken(response.access_token);
       }
     } catch (error) {
       throw new Error(error as string);
@@ -62,6 +72,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     if (!token) {
       setIsAuthenticated(false);
+      configureAxiosToken(token as string);
+
       return;
     }
 
