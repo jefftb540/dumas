@@ -9,9 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import { handleLogin, LoginProps } from '../../service/auth';
 import { User } from '../../types/Users';
 import secureLocalStorage from 'react-secure-storage';
-import { api } from '../../service/api';
 import { handleLoginErrors } from '../../utils/handleLoginsErrors';
 import { AxiosError } from 'axios';
+import { configureAxiosToken } from '../../utils/configureAxiosAuth';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -34,14 +34,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  function configureAxiosToken(token: string) {
-    api.interceptors.request.use(function (config) {
-      config.headers.Authorization = `Bearer ${token}`;
-
-      return config;
-    });
-  }
-
   async function signIn({ email, password }: LoginProps) {
     try {
       const response = await handleLogin({
@@ -49,16 +41,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         password
       });
       console.log('teste', response);
-      if (response.access_token) {
+      if (response && response.access_token) {
         navigate('/home');
+        const expDate = new Date();
+        expDate.setMinutes(expDate.getHours() + 1);
         secureLocalStorage.setItem('token', response.access_token);
         secureLocalStorage.setItem('refreshToken', response.refresh_token);
         secureLocalStorage.setItem('user', JSON.stringify(response.user));
+        secureLocalStorage.setItem('tokenExpDate', JSON.stringify(expDate));
         setIsAuthenticated(true);
 
-        configureAxiosToken(response.access_token);
+        configureAxiosToken(response.access_token, response.refresh_token);
       }
     } catch (error) {
+      console.log(error);
       const messageError = handleLoginErrors(error as AxiosError);
       setError(messageError);
     }
@@ -75,13 +71,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const authUser = secureLocalStorage.getItem('user');
     const token = secureLocalStorage.getItem('token');
+    const refreshToken = secureLocalStorage.getItem('refreshToken');
 
     if (!token) {
       setIsAuthenticated(false);
-      configureAxiosToken(token as string);
-
       return;
     }
+    configureAxiosToken(token as string, refreshToken as string);
 
     if (authUser) {
       setUser(JSON.parse(authUser as string));

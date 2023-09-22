@@ -24,3 +24,11 @@ export const handleLogin = async ({ email, password }: LoginProps) => {
     console.log(error);
   }
 };
+
+export const refreshToken = async (token: string) => {
+  const response = await api.post('/sessions/refresh', {
+    auth: { refresh_token: token }
+  });
+
+  return response.data;
+};
