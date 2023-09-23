@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { TabletBreakpoint } from '../../consts/breakpoint';
 
 interface ButtonContainerProps {
   $variant: 'primary' | 'secondary';
@@ -12,6 +13,8 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
   color: ${({ theme }) => theme.colors.text.light};
   padding: ${({ size }) => (size === 'medium' ? '12px 26px' : '18px 26px')};
   width: ${({ size }) => (size === 'medium' ? '150px' : '380px')};
+  transition: 0.3s ease-in-out;
+  margin: 15px 0;
 
   ${({ $variant, theme }) =>
     $variant === 'primary'
@@ -24,5 +27,14 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
 
   &:hover {
     opacity: 0.7;
+  }
+  &:disabled {
+    background: ${({ theme }) => theme.colors.button.disabled};
+  }
+
+  @media (max-width: ${TabletBreakpoint}) {
+    width: ${({ size }) => (size === 'medium' ? '138px' : '249px')};
+    padding: 12px 26px;
+    //TODO tentar implementar logica da carol depois.
   }
 `;

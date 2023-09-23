@@ -16,6 +16,9 @@ export const light: DefaultTheme = {
     },
     black: '#333333',
     white: '#EEEEEE',
+    button: {
+      disabled: '#6f6464'
+    },
 
     text: {
       main: '#333333',
@@ -35,6 +38,7 @@ export const light: DefaultTheme = {
       primary: 'Poppins'
     },
     text: {
+      errorSize: '10px',
       extraSmall: '14px',
       small: '16px',
       medium: '18px',

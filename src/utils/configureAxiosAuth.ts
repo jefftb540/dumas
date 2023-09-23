@@ -9,13 +9,9 @@ export function configureAxiosToken(accessToken: string, refresh: string) {
     if (tokenExpDate) {
       const now = new Date();
       const expDate = new Date(JSON.parse(tokenExpDate as string));
-      console.log(tokenExpDate);
-      console.log(now);
-      console.log(expDate);
       if (expDate < now) {
         secureLocalStorage.removeItem('tokenExpDate');
         const data = await refreshToken(refresh);
-        console.log(data);
         now.setHours(now.getHours() + 1);
         validToken = data.access_token;
         secureLocalStorage.setItem('token', validToken);
