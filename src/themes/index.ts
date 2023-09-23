@@ -16,10 +16,12 @@ export const light: DefaultTheme = {
     },
     black: '#333333',
     white: '#EEEEEE',
+
     text: {
       main: '#333333',
       primaryAccent: '#FF5600',
-      secondaryAccent: '#8C0B0B'
+      secondaryAccent: '#8C0B0B',
+      light: '#ffffff'
     },
     error: {
       main: '#FF0000'

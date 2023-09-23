@@ -9,7 +9,7 @@ export const GlobalStyle = createGlobalStyle`
   line-height: 1.5;
 }
 
-html, body, #root {
+html, body {
   width: 100%;
   min-height: 100vh;
   font-size: 100%;
@@ -19,7 +19,6 @@ html, body, #root {
 
   button {
     cursor: pointer;
-    background: none;
     border: none;
   }
 
