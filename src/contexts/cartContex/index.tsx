@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { Dish } from '../../types/Dish';
+import secureLocalStorage from 'react-secure-storage';
 
 interface CartItem {
   item: Dish;
@@ -27,7 +28,17 @@ interface CartProviderProps {
 
 export const CartProviderContext = ({ children }: CartProviderProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  useEffect(() => {
+    secureLocalStorage.setItem('cart', JSON.stringify(cartItems));
+  }, [cartItems]);
 
+  useEffect(() => {
+    const storedCartItems = secureLocalStorage.getItem('cart');
+    if (storedCartItems) {
+      const items = JSON.parse(storedCartItems as string);
+      setCartItems(items);
+    }
+  }, []);
   const addToCart = (item: Dish) => {
     const isItemInCart = cartItems.find(
       cartItem => cartItem.item.id === item.id
