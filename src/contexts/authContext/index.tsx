@@ -6,7 +6,7 @@ import {
   useState
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { handleLogin, LoginProps } from '../../service/auth';
+import { handleLogin, LoginProps } from '../../service/api/auth';
 import { User } from '../../types/Users';
 import secureLocalStorage from 'react-secure-storage';
 import { handleLoginErrors } from '../../utils/handleLoginsErrors';

@@ -3,11 +3,13 @@ export interface Address {
   name: string;
   public_place: string;
   zip_code: string;
-  number: number;
+  number: string;
   neighborhood: string;
   reference: string;
   complement: string;
+  latitude: number;
+  longitude: number;
   city_id: string;
-  latitude: string;
-  longitude: string;
+  addressable_type: string;
+  addressable_id: string;
 }

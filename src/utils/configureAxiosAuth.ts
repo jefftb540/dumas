@@ -1,6 +1,6 @@
 import secureLocalStorage from 'react-secure-storage';
 import { api } from '../service/api';
-import { refreshToken } from '../service/auth';
+import { refreshToken } from '../service/api/auth';
 
 export function configureAxiosToken(accessToken: string, refresh: string) {
   api.interceptors.request.use(async function (config) {

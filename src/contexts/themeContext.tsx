@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { ThemeProvider, DefaultTheme } from 'styled-components';
 import { dark, light } from '../themes';
 
@@ -31,4 +31,15 @@ export const ThemeProviderContext = ({ children }: ThemeProviderProps) => {
       <ThemeProvider theme={activeTheme}>{children}</ThemeProvider>
     </ThemeContext.Provider>
   );
+};
+
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error(
+      'This hook needs to be called within the AuthContextProvider'
+    );
+  }
+
+  return { ...context };
 };

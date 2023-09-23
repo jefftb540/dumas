@@ -1,4 +1,5 @@
-import { Address } from './Adress';
+import { Address } from './Address';
+import { Telephone } from './Telephone';
 
 export interface User {
   id: string;
@@ -6,6 +7,6 @@ export interface User {
   email: string;
   password: string;
   password_confirmation: string;
-  telephones_attributes: [{ number: number }];
+  telephones_attributes: Telephone[];
   addresses_attributes: Address[];
 }

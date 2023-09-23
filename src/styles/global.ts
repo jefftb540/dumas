@@ -15,6 +15,7 @@ html, body {
   font-size: 100%;
   font-family: ${({ theme }) => theme.fonts.family.primary};
   -webkit-font-smoothing: antialiased;
+  background-color: ${({ theme }) => theme.colors.background.light}; ;
 
   button {
     cursor: pointer;

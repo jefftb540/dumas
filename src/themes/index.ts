@@ -19,10 +19,15 @@ export const light: DefaultTheme = {
 
     text: {
       main: '#333333',
+      primaryAccent: '#FF5600',
+      secondaryAccent: '#8C0B0B',
       light: '#ffffff'
     },
     error: {
       main: '#FF0000'
+    },
+    border: {
+      main: '#FF5600'
     }
   },
   fonts: {
@@ -55,17 +60,25 @@ export const dark: DefaultTheme = {
   colors: {
     ...light.colors,
     background: {
-      main: '#262626',
-      light: '#FF5600'
+      main: '#8C0B0B',
+      light: '#262626'
     },
     primary: {
       main: '#D45513',
       dark: '#D95829'
     },
+    secondary: {
+      main: '#FF5600'
+    },
     black: '#333333',
     white: '#EEEEEE',
     text: {
-      main: '#FDFDFD'
+      main: '#FDFDFD',
+      primaryAccent: '#FFF',
+      secondaryAccent: '#FFF'
+    },
+    border: {
+      main: '#FFF'
     }
   }
 };
