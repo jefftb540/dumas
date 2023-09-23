@@ -21,6 +21,7 @@ import { Dish } from '../../types/Dish';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { dislikeDish, likeDish } from '../../service/api/dishes';
 import { useState } from 'react';
+import { useCart } from '../../contexts/cartContex';
 
 interface CardProps {
   dish: Dish;
@@ -28,6 +29,7 @@ interface CardProps {
 
 export const Card = ({ dish }: CardProps) => {
   const [liked, setLiked] = useState(dish.liked_by_me);
+  const { addToCart } = useCart();
 
   const toogleLiked = (dish: Dish) => {
     if (dish.liked_by_me) {
@@ -54,7 +56,7 @@ export const Card = ({ dish }: CardProps) => {
       <DishContainer>
         <TitleAndIconContainer>
           <DishTitle>{dish.name}</DishTitle>
-          <CartIconContainer>
+          <CartIconContainer onClick={() => addToCart(dish)}>
             <BsCartPlus />
           </CartIconContainer>
         </TitleAndIconContainer>

@@ -52,6 +52,7 @@ export const CartIconContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding-right: 8px;
+  cursor: pointer;
 
   svg {
     width: 30px;
