@@ -3,6 +3,7 @@ import { AppRoutes } from './routes/AppRoutes';
 import { ThemeProviderContext } from './contexts/themeContext';
 import { GlobalStyle } from './styles/global';
 import { AuthProvider } from './contexts/authContext';
+import { CartProviderContext } from './contexts/cartContex';
 
 function App() {
   console.log(import.meta.env.VITE_BASE_URL_API);
@@ -10,8 +11,10 @@ function App() {
     <ThemeProviderContext>
       <BrowserRouter>
         <AuthProvider>
-          <GlobalStyle />
-          <AppRoutes />
+          <CartProviderContext>
+            <GlobalStyle />
+            <AppRoutes />
+          </CartProviderContext>
         </AuthProvider>
       </BrowserRouter>
     </ThemeProviderContext>

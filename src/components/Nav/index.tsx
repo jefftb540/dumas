@@ -16,10 +16,13 @@ import {
 import { BsSearch } from 'react-icons/bs';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { FaShoppingCart } from 'react-icons/fa';
+import { useCart } from '../../contexts/cartContex';
 
 export const Navbar = () => {
   const [openSearch, setOpenSearch] = useState(false);
-  const cartItensNumber = 0;
+  const { getItemsCount } = useCart();
+  const cartItensNumber = getItemsCount();
+
   return (
     <NavContainer>
       <NavLeft>
