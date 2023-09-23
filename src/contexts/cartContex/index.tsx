@@ -14,6 +14,7 @@ interface CartContextProps {
   getItensPerChef: (chefId: string) => CartItem[];
   getCartItems: () => CartItem[];
   clearCartItems: () => void;
+  getItemsCount: () => number;
 }
 
 export const CartContext = createContext<CartContextProps>(
@@ -80,6 +81,8 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
   const getCartItems = () => cartItems;
 
   const clearCartItems = () => setCartItems([]);
+  const getItemsCount = () =>
+    cartItems.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <CartContext.Provider
@@ -90,7 +93,8 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
         getPricePerChef,
         getCartItems,
         getItensPerChef,
-        clearCartItems
+        clearCartItems,
+        getItemsCount
       }}
     >
       {children}
