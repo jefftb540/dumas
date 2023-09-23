@@ -10,3 +10,15 @@ export const routes = {
 
   // TODO: Adicionar rotas da area logada
 };
+
+export const apiRoutes = {
+  dishes: '/dishes',
+  dish: {
+    like: (id: string) => `/dishes/${id}/like`,
+    dislike: (id: string) => `/dishes/${id}/dislike`
+  },
+  chef: {
+    dishes: (id: string) => `chefs/${id}/dishes`
+  },
+  chefs: '/chefs'
+};
