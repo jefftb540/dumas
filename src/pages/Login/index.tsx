@@ -28,7 +28,7 @@ export const initialValues = {
 };
 
 export const Login = () => {
-  const { signIn } = useAuth();
+  const { signIn, error } = useAuth();
   const [loading, setIsLoading] = useState(false);
 
   const onSubmit = async (values: FormLoginProps) => {
@@ -82,6 +82,7 @@ export const Login = () => {
             {touched.password && errors.password && (
               <MessageErrorsContainer>{errors.password}</MessageErrorsContainer>
             )}
+            {error && <MessageErrorsContainer>{error}</MessageErrorsContainer>}
 
             <Button
               variant="primary"

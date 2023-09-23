@@ -10,19 +10,15 @@ export interface RefreshToken {
 }
 
 export const handleLogin = async ({ email, password }: LoginProps) => {
-  try {
-    const response = await api.post('/sessions/login', {
-      session: {
-        email,
-        password
-      }
-    });
+  const response = await api.post('/sessions/login', {
+    session: {
+      email,
+      password
+    }
+  });
 
-    const { data } = response;
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+  const { data } = response;
+  return data;
 };
 
 export const refreshToken = async (token: string) => {
