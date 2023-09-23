@@ -42,7 +42,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         email,
         password
       });
-      console.log('teste', response);
       if (response && response.access_token) {
         navigate('/home');
         const expDate = new Date();

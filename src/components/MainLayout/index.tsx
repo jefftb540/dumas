@@ -1,3 +1,4 @@
+import { Outlet } from 'react-router-dom';
 import { MainLayoutContainer } from './styled';
 import { HalfScreen } from './styled';
 import { Logo } from './styled';
@@ -13,8 +14,7 @@ export const MainLayout = () => {
         <Logo src={logoSrc} alt="Logo Dumas" />
         <CenteredImage src={centeredImageSrc} alt="Imagem de decoração" />
       </HalfScreen>
+      <Outlet />
     </MainLayoutContainer>
   );
 };
-
-export default MainLayout;
