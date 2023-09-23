@@ -2,8 +2,10 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { routes } from '.';
 import { Home } from '../pages/Home';
 import { PageLayout } from '../pages/PageLayout';
+import { Login } from '../pages/Login';
+import { MainLayout } from '../components/MainLayout';
 
-const isAutenticated = () => true; //TODO: Implementar função no authContext
+const isAutenticated = () => false; //TODO: Implementar função no authContext
 
 export const AppRoutes = () => {
   return (
@@ -14,10 +16,12 @@ export const AppRoutes = () => {
             <Route path={routes.home} element={<Home />} />
           </Route>
           <Route path="*" element={<Navigate to={routes.home} />} />
+          <Route></Route>
         </>
       ) : (
-        <>
-          <Route path={routes.login} element={<h1>Login placeholder</h1>} />
+        <Route element={<MainLayout />}>
+          <Route path={routes.login} element={<Login />} />
+
           <Route
             path={routes.signUp.profile}
             element={<h1>SignUp placeholder</h1>}
@@ -31,7 +35,7 @@ export const AppRoutes = () => {
             element={<h1>Recover Password placeholder</h1>}
           />
           <Route path="*" element={<Navigate to={routes.login} />} />
-        </>
+        </Route>
       )}
     </Routes>
   );

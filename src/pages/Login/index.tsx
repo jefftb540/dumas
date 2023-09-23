@@ -1,13 +1,18 @@
 import { useState } from 'react';
-// import { AuthFormLayout } from '../components/AuthFormLayout';
 import { Formik } from 'formik';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { useAuth } from '../../contexts/authContext';
-import { Input } from '../Input';
-import { Button } from '../Button';
-import { DefaultLink } from '../DefaultLink';
 import { routes } from '../../routes';
-import { FormContainer, InputContainer, Title } from './styled';
+import {
+  FormContainer,
+  InputContainer,
+  Paragrafo,
+  SubTitle,
+  Title
+} from './styled';
+import { Input } from '../../components/Input';
+import { Button } from '../../components/Button';
+import { DefaultLink } from '../../components/DefaultLink';
 
 interface FormLoginProps {
   email: string;
@@ -19,14 +24,14 @@ export const initialValues = {
   password: ''
 };
 
-export const FormLogin = ({ email, password }: FormLoginProps) => {
+export const Login = () => {
   const { signIn } = useAuth();
   const [loading, setIsLoading] = useState(false);
 
-  const onSubmit = async () => {
+  const onSubmit = async (values: FormLoginProps) => {
     try {
       setIsLoading(true);
-      await signIn({ email, password });
+      await signIn(values);
     } catch (error) {
       console.log(error);
     } finally {
@@ -39,41 +44,39 @@ export const FormLogin = ({ email, password }: FormLoginProps) => {
       {({ isSubmitting }) => (
         <FormContainer>
           <Title>Login</Title>
-          <span>Entre e faça seu pedido</span>
+          <SubTitle>Entre e faça seu pedido</SubTitle>
 
           <InputContainer>
-            <Input Icon={FiMail} placeholder="Email" value={email} />
-          </InputContainer>
+            <Input Icon={FiMail} placeholder="Email" name="email" />
 
-          <InputContainer>
             <Input
               placeholder="Senha"
               type="password"
-              value={password}
+              name="password"
               Icon={FiLock}
             />
+
+            <Button
+              variant="primary"
+              size="large"
+              type="submit"
+              disabled={isSubmitting}
+              loading={loading}
+            >
+              Entrar
+            </Button>
           </InputContainer>
 
-          <Button
-            variant="primary"
-            size="large"
-            type="submit"
-            disabled={isSubmitting}
-            loading={loading}
-          >
-            Entrar
-          </Button>
-
-          <DefaultLink variant="primary" to={routes.recoverPassword}>
+          <DefaultLink variant="secondary" to={routes.recoverPassword}>
             Esqueceu sua senha
           </DefaultLink>
 
-          <span>
+          <Paragrafo>
             Não possui conta? Então
             <DefaultLink variant="primary" to={routes.signUp.profile}>
               faça seu cadastro
             </DefaultLink>
-          </span>
+          </Paragrafo>
         </FormContainer>
       )}
     </Formik>

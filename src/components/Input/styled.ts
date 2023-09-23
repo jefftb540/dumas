@@ -1,6 +1,10 @@
 import { styled } from 'styled-components';
 
-export const Container = styled.div`
+interface InputContainerProps {
+  size: 'medium' | 'large';
+}
+
+export const Container = styled.div<InputContainerProps>`
   background-color: ${({ theme }) => theme.colors.background.light};
   border-radius: 30px;
   padding: 18px 26px;
@@ -28,5 +32,11 @@ export const Container = styled.div`
   svg {
     color: ${({ theme }) => theme.colors.text.main};
     opacity: 0.3;
+  }
+
+  @media (max-width: 768px) {
+    width: ${({ size }) => (size === 'medium' ? '138px' : '249px')};
+    padding: 12px 26px;
+    //TODO tentar implementar logica da carol depois.
   }
 `;
