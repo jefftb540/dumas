@@ -4,13 +4,15 @@ import { Home } from '../pages/Home';
 import { PageLayout } from '../pages/PageLayout';
 import { Login } from '../pages/Login';
 import { MainLayout } from '../components/MainLayout';
-
-const isAutenticated = () => false; //TODO: Implementar função no authContext
+import { useAuth } from '../contexts/authContext';
 
 export const AppRoutes = () => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) return <div>Loading</div>;
   return (
     <Routes>
-      {isAutenticated() ? (
+      {isAuthenticated ? (
         <>
           <Route path={routes.home} element={<PageLayout />}>
             <Route path={routes.home} element={<Home />} />

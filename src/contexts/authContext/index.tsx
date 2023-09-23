@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User>();
   const [error, setError] = useState('');
-  const [loading, setIsLoading] = useState(false);
+  const [loading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   async function signIn({ email, password }: LoginProps) {
@@ -79,6 +79,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     if (!token) {
       setIsAuthenticated(false);
+      setIsLoading(false);
       return;
     }
     configureAxiosToken(token as string, refreshToken as string);
@@ -87,6 +88,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(JSON.parse(authUser as string));
     }
     setIsAuthenticated(true);
+    setIsLoading(false);
   }, []);
 
   return (
