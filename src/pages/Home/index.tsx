@@ -1,4 +1,4 @@
-import { Banner } from '../../components/Banner';
+import { NearDishesMap } from '../../components/NearDishesMap';
 import { Dish } from '../../types/Dish';
 import {
   getAllDishes,
@@ -10,11 +10,14 @@ import CardList from '../../components/CardList';
 import { FavoritesContainer, LeftContainer, MainContainer } from './styled';
 import { Title } from '../../components/Title';
 import { InfoText } from '../../components/InfoText';
+import { Chef } from '../../types/Chef';
+import { getAllChefs } from '../../service/api/chefs';
 
 export const Home = () => {
   const [nearDishes, setNearDishes] = useState<Dish[]>([]);
   const [allDishes, setAllDishes] = useState<Dish[]>([]);
   const [favouriteDishes, setFavouriteDishes] = useState<Dish[]>([]);
+  const [chefs, setChefs] = useState<Chef[]>([]);
 
   useEffect(() => {
     const getData = async () => {
@@ -27,14 +30,18 @@ export const Home = () => {
       setNearDishes(nearDishesData.data);
 
       const allDishesData = await getAllDishes();
+      console.log(allDishesData);
       setAllDishes(allDishesData.data);
+
+      const chefsData = await getAllChefs();
+      setChefs(chefsData.data);
     };
 
     getData();
   }, []);
   return (
     <>
-      <Banner />
+      <NearDishesMap chefs={chefs} />
       <MainContainer>
         <LeftContainer>
           <Title color="accent">Pratos próximos</Title>
