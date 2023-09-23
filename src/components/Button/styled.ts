@@ -12,6 +12,7 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
   color: ${({ theme }) => theme.colors.text.light};
   padding: ${({ size }) => (size === 'medium' ? '12px 26px' : '18px 26px')};
   width: ${({ size }) => (size === 'medium' ? '150px' : '380px')};
+  transition: 0.3s ease-in-out;
 
   ${({ $variant, theme }) =>
     $variant === 'primary'
