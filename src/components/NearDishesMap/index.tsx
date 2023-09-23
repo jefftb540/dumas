@@ -36,7 +36,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
       ? '/images/user_marker_red.svg'
       : '/images/user_marker.svg';
 
-  const onUnmount = useCallback(function callback(map) {
+  const onUnmount = useCallback(function callback() {
     setMap(null);
   }, []);
 
@@ -77,28 +77,32 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
               fontWeight: '700'
             }}
           />
-          {chefs.map(chef =>
-            chef.address && chef.address.latitude && chef.address.longitude ? (
-              <MarkerF
-                position={{
-                  lat: chef.address.latitude,
-                  lng: chef.address.longitude
-                }}
-                icon={{
-                  url: window.location.origin + markerPath,
-                  labelOrigin: new google.maps.Point(25, -8)
-                }}
-                label={{
-                  text: chef.name,
-                  color: theme === 'dark' ? '#FFF' : '#333',
-                  fontSize: '24px',
-                  fontWeight: '700'
-                }}
-              />
-            ) : (
-              ''
-            )
-          )}
+          {chefs.length
+            ? chefs.map(chef =>
+                chef.address &&
+                chef.address.latitude &&
+                chef.address.longitude ? (
+                  <MarkerF
+                    position={{
+                      lat: chef.address.latitude,
+                      lng: chef.address.longitude
+                    }}
+                    icon={{
+                      url: window.location.origin + markerPath,
+                      labelOrigin: new google.maps.Point(25, -8)
+                    }}
+                    label={{
+                      text: chef.name,
+                      color: theme === 'dark' ? '#FFF' : '#333',
+                      fontSize: '24px',
+                      fontWeight: '700'
+                    }}
+                  />
+                ) : (
+                  ''
+                )
+              )
+            : ''}
         </GoogleMap>
       ) : null}
     </Container>

@@ -1,4 +1,4 @@
-import { api } from '.';
+import { api } from '../api';
 import { apiRoutes } from '../../routes';
 import { Dish } from '../../types/Dish';
 import { Locality } from '../../types/Location';
