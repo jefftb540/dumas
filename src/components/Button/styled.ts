@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { TabletBreakpoint } from '../../consts/breakpoint';
 
 interface ButtonContainerProps {
   $variant: 'primary' | 'secondary';
@@ -27,8 +28,11 @@ export const ButtonContainer = styled.button<ButtonContainerProps>`
   &:hover {
     opacity: 0.7;
   }
+  &:disabled {
+    background: ${({ theme }) => theme.colors.button.disabled};
+  }
 
-  @media (max-width: 768px) {
+  @media (max-width: ${TabletBreakpoint}) {
     width: ${({ size }) => (size === 'medium' ? '138px' : '249px')};
     padding: 12px 26px;
     //TODO tentar implementar logica da carol depois.

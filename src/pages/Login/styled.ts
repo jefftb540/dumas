@@ -48,3 +48,9 @@ export const Paragrafo = styled.span`
   font-size: 14px;
   `}
 `;
+
+export const MessageErrorsContainer = styled.div`
+  color: ${({ theme }) => theme.colors.error.main};
+  font-size: ${({ theme }) => theme.fonts.text.errorSize};
+  text-align: center;
+`;

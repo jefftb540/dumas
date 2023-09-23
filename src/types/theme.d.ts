@@ -7,6 +7,7 @@ type ColorPalette = {
   secondaryAccent?: string;
 };
 type FontSize = {
+  errorSize?: string;
   extraSmall?: string;
   small: string;
   medium: string;
@@ -34,6 +35,9 @@ declare module 'styled-components' {
       white: string;
       black: string;
       border: ColorPalette;
+      button: {
+        disabled: string;
+      };
     };
     fonts: {
       family: {
