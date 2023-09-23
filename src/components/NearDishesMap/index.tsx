@@ -28,6 +28,13 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
   const mapId = theme === 'dark' ? darkMapId : lightMapId;
+  const markerPath =
+    theme === 'light' ? '/images/marker_red.svg' : '/images/marker.svg';
+
+  const userMarkerPath =
+    theme === 'light'
+      ? '/images/user_marker_red.svg'
+      : '/images/user_marker.svg';
 
   const onUnmount = useCallback(function callback(map) {
     setMap(null);
@@ -60,11 +67,11 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
           <MarkerF
             position={center}
             icon={{
-              url: window.location.origin + '/images/marker.svg',
-              labelOrigin: new google.maps.Point(25, -5)
+              url: window.location.origin + userMarkerPath,
+              labelOrigin: new google.maps.Point(25, -12)
             }}
             label={{
-              text: 'Casa do Jeff',
+              text: 'Placeholder',
               color: theme === 'dark' ? '#FFF' : '#333',
               fontSize: '24px',
               fontWeight: '700'
@@ -78,12 +85,12 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
                   lng: chef.address.longitude
                 }}
                 icon={{
-                  url: window.location.origin + '/images/marker.svg',
-                  labelOrigin: new google.maps.Point(25, -5)
+                  url: window.location.origin + markerPath,
+                  labelOrigin: new google.maps.Point(25, -8)
                 }}
                 label={{
                   text: chef.name,
-                  color: '#FFF',
+                  color: theme === 'dark' ? '#FFF' : '#333',
                   fontSize: '24px',
                   fontWeight: '700'
                 }}
