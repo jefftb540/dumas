@@ -16,6 +16,10 @@ export const AppRoutes = () => {
         <>
           <Route path={routes.home} element={<PageLayout />}>
             <Route path={routes.home} element={<Home />} />
+            <Route
+              path={routes.dish()}
+              element={<h1>Dish detail Placeholder</h1>}
+            />
           </Route>
           <Route path="*" element={<Navigate to={routes.home} />} />
           <Route></Route>
