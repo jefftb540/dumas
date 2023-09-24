@@ -9,12 +9,20 @@ import {
 } from './styled';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { IconButton } from '../IconButton';
-import { ThemeProviderContext } from '../../contexts/themeContext';
-import { useThemeLogic } from '../../consts/useThemeLogic';
+import { ThemeProviderContext, useTheme } from '../../contexts/themeContext';
+import { dark, light } from '../../themes';
 
 export const MainLayout = () => {
-  const { theme, toggle, colors, logoSrc, centeredImageSrc, background } =
-    useThemeLogic();
+  const { theme, toggle } = useTheme();
+
+  const colors = theme === 'dark' ? dark.colors : light.colors;
+  const logoSrc = theme === 'dark' ? dark.logoSrc : light.logoSrc;
+  const centeredImageSrc =
+    theme === 'dark' ? dark.centeredImageSrc : light.centeredImageSrc;
+  const background =
+    theme === 'dark'
+      ? dark.colors.secondary.main
+      : light.colors.background.main;
 
   return (
     <ThemeProviderContext>

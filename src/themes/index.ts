@@ -59,7 +59,8 @@ export const light: DefaultTheme = {
   },
   logoSrc: 'public/ImagesMainLayout/light/logo.png',
   centeredImageSrc:
-    'public/ImagesMainLayout/light/eating a variety of foods-bro.svg'
+    'public/ImagesMainLayout/light/eating a variety of foods-bro.svg',
+  iconColor: '#000'
 };
 
 export const dark: DefaultTheme = {
@@ -90,5 +91,7 @@ export const dark: DefaultTheme = {
   },
   logoSrc: 'public/ImagesMainLayout/dark/logo.png',
   centeredImageSrc:
-    'public/ImagesMainLayout/dark/eating a variety of foods-bro.svg'
+    'public/ImagesMainLayout/dark/eating a variety of foods-bro.svg',
+
+  iconColor: '#fff'
 };
