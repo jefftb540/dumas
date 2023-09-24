@@ -43,17 +43,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         password
       });
       if (response && response.access_token) {
-        navigate('/home');
         const expDate = new Date();
-        expDate.setMinutes(expDate.getHours() + 1);
+        expDate.setHours(expDate.getHours() + 1);
+        secureLocalStorage.setItem('tokenExpDate', JSON.stringify(expDate));
         secureLocalStorage.setItem('token', response.access_token);
         secureLocalStorage.setItem('refreshToken', response.refresh_token);
         secureLocalStorage.setItem('user', JSON.stringify(response.user));
-        secureLocalStorage.setItem('tokenExpDate', JSON.stringify(expDate));
         setIsAuthenticated(true);
         setIsLoading(true);
-
         configureAxiosToken(response.access_token, response.refresh_token);
+        navigate('/home');
       }
     } catch (error) {
       console.log(error);
