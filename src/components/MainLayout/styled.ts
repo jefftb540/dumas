@@ -35,8 +35,8 @@ export const MainLayoutContainer = styled.div`
   `}
 `;
 
-export const HalfScreen = styled.div`
-  background-color: ${({ theme }) => theme.colors.background.main};
+export const HalfScreen = styled.div<{ background: string }>`
+  background-color: ${({ background }) => background};
   display: flex;
   flex-direction: column;
   align-items: flex-start;

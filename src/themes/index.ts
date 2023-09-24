@@ -56,7 +56,10 @@ export const light: DefaultTheme = {
       semiBold: 600,
       bold: 700
     }
-  }
+  },
+  logoSrc: 'public/ImagesMainLayout/light/logo.png',
+  centeredImageSrc:
+    'public/ImagesMainLayout/light/eating a variety of foods-bro.svg'
 };
 
 export const dark: DefaultTheme = {
@@ -84,5 +87,8 @@ export const dark: DefaultTheme = {
     border: {
       main: '#FFF'
     }
-  }
+  },
+  logoSrc: 'public/ImagesMainLayout/dark/logo.png',
+  centeredImageSrc:
+    'public/ImagesMainLayout/dark/eating a variety of foods-bro.svg'
 };
