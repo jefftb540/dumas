@@ -4,6 +4,7 @@ import { Home } from '../pages/Home';
 import { PageLayout } from '../pages/PageLayout';
 import { Login } from '../pages/Login';
 import { MainLayout } from '../components/MainLayout';
+import { SignUp } from '../pages/SignUp';
 
 const isAutenticated = () => false; //TODO: Implementar função no authContext
 
@@ -22,10 +23,7 @@ export const AppRoutes = () => {
         <Route element={<MainLayout />}>
           <Route path={routes.login} element={<Login />} />
 
-          <Route
-            path={routes.signUp.profile}
-            element={<h1>SignUp placeholder</h1>}
-          />
+          <Route path={routes.signUp.profile} element={<SignUp />} />
           <Route
             path={routes.signUp.address}
             element={<h1>Add Address placeholder</h1>}
