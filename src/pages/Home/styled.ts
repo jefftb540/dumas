@@ -18,6 +18,10 @@ export const LeftContainer = styled.div`
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  /* gap: 18px; */
   padding-right: 32px;
+`;
+
+export const TitleContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
