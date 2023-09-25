@@ -110,29 +110,29 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
       await handleSignup(values);
       console.log(values);
       setDataSentToApi(true);
-      next(values);
     } catch (error) {
       console.error('Erro ao enviar dados para a API:', error);
     }
   };
 
-  const handleContinueWithoutAddress = async () => {
-    if (!dataSentToApi) {
-      try {
-        await handleSignup(data);
-        setDataSentToApi(true);
-      } catch (error) {
-        console.error('Erro ao enviar dados para a API:', error);
-        return;
-      }
-    }
+  const handleContinueToAddress = async (values: User) => {
+    // if (!dataSentToApi) {
+    //   try {
+    //     await handleSignup(data);
+    //     setDataSentToApi(true);
+    //   } catch (error) {
+    //     console.error('Erro ao enviar dados para a API:', error);
+    //     return;
+    //   }
+    // }
 
-    navigate(routes.login);
+    next(values);
+    // navigate(routes.login);
   };
 
   return (
     <Formik initialValues={data} onSubmit={handleSubmit} validateOnMount={true}>
-      {({ isSubmitting, isValid }) => (
+      {({ values, isSubmitting, isValid }) => (
         <FormContainer>
           <Title>Cadastro</Title>
           <SubTitle>Informações pessoais</SubTitle>
@@ -163,8 +163,8 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
               <Button
                 variant="primary"
                 size="large"
-                type="submit"
                 disabled={isSubmitting || !isValid}
+                onClick={() => handleContinueToAddress(values)}
               >
                 Continuar para endereço
               </Button>
@@ -173,7 +173,7 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
                 variant="secondary"
                 size="large"
                 disabled={isSubmitting || !isValid}
-                onClick={handleContinueWithoutAddress}
+                type="submit"
               >
                 Continuar sem endereço
               </Button>

@@ -27,7 +27,7 @@ export const SignUp = () => {
 
   const handleNextStep = (newData: User, final = false) => {
     setData(prev => ({ ...prev, ...newData }));
-
+    console.log(data);
     if (final) {
       makeRequest(newData);
       return;
