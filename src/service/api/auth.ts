@@ -1,3 +1,4 @@
+import { User } from '../../types/Users';
 import { api } from '../api';
 
 export interface LoginProps {
@@ -23,8 +24,34 @@ export const handleLogin = async ({ email, password }: LoginProps) => {
 
 export const refreshToken = async (token: string) => {
   const response = await api.post('/sessions/refresh', {
-    auth: { refresh_token: token }
+    refresh_token: token
   });
 
   return response.data;
 };
+
+export async function handleSignup({
+  name,
+  email,
+  password,
+  password_confirmation,
+  telephones_attributes
+}: User) {
+  try {
+    const response = await api.post('/registrations/signup', {
+      user: {
+        name,
+        email,
+        password,
+        password_confirmation,
+        telephones_attributes
+      }
+    });
+
+    const { data } = response;
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}

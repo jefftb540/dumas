@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<User>();
   const [error, setError] = useState('');
-  const [loading, setIsLoading] = useState(false);
+  const [loading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   async function signIn({ email, password }: LoginProps) {
@@ -43,17 +43,16 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         password
       });
       if (response && response.access_token) {
-        navigate('/home');
         const expDate = new Date();
-        expDate.setMinutes(expDate.getHours() + 1);
+        expDate.setHours(expDate.getHours() + 1);
+        secureLocalStorage.setItem('tokenExpDate', JSON.stringify(expDate));
         secureLocalStorage.setItem('token', response.access_token);
         secureLocalStorage.setItem('refreshToken', response.refresh_token);
         secureLocalStorage.setItem('user', JSON.stringify(response.user));
-        secureLocalStorage.setItem('tokenExpDate', JSON.stringify(expDate));
         setIsAuthenticated(true);
         setIsLoading(true);
-
         configureAxiosToken(response.access_token, response.refresh_token);
+        navigate('/home');
       }
     } catch (error) {
       console.log(error);
@@ -79,6 +78,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     if (!token) {
       setIsAuthenticated(false);
+      setIsLoading(false);
       return;
     }
     configureAxiosToken(token as string, refreshToken as string);
@@ -87,6 +87,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setUser(JSON.parse(authUser as string));
     }
     setIsAuthenticated(true);
+    setIsLoading(false);
   }, []);
 
   return (
