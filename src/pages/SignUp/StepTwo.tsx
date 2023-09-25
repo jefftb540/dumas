@@ -6,7 +6,7 @@ import {
   SubTitle,
   Title
 } from '../Login/styled';
-import { FiUser, FiMail } from 'react-icons/fi';
+import { FiHome } from 'react-icons/fi';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { WrapperButton } from './styled';
@@ -33,9 +33,15 @@ export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
           <SubTitle>Informações pessoais</SubTitle>
 
           <InputContainer>
-            <Input Icon={FiUser} placeholder="Nome e Sobrenome" name="name" />
+            <Input Icon={FiHome} placeholder="CEP" name="cep" />
 
-            <Input Icon={FiMail} placeholder="Email" name="email" />
+            <Input Icon={FiHome} placeholder="Bairro" name="bairro" />
+
+            <Input Icon={FiHome} placeholder="Número" name="numero" />
+
+            <Input Icon={FiHome} placeholder="Cidade" name="cidade" />
+
+            <Input Icon={FiHome} placeholder="Referência" name="referencia" />
 
             <WrapperButton>
               <Button
