@@ -14,6 +14,7 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
+    "@fontsource/poppins": "^5.0.8",
     "@react-google-maps/api": "^2.19.2",
     "@types/styled-components": "^5.1.27",
     "axios": "^1.5.0",
