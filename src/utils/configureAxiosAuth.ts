@@ -11,15 +11,25 @@ export function configureAxiosToken(accessToken: string, refresh: string) {
       const expDate = new Date(JSON.parse(tokenExpDate as string));
       if (expDate < now) {
         secureLocalStorage.removeItem('tokenExpDate');
-        const data = await refreshToken(refresh);
-        now.setHours(now.getHours() + 1);
-        validToken = data.access_token;
-        secureLocalStorage.setItem('token', validToken);
-        secureLocalStorage.setItem('refreshToken', data.refresh_token);
-        secureLocalStorage.setItem('tokenExpDate', JSON.stringify(now));
+        try {
+          console.log('Sending refresh token request');
+          const data = await refreshToken(refresh);
+          now.setHours(now.getHours() + 1);
+          validToken = data.access_token;
+          secureLocalStorage.setItem('token', validToken);
+          secureLocalStorage.setItem('refreshToken', data.refresh_token);
+          secureLocalStorage.setItem('tokenExpDate', JSON.stringify(now));
+          config.headers.Authorization = `Bearer ${validToken}`;
+        } catch (error) {
+          secureLocalStorage.removeItem('refreshToken');
+          secureLocalStorage.removeItem('token');
+          secureLocalStorage.removeItem('user');
+          return Promise.reject(error);
+        }
       }
     }
+
     config.headers.Authorization = `Bearer ${validToken}`;
-    return config;
+    return Promise.resolve(config);
   });
 }

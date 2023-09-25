@@ -44,6 +44,21 @@ export const getDishesPerChef = async (chefId: string) => {
   return response.data;
 };
 
+export const searchDishes = async (query: string, page = 1, perPage = 3) => {
+  const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
+    params: {
+      page,
+      per_page: perPage,
+      active: true,
+      available: true,
+      name: query,
+      description: query
+    }
+  });
+
+  return response.data;
+};
+
 export const likeDish = (dishId: string) => {
   api.put(apiRoutes.dish.like(dishId));
 };
