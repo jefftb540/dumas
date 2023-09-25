@@ -14,12 +14,14 @@ import { useEffect, useRef } from 'react';
 import { routes } from '../../routes';
 import { Link } from 'react-router-dom';
 import { CircularSpinner } from '../CircularSpinner';
+import { handleScroll } from '../../utils/handleScroll';
 interface SearchResultsProps {
   dishes: Dish[];
   fetchNextPage: () => void;
   closeResults: () => void;
   isFetching: boolean;
 }
+
 export const SearchResults = ({
   dishes,
   fetchNextPage,
@@ -27,17 +29,6 @@ export const SearchResults = ({
   isFetching
 }: SearchResultsProps) => {
   const resultRef = useRef<HTMLDivElement>(null);
-
-  const handleScroll = () => {
-    if (
-      resultRef.current?.clientHeight &&
-      resultRef.current.scrollHeight -
-        Math.round(resultRef.current?.scrollTop) ===
-        resultRef.current?.clientHeight
-    ) {
-      fetchNextPage();
-    }
-  };
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -53,7 +44,10 @@ export const SearchResults = ({
 
   return (
     <>
-      <ResultsContainer onScroll={handleScroll} ref={resultRef}>
+      <ResultsContainer
+        onScroll={() => handleScroll(resultRef, fetchNextPage)}
+        ref={resultRef}
+      >
         {dishes.length &&
           dishes.map(dish => (
             <Link key={`result_${dish.id}`} to={routes.dish(dish.id)}>
