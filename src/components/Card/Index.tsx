@@ -65,7 +65,7 @@ export const Card = ({ dish }: CardProps) => {
           <PriceAndRatingContainer>
             <DishInfo>{formatCurrency(dish.unit_price)}</DishInfo>
             <DishInfo>
-              {rating}
+              {rating.toFixed(0)}
               <BsFillStarFill />
             </DishInfo>
           </PriceAndRatingContainer>
