@@ -58,7 +58,8 @@ export const Navbar = () => {
         lastPage && lastPage.meta.current_page < lastPage.meta.total_pages
           ? lastPage.meta.next_page
           : null,
-      enabled: searchText.length > 0
+      enabled: searchText.length > 0,
+      staleTime: 5 * 60 * 1000
     }
   );
 
