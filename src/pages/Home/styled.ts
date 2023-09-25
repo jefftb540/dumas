@@ -5,13 +5,13 @@ export const MainContainer = styled.div`
   max-width: 100%;
   display: flex;
   flex-direction: row;
-  gap: px;
 `;
 
 export const FavoritesContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.background.main};
   border-radius: 12px;
   padding: 18px;
+  transition: 500ms;
 `;
 
 export const LeftContainer = styled.div`
@@ -24,4 +24,16 @@ export const LeftContainer = styled.div`
 export const TitleContainer = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+interface SeeMoreToggleProps {
+  accent?: boolean;
+}
+
+export const SeeMoreToggle = styled.span<SeeMoreToggleProps>`
+  cursor: pointer;
+  color: ${({ theme, accent }) =>
+    accent ? theme.colors.text.primaryAccent : theme.colors.secondary.main};
+  font-weight: ${({ theme }) => theme.fonts.weight.bold};
+  font-size: ${({ theme }) => theme.fonts.text.medium};
 `;
