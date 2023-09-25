@@ -33,7 +33,7 @@ export const Home = () => {
     hasNextPage: hasNextAllDishesPage
   } = useInfiniteQuery(
     ['allDishes'],
-    ({ pageParam = 1 }) => getAllDishes(pageParam),
+    ({ pageParam = 1 }) => getAllDishes(pageParam, 10),
     {
       getNextPageParam: currentPage =>
         currentPage.meta.next_page &&
