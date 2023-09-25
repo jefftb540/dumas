@@ -5,6 +5,7 @@ import { PageLayout } from '../pages/PageLayout';
 import { Login } from '../pages/Login';
 import { MainLayout } from '../components/MainLayout';
 import { useAuth } from '../contexts/authContext';
+import { SignUp } from '../pages/SignUp';
 
 export const AppRoutes = () => {
   const { isAuthenticated, loading } = useAuth();
