@@ -19,10 +19,6 @@ export const MainLayout = () => {
   const logoSrc = theme === 'dark' ? dark.logoSrc : light.logoSrc;
   const centeredImageSrc =
     theme === 'dark' ? dark.centeredImageSrc : light.centeredImageSrc;
-  const background =
-    theme === 'dark'
-      ? dark.colors.secondary.main
-      : light.colors.background.main;
 
   return (
     <ThemeProviderContext>
@@ -38,7 +34,7 @@ export const MainLayout = () => {
           onClick={toggle}
         />
         <MainLayoutContainer>
-          <HalfScreen background={background}>
+          <HalfScreen>
             <Logo src={logoSrc} alt="Logo Dumas" />
             <CenteredImage src={centeredImageSrc} alt="Imagem de decoração" />
           </HalfScreen>

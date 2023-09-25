@@ -35,8 +35,8 @@ export const MainLayoutContainer = styled.div`
   `}
 `;
 
-export const HalfScreen = styled.div<{ background: string }>`
-  background-color: ${({ background }) => background};
+export const HalfScreen = styled.div`
+  background-color: ${({ theme }) => theme.colors.background.dark};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -65,7 +65,7 @@ export const Logo = styled.img`
   `}
 
   ${media.tablet`
-    width: 16%;
+    width: 12%;
     position: absolute;
     top: 20px;
     right: 20px;
