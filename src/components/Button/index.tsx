@@ -5,7 +5,7 @@ import { CircularSpinner } from '../CircularSpinner';
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant: 'primary' | 'secondary';
   size: 'medium' | 'large';
-  loading: boolean;
+  loading?: boolean;
 }
 
 export const Button = ({
