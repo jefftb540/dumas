@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const NavContainer = styled.nav`
+export const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,6 +26,7 @@ export const NavRight = styled.div`
   gap: 32px;
   height: 100%;
   flex: 3;
+  /* position: relative; */
 `;
 
 export const AddressContainer = styled.div`
@@ -118,4 +119,14 @@ export const TotalCartItensNumber = styled.span`
   position: relative;
   top: -14px;
   right: -33px;
+`;
+
+export const SearchInput = styled.input`
+  width: 80%;
+  border: none;
+  background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.text.main};
+  font-size: ${({ theme }) => theme.fonts.text.small};
+  font-family: ${({ theme }) => theme.fonts.family.primary};
+  font-weight: ${({ theme }) => theme.fonts.weight.regular};
 `;

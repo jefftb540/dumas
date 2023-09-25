@@ -65,6 +65,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
           onUnmount={onUnmount}
         >
           <MarkerF
+            key={'marker_user'}
             position={center}
             icon={{
               url: window.location.origin + userMarkerPath,
@@ -83,6 +84,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
                 chef.address.latitude &&
                 chef.address.longitude ? (
                   <MarkerF
+                    key={'marker_' + chef.id}
                     position={{
                       lat: chef.address.latitude,
                       lng: chef.address.longitude
