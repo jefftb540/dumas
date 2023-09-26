@@ -50,8 +50,7 @@ export const StepOne = ({
       const response = await handleForgotPassword(values);
 
       if (response.reset_password_token) {
-        console.log('Deu bom', response.reset_password_token);
-        onSuccess(response.reset_password_token); // Chama a função de sucesso com o token
+        onSuccess(response.reset_password_token);
       }
     } catch (error) {
       console.log(error);

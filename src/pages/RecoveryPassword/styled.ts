@@ -22,13 +22,6 @@ export const SubTitle = styled.h2`
   `}
 `;
 
-export const IconContainer = styled.div`
-  position: absolute; // Defina a posição absoluta para o ícone
-  top: 50%; // Centralize verticalmente
-  right: 10px; // Ajuste a posição horizontal conforme necessário
-  transform: translateY(-50%); // Ajuste vertical para centralizar perfeitamente
-`;
-
 export const FormContainer = styled(Form)`
   width: 50%;
   display: flex;

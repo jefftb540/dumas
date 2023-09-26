@@ -57,7 +57,7 @@ export const StepTwo = () => {
 
       toast.success('Senha redefinida com sucesso!', {
         position: 'top-right',
-        autoClose: 2500, // Feche o toast após 5 segundos
+        autoClose: 2500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
