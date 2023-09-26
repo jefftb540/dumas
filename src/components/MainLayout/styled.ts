@@ -17,16 +17,24 @@ export const Wrapper = styled.div`
 
 export const MainLayoutContainer = styled.div`
   display: flex;
-  width: 50%;
+  width: 100%;
 
   ${media.mobile`
     flex-direction: column;
     width: 100%;
+    align-items: center; /* Centralizar verticalmente */
+    justify-content: center; /* Centralizar horizontalmente */
   `}
 
   ${media.tablet`
     flex-direction: column;
     width: 100%;
+    align-items: center; /* Centralizar verticalmente */
+    justify-content: center; /* Centralizar horizontalmente */
+  `}
+
+  ${media.desktop`
+    flex: 1; 
   `}
 `;
 
