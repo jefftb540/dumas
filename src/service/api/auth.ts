@@ -10,6 +10,13 @@ export interface RefreshToken {
   refresh_token: string;
 }
 
+export interface ForgotPasswordProps {
+  email: string;
+  reset_password_token?: string;
+  password?: string;
+  password_confirmation?: string;
+}
+
 export const handleLogin = async ({ email, password }: LoginProps) => {
   const response = await api.post('/sessions/login', {
     session: {
@@ -55,3 +62,27 @@ export async function handleSignup({
     console.log(error);
   }
 }
+
+export const handleForgotPassword = async ({ email }: ForgotPasswordProps) => {
+  const response = await api.post('/passwords/token', {
+    email
+  });
+
+  const { data } = response;
+  return data;
+};
+
+export const handleResetPassword = async ({
+  reset_password_token,
+  password,
+  password_confirmation
+}: ForgotPasswordProps) => {
+  const response = await api.put('/passwords/reset', {
+    reset_password_token,
+    password,
+    password_confirmation
+  });
+
+  const { data } = response;
+  return data;
+};

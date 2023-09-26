@@ -6,6 +6,7 @@ import { Login } from '../pages/Login';
 import { MainLayout } from '../components/MainLayout';
 import { useAuth } from '../contexts/authContext';
 import { SignUp } from '../pages/SignUp';
+import { ForgotPassword } from '../pages/ForgotPassword';
 
 export const AppRoutes = () => {
   const { isAuthenticated, loading } = useAuth();
@@ -34,10 +35,7 @@ export const AppRoutes = () => {
             path={routes.signUp.address}
             element={<h1>Add Address placeholder</h1>}
           />
-          <Route
-            path={routes.recoverPassword}
-            element={<h1>Recover Password placeholder</h1>}
-          />
+          <Route path={routes.recoverPassword} element={<ForgotPassword />} />
           <Route path="*" element={<Navigate to={routes.login} />} />
         </Route>
       )}
