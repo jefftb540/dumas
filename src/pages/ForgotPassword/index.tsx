@@ -39,8 +39,6 @@ export const ForgotPassword = () => {
 
       if (response.reset_password_token) {
         navigate('/redefinir-senha');
-
-        setError('Usuário não encontrado');
       }
     } catch (error) {
       console.log(error);
