@@ -3,6 +3,7 @@ import { media } from '../../consts/mediaquery';
 
 export const Wrapper = styled.div`
   display: flex;
+  width: 100%;
 
   ${media.mobile`
     flex-direction: column;
@@ -17,7 +18,7 @@ export const Wrapper = styled.div`
 
 export const MainLayoutContainer = styled.div`
   display: flex;
-  width: 50%;
+  width: 100%;
 
   ${media.mobile`
     flex-direction: column;
@@ -28,10 +29,14 @@ export const MainLayoutContainer = styled.div`
     flex-direction: column;
     width: 100%;
   `}
+
+  ${media.desktop`
+    flex: 1; 
+  `}
 `;
 
 export const HalfScreen = styled.div`
-  background-color: ${({ theme }) => theme.colors.background.main};
+  background-color: ${({ theme }) => theme.colors.background.dark};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -41,7 +46,7 @@ export const HalfScreen = styled.div`
   height: 107px;
 
   ${media.desktop`
-    flex: 1;
+    flex: 1; 
     height: 100vh;
   `}
 `;
@@ -53,14 +58,14 @@ export const Logo = styled.img`
   left: 20px;
 
   ${media.mobile`
-    position: absolute; 
+    position: absolute;
     top: 20px;
     right: 20px;
     padding-top: 24px;
   `}
 
   ${media.tablet`
-    width: 16%;
+    width: 12%;
     position: absolute;
     top: 20px;
     right: 20px;
@@ -79,4 +84,12 @@ export const CenteredImage = styled.img`
   ${media.tablet`
     display: none;
   `}
+`;
+
+export const RightContent = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 `;
