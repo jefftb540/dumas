@@ -6,13 +6,15 @@ import {
   useState
 } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { handleLogin, LoginProps } from '../../service/api/auth';
+import { handleLogin, handleSignup, LoginProps } from '../../service/api/auth';
 import { User } from '../../types/Users';
 import secureLocalStorage from 'react-secure-storage';
 import { handleLoginErrors } from '../../utils/handleLoginsErrors';
 import { AxiosError } from 'axios';
 import { configureAxiosToken } from '../../utils/configureAxiosAuth';
 import { getLocationWithIPAddress } from '../../service/api/location';
+import { routes } from '../../routes';
+import { handleSignupErrors } from '../../utils/handleSignupErrors';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -22,6 +24,7 @@ interface AuthContextProps {
   user?: User;
   setUser: (user: User) => void;
   signIn: (credentials: LoginProps) => Promise<void>;
+  signUp: (user: User) => Promise<void>;
   signOut: () => void;
   isAuthenticated: boolean;
   error: string;
@@ -46,12 +49,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         password
       });
       if (response && response.access_token) {
-        const expDate = new Date();
-        expDate.setHours(expDate.getHours() + 1);
-        secureLocalStorage.setItem('tokenExpDate', JSON.stringify(expDate));
-        secureLocalStorage.setItem('token', response.access_token);
-        secureLocalStorage.setItem('refreshToken', response.refresh_token);
-        secureLocalStorage.setItem('user', JSON.stringify(response.user));
+        configureLocalStorage(
+          response.access_token,
+          response.refresh_token,
+          response.user
+        );
         setIsAuthenticated(true);
         setIsLoading(true);
         setUser(response.user);
@@ -75,7 +77,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           };
           getLocation();
         }
-        navigate('/home');
+        navigate(routes.home);
       }
     } catch (error) {
       console.log(error);
@@ -85,6 +87,39 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setIsLoading(false);
     }
   }
+
+  async function signUp(values: User) {
+    try {
+      const response = await handleSignup(values);
+      if (response && response.access_token) {
+        configureLocalStorage(
+          response.access_token,
+          response.refresh_token,
+          response.user
+        );
+        setIsAuthenticated(true);
+        setIsLoading(true);
+        configureAxiosToken(response.access_token, response.refresh_token);
+        navigate(routes.home);
+      }
+    } catch (error) {
+      const messageError = handleSignupErrors(error as AxiosError);
+      setError(messageError);
+    }
+  }
+
+  const configureLocalStorage = (
+    token: string,
+    refreshToken: string,
+    user: User
+  ) => {
+    const expDate = new Date();
+    expDate.setHours(expDate.getHours() + 1);
+    secureLocalStorage.setItem('tokenExpDate', JSON.stringify(expDate));
+    secureLocalStorage.setItem('token', token);
+    secureLocalStorage.setItem('refreshToken', refreshToken);
+    secureLocalStorage.setItem('user', JSON.stringify(user));
+  };
 
   function signOut() {
     secureLocalStorage.clear();
@@ -136,6 +171,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     <AuthContext.Provider
       value={{
         signIn,
+        signUp,
         signOut,
         isAuthenticated,
         user,
