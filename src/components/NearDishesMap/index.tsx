@@ -1,11 +1,13 @@
 import { Container } from './styled';
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Chef } from '../../types/Chef';
 import { useTheme } from '../../contexts/themeContext';
 import { useAuth } from '../../contexts/authContext';
-import { getLocationWithIPAddress } from '../../service/api/location';
+// import { getLocationWithIPAddress } from '../../service/api/location';
+// import { Dish } from '../../types/Dish';
 
+//TOdo Remove comments
 interface NearDishesMapProps {
   chefs: Chef[];
 }
@@ -20,34 +22,12 @@ const containerStyle = {
 };
 
 export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
-  const [center, setCenter] = useState({ lat: 0, lng: 0 });
-  const { user } = useAuth();
-
-  useEffect(() => {
-    const getLocation = async () => {
-      const data = await getLocationWithIPAddress();
-      if (data) {
-        setCenter({ lat: Number(data.lat), lng: Number(data.lng) });
-      }
-    };
-    if (
-      user?.addresses?.length &&
-      user?.addresses[0].latitude &&
-      user?.addresses[0].longitude
-    ) {
-      setCenter({
-        lat: user?.addresses[0].latitude,
-        lng: user?.addresses[0].longitude
-      });
-    } else {
-      getLocation();
-    }
-  }, []);
+  const { user, userLocation } = useAuth();
 
   const { theme } = useTheme();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
-  const mapId = theme === 'dark' ? darkMapId : lightMapId;
   const markerPath =
     theme === 'light' ? '/images/marker_red.svg' : '/images/marker.svg';
 
@@ -60,12 +40,15 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
     setMap(null);
   }, []);
 
-  const onLoad = useCallback(function callback(map: google.maps.Map) {
-    map.setZoom(10);
-    map.setOptions({ mapId: mapId });
+  const onLoad = useCallback(
+    function callback(map: google.maps.Map) {
+      map.setZoom(10);
+      map.setOptions({ mapId: theme === 'dark' ? darkMapId : lightMapId });
 
-    setMap(map);
-  }, []);
+      setMap(map);
+    },
+    [theme]
+  );
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -78,15 +61,16 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
       {isLoaded ? (
         <GoogleMap
           mapContainerStyle={containerStyle}
-          center={center}
+          center={userLocation}
           options={{ disableDefaultUI: true }}
           zoom={14}
           onLoad={onLoad}
           onUnmount={onUnmount}
+          key={`map_${theme}`}
         >
           <MarkerF
             key={'marker_user'}
-            position={center}
+            position={userLocation}
             icon={{
               url: window.location.origin + userMarkerPath,
               labelOrigin: new google.maps.Point(25, -12)
