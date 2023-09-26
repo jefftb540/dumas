@@ -33,7 +33,7 @@ interface SeeMoreToggleProps {
 export const SeeMoreToggle = styled.span<SeeMoreToggleProps>`
   cursor: pointer;
   color: ${({ theme, accent }) =>
-    accent ? theme.colors.text.primaryAccent : theme.colors.secondary.main};
+    accent ? theme.colors.text.secondaryAccent : theme.colors.secondary.main};
   font-weight: ${({ theme }) => theme.fonts.weight.bold};
   font-size: ${({ theme }) => theme.fonts.text.medium};
 `;

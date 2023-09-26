@@ -79,7 +79,7 @@ export const Home = () => {
     fetchNextPage: fetchNextNearDishesPage,
     hasNextPage: hasNextNearDishesPage
   } = useInfiniteQuery(
-    ['nearDishes'],
+    ['nearDishes', userLocation],
     ({ pageParam = 1 }) =>
       getNearDishes(
         { latitude: userLocation.lat, longitude: userLocation.lng },
