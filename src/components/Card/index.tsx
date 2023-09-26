@@ -22,6 +22,8 @@ import { formatCurrency } from '../../utils/formatCurrency';
 import { dislikeDish, likeDish } from '../../service/api/dishes';
 import { useState } from 'react';
 import { useCart } from '../../contexts/cartContex';
+import { useNavigate } from 'react-router-dom';
+import { routes } from '../../routes';
 
 interface CardProps {
   dish: Dish;
@@ -29,6 +31,7 @@ interface CardProps {
 
 export const Card = ({ dish }: CardProps) => {
   const [liked, setLiked] = useState(dish.liked_by_me);
+  const navigate = useNavigate();
   const { addToCart } = useCart();
 
   const toogleLiked = (dish: Dish) => {
@@ -40,7 +43,6 @@ export const Card = ({ dish }: CardProps) => {
     setLiked(prev => !prev);
   };
 
-  const distance = 0;
   const rating =
     dish.ratings.length > 0
       ? dish.ratings.reduce((acc, rating) => acc + rating.rate, 0) /
@@ -55,7 +57,9 @@ export const Card = ({ dish }: CardProps) => {
       </FavouriteIconContainer>
       <DishContainer>
         <TitleAndIconContainer>
-          <DishTitle>{dish.name}</DishTitle>
+          <DishTitle onClick={() => navigate(routes.dish(dish.id))}>
+            {dish.name}
+          </DishTitle>
           <CartIconContainer onClick={() => addToCart(dish)}>
             <BsCartPlus />
           </CartIconContainer>
@@ -70,7 +74,7 @@ export const Card = ({ dish }: CardProps) => {
             </DishInfo>
           </PriceAndRatingContainer>
           <DistanceContainer>
-            <DishInfo>{distance} km</DishInfo>
+            <DishInfo>{dish.distance} km</DishInfo>
           </DistanceContainer>
         </DishInfoContainer>
       </DishContainer>
