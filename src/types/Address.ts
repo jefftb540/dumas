@@ -7,8 +7,8 @@ export interface Address {
   neighborhood: string;
   reference: string;
   complement: string;
-  latitude: number;
-  longitude: number;
+  latitude?: number;
+  longitude?: number;
   city_id: string;
   addressable_type: string;
   addressable_id: string;

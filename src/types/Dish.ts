@@ -16,4 +16,5 @@ export interface Dish {
   chef: Chef;
   liked_by_me: boolean;
   disliked_by_me: boolean;
+  distance?: number;
 }
