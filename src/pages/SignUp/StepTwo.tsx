@@ -16,6 +16,8 @@ import { routes } from '../../routes';
 import { User } from '../../types/Users';
 import { useAuth } from '../../contexts/authContext';
 import { api } from '../../service/api';
+import { useEffect } from 'react';
+import { getLocation } from '../../consts/getLocation';
 
 interface Cep {
   cep: string;
@@ -37,6 +39,10 @@ interface Cep {
 export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
   const { error } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    getLocation();
+  }, []);
 
   const handleCepChange = async (
     cep: string,
@@ -82,7 +88,7 @@ export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
       {({ isSubmitting, isValid, setFieldValue }) => (
         <FormContainer>
           <Title>Cadastro</Title>
-          <SubTitle>Informações pessoais</SubTitle>
+          <SubTitle>Endereço</SubTitle>
 
           <InputContainer>
             <Input
