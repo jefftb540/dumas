@@ -8,9 +8,11 @@ import { useAuth } from '../contexts/authContext';
 import { SignUp } from '../pages/SignUp';
 
 export const AppRoutes = () => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading, user } = useAuth();
 
   if (loading) return <div>Loading</div>;
+  if (isAuthenticated && !user) return <div>Loading</div>;
+
   return (
     <Routes>
       {isAuthenticated ? (
@@ -20,6 +22,11 @@ export const AppRoutes = () => {
             <Route
               path={routes.dish()}
               element={<h1>Dish detail Placeholder</h1>}
+            />
+            <Route path={routes.cart} element={<h1>Cart Placeholder</h1>} />
+            <Route
+              path={routes.profile}
+              element={<h1>Profile Placeholder</h1>}
             />
           </Route>
           <Route path="*" element={<Navigate to={routes.home} />} />
