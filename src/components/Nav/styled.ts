@@ -69,7 +69,9 @@ export const SearchContainer = styled.div<SearchContainerProps>`
   padding-right: 8px;
   cursor: pointer;
   transition: 500ms;
-
+  input {
+    color: ${({ theme }) => theme.colors.black};
+  }
   svg {
     color: ${({ theme }) => theme.colors.text.primaryAccent};
     border-radius: 50%;

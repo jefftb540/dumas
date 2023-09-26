@@ -4,8 +4,8 @@ export const ResultsContainer = styled.div`
   position: absolute;
   top: 72px;
   width: 800px;
-  height: 410px;
-  overflow-y: scroll;
+  max-height: 410px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   z-index: 10;

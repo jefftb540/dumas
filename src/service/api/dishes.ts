@@ -4,17 +4,23 @@ import { Dish } from '../../types/Dish';
 import { Locality } from '../../types/Location';
 import { Paginated } from '../../types/Paginated';
 
-export const getAllDishes = async () => {
+export const getAllDishes = async (page = 1, perPage = 25) => {
   const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
-    params: { active: true, available: true }
+    params: { active: true, available: true, page, per_page: perPage }
   });
 
   return response.data;
 };
 
-export const getFavouriteDishes = async () => {
+export const getFavouriteDishes = async (page = 1, perPage = 25) => {
   const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
-    params: { active: true, available: true, favorites: true }
+    params: {
+      active: true,
+      available: true,
+      favorites: true,
+      page,
+      per_page: perPage
+    }
   });
 
   return response.data;
@@ -51,8 +57,7 @@ export const searchDishes = async (query: string, page = 1, perPage = 3) => {
       per_page: perPage,
       active: true,
       available: true,
-      name: query,
-      description: query
+      name: query
     }
   });
 
