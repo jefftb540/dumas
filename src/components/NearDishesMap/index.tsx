@@ -1,18 +1,14 @@
 import { Container } from './styled';
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Chef } from '../../types/Chef';
 import { useTheme } from '../../contexts/themeContext';
+import { useAuth } from '../../contexts/authContext';
+import { getLocationWithIPAddress } from '../../service/api/location';
 
 interface NearDishesMapProps {
   chefs: Chef[];
 }
-
-//TODO alterar pras coordenadas do usuário
-const center = {
-  lat: -19.9511221,
-  lng: -43.9214969
-};
 
 const apikey = import.meta.env.VITE_MAPS_API_KEY;
 const darkMapId = import.meta.env.VITE_DARK_MAP_ID;
@@ -24,6 +20,30 @@ const containerStyle = {
 };
 
 export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
+  const [center, setCenter] = useState({ lat: 0, lng: 0 });
+  const { user } = useAuth();
+
+  useEffect(() => {
+    const getLocation = async () => {
+      const data = await getLocationWithIPAddress();
+      if (data) {
+        setCenter({ lat: Number(data.lat), lng: Number(data.lng) });
+      }
+    };
+    if (
+      user?.addresses?.length &&
+      user?.addresses[0].latitude &&
+      user?.addresses[0].longitude
+    ) {
+      setCenter({
+        lat: user?.addresses[0].latitude,
+        lng: user?.addresses[0].longitude
+      });
+    } else {
+      getLocation();
+    }
+  }, []);
+
   const { theme } = useTheme();
   const [map, setMap] = useState<google.maps.Map | null>(null);
 
@@ -72,7 +92,9 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
               labelOrigin: new google.maps.Point(25, -12)
             }}
             label={{
-              text: 'Placeholder',
+              text: user?.addresses
+                ? user.addresses[0].name
+                : 'Sua localização',
               color: theme === 'dark' ? '#FFF' : '#333',
               fontSize: '24px',
               fontWeight: '700'

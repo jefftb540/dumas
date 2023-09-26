@@ -24,6 +24,7 @@ import { Dish } from '../../types/Dish';
 import { searchDishes } from '../../service/api/dishes';
 import { SearchResults } from '../SearchResults';
 import { useInfiniteQuery } from 'react-query';
+import { useAuth } from '../../contexts/authContext';
 
 export const Navbar = () => {
   const [openSearch, setOpenSearch] = useState(false);
@@ -34,7 +35,7 @@ export const Navbar = () => {
   // const [searchResultChefs, setSearchResultChefs] = useState<Chef[]>();
   const [searchResultDishes, setSearchResultDishes] = useState<Dish[]>();
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const { user } = useAuth();
   const { debounce } = useDebounce(400);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,8 +76,14 @@ export const Navbar = () => {
         <NavLeft>
           <NavIcon src="/images/logo.svg" />
           <AddressContainer>
-            <AddressTitle>Home</AddressTitle>
-            <AddressDescription>Rua da amargura, 730</AddressDescription>
+            {user?.addresses ? (
+              <>
+                <AddressTitle>{user.addresses[0].name}</AddressTitle>
+                <AddressDescription>{`${user.addresses[0].public_place}, ${user.addresses[0].number}`}</AddressDescription>
+              </>
+            ) : (
+              <AddressTitle>Cadastre um endereço</AddressTitle>
+            )}
           </AddressContainer>
         </NavLeft>
         <NavRight>
@@ -111,7 +118,7 @@ export const Navbar = () => {
           </SearchContainer>
 
           <UserMenuToggle>
-            João da Silva
+            {user?.name}
             <MdOutlineKeyboardArrowDown />
           </UserMenuToggle>
           <IconContainer>
