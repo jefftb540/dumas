@@ -43,8 +43,6 @@ const insertDistances = (
         }
       : dish
   );
-
-  // setDistance(distanceInMeters / 1000);
 };
 
 export const Home = () => {

@@ -4,10 +4,7 @@ import { useCallback, useState } from 'react';
 import { Chef } from '../../types/Chef';
 import { useTheme } from '../../contexts/themeContext';
 import { useAuth } from '../../contexts/authContext';
-// import { getLocationWithIPAddress } from '../../service/api/location';
-// import { Dish } from '../../types/Dish';
 
-//TOdo Remove comments
 interface NearDishesMapProps {
   chefs: Chef[];
 }
