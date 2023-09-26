@@ -1,6 +1,12 @@
 import { User } from '../../types/Users';
 import { api } from '../api';
 
+interface LoginResponseProps {
+  user: User;
+  access_token: string;
+  refresh_token: string;
+}
+
 export interface LoginProps {
   email: string;
   password: string;
@@ -23,7 +29,7 @@ export const handleLogin = async ({ email, password }: LoginProps) => {
 };
 
 export const refreshToken = async (token: string) => {
-  const response = await api.post('/sessions/refresh', {
+  const response = await api.post<LoginResponseProps>('/sessions/refresh', {
     refresh_token: token
   });
 
@@ -35,18 +41,23 @@ export async function handleSignup({
   email,
   password,
   password_confirmation,
-  telephones_attributes
+  telephones_attributes,
+  addresses_attributes
 }: User) {
   try {
-    const response = await api.post('/registrations/signup', {
-      user: {
-        name,
-        email,
-        password,
-        password_confirmation,
-        telephones_attributes
+    const response = await api.post<LoginResponseProps>(
+      '/registrations/signup',
+      {
+        user: {
+          name,
+          email,
+          password,
+          password_confirmation,
+          telephones_attributes,
+          addresses_attributes
+        }
       }
-    });
+    );
 
     const { data } = response;
 
