@@ -79,7 +79,7 @@ export const Navbar = () => {
       setSearchResultDishes(data?.pages.flatMap(p => p.data));
     }
   }, [data]);
-
+  console.log(user);
   return (
     <>
       <NavContainer>
@@ -96,7 +96,7 @@ export const Navbar = () => {
             />
           )}
           <AddressContainer>
-            {user?.addresses ? (
+            {user?.addresses?.length ? (
               <>
                 <AddressTitle>{user.addresses[0].name}</AddressTitle>
                 <AddressDescription>{`${user.addresses[0].public_place}, ${user.addresses[0].number}`}</AddressDescription>

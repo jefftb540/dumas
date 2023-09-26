@@ -76,7 +76,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
               labelOrigin: new google.maps.Point(25, -12)
             }}
             label={{
-              text: user?.addresses
+              text: user?.addresses?.length
                 ? user.addresses[0].name
                 : 'Sua localização',
               color: theme === 'dark' ? '#FFF' : '#333',
