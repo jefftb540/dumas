@@ -11,10 +11,10 @@ export interface RefreshToken {
 }
 
 export interface ForgotPasswordProps {
-  email: string;
-  reset_password_token?: string;
+  email?: string;
+  token?: string;
   password?: string;
-  password_confirmation?: string;
+  passwordConfirm?: string;
 }
 
 export const handleLogin = async ({ email, password }: LoginProps) => {
@@ -73,14 +73,14 @@ export const handleForgotPassword = async ({ email }: ForgotPasswordProps) => {
 };
 
 export const handleResetPassword = async ({
-  reset_password_token,
+  token,
   password,
-  password_confirmation
+  passwordConfirm
 }: ForgotPasswordProps) => {
   const response = await api.put('/passwords/reset', {
-    reset_password_token,
+    reset_password_token: token,
     password,
-    password_confirmation
+    password_confirmation: passwordConfirm
   });
 
   const { data } = response;

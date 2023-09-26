@@ -7,6 +7,7 @@ export const Title = styled.h1`
   font-size: ${({ theme }) => theme.fonts.text.medium};
   font-style: italic;
   font-weight: ${({ theme }) => theme.fonts.weight.bold};
+  color: ${({ theme }) => theme.colors.text.main};
 `;
 
 export const SubTitle = styled.h2`
@@ -19,6 +20,13 @@ export const SubTitle = styled.h2`
   ${media.mobile`
   font-size: 14px;
   `}
+`;
+
+export const IconContainer = styled.div`
+  position: absolute; // Defina a posição absoluta para o ícone
+  top: 50%; // Centralize verticalmente
+  right: 10px; // Ajuste a posição horizontal conforme necessário
+  transform: translateY(-50%); // Ajuste vertical para centralizar perfeitamente
 `;
 
 export const FormContainer = styled(Form)`

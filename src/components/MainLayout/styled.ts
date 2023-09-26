@@ -23,15 +23,15 @@ export const MainLayoutContainer = styled.div`
   ${media.mobile`
     flex-direction: column;
     width: 100%;
-    align-items: center; /* Centralizar verticalmente */
-    justify-content: center; /* Centralizar horizontalmente */
+    align-items: center; 
+    justify-content: center; 
   `}
 
   ${media.tablet`
     flex-direction: column;
     width: 100%;
-    align-items: center; /* Centralizar verticalmente */
-    justify-content: center; /* Centralizar horizontalmente */
+    align-items: center; 
+    justify-content: center;
   `}
 
   ${media.desktop`
@@ -44,7 +44,7 @@ export const MainLayoutContainer = styled.div`
 `;
 
 export const HalfScreen = styled.div`
-  background-color: ${({ theme }) => theme.colors.background.dark};
+  background-color: ${({ theme }) => theme.colors.background.main};
   display: flex;
   flex-direction: column;
   align-items: flex-start;

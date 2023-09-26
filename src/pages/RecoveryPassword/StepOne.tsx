@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { Formik } from 'formik';
 import { FiMail } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
-import { routes } from '../../routes';
 import {
   FormContainer,
   InputContainer,
@@ -18,19 +16,33 @@ import { messageErrors } from '../../consts/messageErrors';
 import { handleForgotPassword } from '../../service/api/auth';
 import { handleForgotPasswordErrors } from '../../utils/handleForgotPasswordErros';
 import { AxiosError } from 'axios';
+import { routes } from '../../routes';
 
 interface FormRecoverProps {
   email: string;
 }
 
-export const initialValues = {
-  email: ''
-};
-
-export const ForgotPassword = () => {
+export const StepOne = ({
+  onSuccess
+}: {
+  onSuccess: (resetToken: string) => void;
+}) => {
   const [loading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+
+  const initialValues = {
+    email: ''
+  };
+
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .email(messageErrors.email.invalid)
+      .matches(
+        /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+        messageErrors.email.invalid
+      )
+      .required(messageErrors.email.required)
+  });
 
   const onSubmit = async (values: FormRecoverProps) => {
     try {
@@ -38,7 +50,8 @@ export const ForgotPassword = () => {
       const response = await handleForgotPassword(values);
 
       if (response.reset_password_token) {
-        navigate('/redefinir-senha');
+        console.log('Deu bom', response.reset_password_token);
+        onSuccess(response.reset_password_token); // Chama a função de sucesso com o token
       }
     } catch (error) {
       console.log(error);
@@ -49,21 +62,11 @@ export const ForgotPassword = () => {
     }
   };
 
-  const validation = Yup.object().shape({
-    email: Yup.string()
-      .email(messageErrors.email.invalid)
-      .matches(
-        /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-        messageErrors.email.invalid
-      )
-      .required(messageErrors.email.required)
-  });
-
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
-      validationSchema={validation}
+      validationSchema={validationSchema}
       validateOnMount={true}
     >
       {({ isSubmitting, errors, touched, isValid }) => (
