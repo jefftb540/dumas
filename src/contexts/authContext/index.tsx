@@ -12,6 +12,7 @@ import secureLocalStorage from 'react-secure-storage';
 import { handleLoginErrors } from '../../utils/handleLoginsErrors';
 import { AxiosError } from 'axios';
 import { configureAxiosToken } from '../../utils/configureAxiosAuth';
+import { getLocationWithIPAddress } from '../../service/api/location';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -25,6 +26,7 @@ interface AuthContextProps {
   isAuthenticated: boolean;
   error: string;
   loading: boolean;
+  userLocation: { lat: number; lng: number };
 }
 
 const AuthContext = createContext({} as AuthContextProps);
@@ -34,6 +36,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User>();
   const [error, setError] = useState('');
   const [loading, setIsLoading] = useState(true);
+  const [userLocation, setUserLocation] = useState({ lat: 0, lng: 0 });
   const navigate = useNavigate();
 
   async function signIn({ email, password }: LoginProps) {
@@ -51,7 +54,27 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         secureLocalStorage.setItem('user', JSON.stringify(response.user));
         setIsAuthenticated(true);
         setIsLoading(true);
+        setUser(response.user);
         configureAxiosToken(response.access_token, response.refresh_token);
+        if (
+          user?.addresses &&
+          user.addresses[0].latitude &&
+          user.addresses[0].longitude
+        ) {
+          setUserLocation({
+            lat: user.addresses[0].latitude,
+            lng: user.addresses[0].longitude
+          });
+        } else {
+          const getLocation = async () => {
+            const data = await getLocationWithIPAddress();
+            if (data) {
+              console.log(data);
+              setUserLocation({ lat: Number(data.lat), lng: Number(data.lng) });
+            }
+          };
+          getLocation();
+        }
         navigate('/home');
       }
     } catch (error) {
@@ -85,6 +108,25 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     if (authUser) {
       setUser(JSON.parse(authUser as string));
+      if (
+        user?.addresses &&
+        user.addresses[0].latitude &&
+        user.addresses[0].longitude
+      ) {
+        setUserLocation({
+          lat: user.addresses[0].latitude,
+          lng: user.addresses[0].longitude
+        });
+      } else {
+        const getLocation = async () => {
+          const data = await getLocationWithIPAddress();
+          if (data) {
+            console.log(data);
+            setUserLocation({ lat: Number(data.lat), lng: Number(data.lng) });
+          }
+        };
+        getLocation();
+      }
     }
     setIsAuthenticated(true);
     setIsLoading(false);
@@ -99,7 +141,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         user,
         setUser,
         error,
-        loading
+        loading,
+        userLocation
       }}
     >
       {children}
