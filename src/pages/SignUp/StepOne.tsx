@@ -1,93 +1,8 @@
-// import { Formik } from 'formik';
-// import {
-//   FormContainer,
-//   InputContainer,
-//   SubTitle,
-//   Title
-// } from '../Login/styled';
-// import { FiUser, FiMail, FiLock, FiPhone } from 'react-icons/fi';
-// import { Input } from '../../components/Input';
-// import { WrapperButton } from './styled';
-// import { StepProps } from '.';
-// import { Button } from '../../components/Button';
-// import { User } from '../../types/Users';
-// import { routes } from '../../routes';
-// import { useNavigate } from 'react-router-dom';
-
-// export const StepOne: React.FC<StepProps> = ({ next, data }) => {
-//   const navigate = useNavigate();
-//   const handleSubmit = (values: User) => {
-//     next(values);
-//   };
-
-//   return (
-//     <Formik initialValues={data} onSubmit={handleSubmit} validateOnMount={true}>
-//       {({ isSubmitting, isValid }) => (
-//         <FormContainer>
-//           <Title>Cadastro</Title>
-//           <SubTitle>Informações pessoais</SubTitle>
-
-//           <InputContainer>
-//             <Input Icon={FiUser} placeholder="Nome e Sobrenome" name="name" />
-
-//             <Input Icon={FiMail} placeholder="Email" name="email" />
-
-//             <Input
-//               placeholder="Senha"
-//               type="password"
-//               name="password"
-//               Icon={FiLock}
-//             />
-
-//             <Input
-//               placeholder="Confirmar senha"
-//               type="password"
-//               name="password_confirmation"
-//               Icon={FiLock}
-//             />
-
-//             <Input
-//               placeholder="Telefone"
-//               type="phone"
-//               name="telephones_attributes"
-//               Icon={FiPhone}
-//             />
-
-//             <WrapperButton>
-//               <Button
-//                 variant="primary"
-//                 size="large"
-//                 type="submit"
-//                 disabled={isSubmitting || !isValid}
-//                 onSubmit={() => handleSubmit}
-//               >
-//                 Continuar para endereço
-//               </Button>
-
-//               <Button
-//                 variant="secondary"
-//                 size="large"
-//                 type="submit"
-//                 disabled={isSubmitting || !isValid}
-//                 onClick={() => {
-//                   navigate(routes.login);
-//                 }}
-//               >
-//                 Continuar sem endereço
-//               </Button>
-//             </WrapperButton>
-//           </InputContainer>
-//         </FormContainer>
-//       )}
-//     </Formik>
-//   );
-// };
-
-import { useState } from 'react';
 import { Formik } from 'formik';
 import {
   FormContainer,
   InputContainer,
+  MessageErrorsContainer,
   SubTitle,
   Title
 } from '../Login/styled';
@@ -97,67 +12,104 @@ import { WrapperButton } from './styled';
 import { StepProps } from '.';
 import { Button } from '../../components/Button';
 import { User } from '../../types/Users';
-import { routes } from '../../routes';
-import { useNavigate } from 'react-router-dom';
-import { handleSignup } from '../../service/api/auth';
+import { useAuth } from '../../contexts/authContext';
+import { messageErrors } from '../../consts/messageErrors';
+import * as Yup from 'yup';
+import { getLocation } from '../../consts/getLocation';
+import { useEffect } from 'react';
 
 export const StepOne: React.FC<StepProps> = ({ next, data }) => {
-  const navigate = useNavigate();
-  const [dataSentToApi, setDataSentToApi] = useState(false);
+  const { signUp, error } = useAuth();
 
-  const handleSubmit = async (values: User) => {
-    try {
-      await handleSignup(values);
-      console.log(values);
-      setDataSentToApi(true);
-    } catch (error) {
-      console.error('Erro ao enviar dados para a API:', error);
-    }
+  useEffect(() => {
+    getLocation();
+  }, []);
+
+  const handleSubmit = (values: User) => {
+    signUp(values);
   };
 
   const handleContinueToAddress = async (values: User) => {
-    // if (!dataSentToApi) {
-    //   try {
-    //     await handleSignup(data);
-    //     setDataSentToApi(true);
-    //   } catch (error) {
-    //     console.error('Erro ao enviar dados para a API:', error);
-    //     return;
-    //   }
-    // }
-
     next(values);
-    // navigate(routes.login);
   };
 
+  const validation = Yup.object().shape({
+    name: Yup.string()
+      .required(messageErrors.name.required)
+      .test(messageErrors.name.test, messageErrors.name.invalid, value => {
+        const names = value.split(' ');
+        return names.length >= 2;
+      }),
+    email: Yup.string()
+      .email(messageErrors.email.invalid)
+      .matches(
+        /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+        messageErrors.email.invalid
+      )
+      .required(messageErrors.email.required),
+    password: Yup.string()
+      .min(6, messageErrors.password.invalid)
+      .required(messageErrors.password.required),
+    password_confirmation: Yup.string()
+      .oneOf([Yup.ref('password')], messageErrors.password_confirm.invalid)
+      .required(messageErrors.password_confirm.required)
+  });
+
   return (
-    <Formik initialValues={data} onSubmit={handleSubmit} validateOnMount={true}>
-      {({ values, isSubmitting, isValid }) => (
+    <Formik
+      initialValues={data}
+      onSubmit={handleSubmit}
+      validateOnMount={true}
+      validationSchema={validation}
+    >
+      {({ values, isSubmitting, isValid, touched, errors }) => (
         <FormContainer>
           <Title>Cadastro</Title>
           <SubTitle>Informações pessoais</SubTitle>
 
           <InputContainer>
             <Input Icon={FiUser} placeholder="Nome e Sobrenome" name="name" />
+
+            {touched.name && errors.name && (
+              <MessageErrorsContainer>{errors.name}</MessageErrorsContainer>
+            )}
+
             <Input Icon={FiMail} placeholder="Email" name="email" />
+            {touched.email && errors.email && (
+              <MessageErrorsContainer>{errors.email}</MessageErrorsContainer>
+            )}
+
             <Input
               placeholder="Senha"
               type="password"
               name="password"
               Icon={FiLock}
             />
+
+            {touched.password && errors.password && (
+              <MessageErrorsContainer>{errors.password}</MessageErrorsContainer>
+            )}
+
             <Input
               placeholder="Confirmar senha"
               type="password"
               name="password_confirmation"
               Icon={FiLock}
             />
+
+            {touched.password_confirmation && errors.password_confirmation && (
+              <MessageErrorsContainer>
+                {errors.password_confirmation}
+              </MessageErrorsContainer>
+            )}
+
             <Input
               placeholder="Telefone"
               type="phone"
               name="telephones_attributes"
               Icon={FiPhone}
             />
+            {error && <MessageErrorsContainer>{error}</MessageErrorsContainer>}
 
             <WrapperButton>
               <Button

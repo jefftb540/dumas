@@ -102,7 +102,7 @@ export const Login = () => {
           <Paragrafo>
             Não possui conta? Então
             <DefaultLink variant="primary" to={routes.signUp.profile}>
-              faça seu cadastro
+              Faça seu cadastro.
             </DefaultLink>
           </Paragrafo>
         </FormContainer>
