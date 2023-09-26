@@ -15,7 +15,10 @@ import {
 } from './styled';
 
 import { BsSearch } from 'react-icons/bs';
-import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import {
+  MdOutlineKeyboardArrowDown,
+  MdOutlineKeyboardArrowUp
+} from 'react-icons/md';
 import { FaShoppingCart } from 'react-icons/fa';
 import { useCart } from '../../contexts/cartContex';
 import useDebounce from '../../hooks/useDebounce';
@@ -25,6 +28,10 @@ import { searchDishes } from '../../service/api/dishes';
 import { SearchResults } from '../SearchResults';
 import { useInfiniteQuery } from 'react-query';
 import { useAuth } from '../../contexts/authContext';
+import { UserMenu } from '../UserMenu';
+import { routes } from '../../routes';
+import { useNavigate } from 'react-router-dom';
+import { useTheme } from '../../contexts/themeContext';
 
 export const Navbar = () => {
   const [openSearch, setOpenSearch] = useState(false);
@@ -32,11 +39,14 @@ export const Navbar = () => {
   const cartItensNumber = getItemsCount();
   const [searchText, setSearchText] = useState('');
   const [inputText, setInputText] = useState('');
+  const [showMenu, setShowMenu] = useState(false);
   // const [searchResultChefs, setSearchResultChefs] = useState<Chef[]>();
   const [searchResultDishes, setSearchResultDishes] = useState<Dish[]>();
   const inputRef = useRef<HTMLInputElement>(null);
   const { user } = useAuth();
   const { debounce } = useDebounce(400);
+  const { theme } = useTheme();
+  const navigate = useNavigate();
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
@@ -74,7 +84,17 @@ export const Navbar = () => {
     <>
       <NavContainer>
         <NavLeft>
-          <NavIcon src="/images/logo.svg" />
+          {theme === 'light' ? (
+            <NavIcon
+              onClick={() => navigate(routes.home)}
+              src="/images/logo.svg"
+            />
+          ) : (
+            <NavIcon
+              onClick={() => navigate(routes.home)}
+              src="/images/logo_dark.svg"
+            />
+          )}
           <AddressContainer>
             {user?.addresses ? (
               <>
@@ -117,11 +137,16 @@ export const Navbar = () => {
             )}
           </SearchContainer>
 
-          <UserMenuToggle>
+          <UserMenuToggle onClick={() => setShowMenu(prev => !prev)}>
             {user?.name}
-            <MdOutlineKeyboardArrowDown />
+            {showMenu ? (
+              <MdOutlineKeyboardArrowUp />
+            ) : (
+              <MdOutlineKeyboardArrowDown />
+            )}
+            {showMenu && <UserMenu />}
           </UserMenuToggle>
-          <IconContainer>
+          <IconContainer onClick={() => navigate(routes.cart)}>
             {cartItensNumber ? (
               <TotalCartItensNumber>{cartItensNumber}</TotalCartItensNumber>
             ) : null}
