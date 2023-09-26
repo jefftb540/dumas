@@ -26,7 +26,6 @@ export const NavRight = styled.div`
   gap: 32px;
   height: 100%;
   flex: 3;
-  /* position: relative; */
 `;
 
 export const AddressContainer = styled.div`
@@ -38,6 +37,7 @@ export const NavIcon = styled.img`
   height: 100%;
   padding: 8px 0;
   color: ${({ theme }) => theme.colors.text.primaryAccent};
+  cursor: pointer;
 `;
 
 export const AddressTitle = styled.span`
@@ -94,12 +94,14 @@ export const UserMenuToggle = styled.span`
   padding-right: 12px;
   border-right: 1px solid ${({ theme }) => theme.colors.border.main};
   height: 80%;
+  position: relative;
 `;
 
 export const IconContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
   svg {
     color: ${({ theme }) => theme.colors.text.primaryAccent};

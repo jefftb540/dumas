@@ -14,7 +14,7 @@ export function configureAxiosToken(accessToken: string, refresh: string) {
         try {
           console.log('Sending refresh token request');
           const data = await refreshToken(refresh);
-          now.setHours(now.getHours() + 1);
+          now.setMinutes(now.getMinutes() + 50);
           validToken = data.access_token;
           secureLocalStorage.setItem('token', validToken);
           secureLocalStorage.setItem('refreshToken', data.refresh_token);

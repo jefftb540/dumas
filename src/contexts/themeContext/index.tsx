@@ -1,6 +1,7 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { ThemeProvider, DefaultTheme } from 'styled-components';
 import { dark, light } from '../../themes';
+import secureLocalStorage from 'react-secure-storage';
 
 export type ThemeVariations = 'light' | 'dark';
 
@@ -22,9 +23,20 @@ export const ThemeProviderContext = ({ children }: ThemeProviderProps) => {
   const [activeTheme, setActiveTheme] = useState<DefaultTheme>(light);
 
   const toggle = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    secureLocalStorage.setItem('theme', newTheme);
     setActiveTheme(prev => (prev === light ? dark : light));
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
   };
+
+  useEffect(() => {
+    const storedTheme = secureLocalStorage.getItem('theme');
+    if (storedTheme) {
+      console.log(storedTheme);
+      setTheme(storedTheme as ThemeVariations);
+      setActiveTheme(storedTheme === 'light' ? light : dark);
+    }
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ toggle, theme }}>

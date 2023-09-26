@@ -1,6 +1,10 @@
 import { NearDishesMap } from '../../components/NearDishesMap';
 import { Dish } from '../../types/Dish';
-import { getAllDishes, getFavouriteDishes } from '../../service/api/dishes';
+import {
+  getAllDishes,
+  getFavouriteDishes,
+  getNearDishes
+} from '../../service/api/dishes';
 import { useEffect, useRef, useState } from 'react';
 import CardList from '../../components/CardList';
 import {
@@ -15,8 +19,31 @@ import { InfoText } from '../../components/InfoText';
 import { Chef } from '../../types/Chef';
 import { useInfiniteQuery } from 'react-query';
 import { getAllChefs } from '../../service/api/chefs';
+import { useAuth } from '../../contexts/authContext';
 
 type DisplayingOptions = 'default' | 'favorites' | 'near' | 'all';
+
+const insertDistances = (
+  dishes: Dish[],
+  center: { lat: number; lng: number }
+) => {
+  return dishes.map(dish =>
+    dish.chef.address &&
+    dish.chef.address.latitude &&
+    dish.chef.address.longitude
+      ? {
+          ...dish,
+          distance: google.maps.geometry.spherical.computeDistanceBetween(
+            center,
+            {
+              lat: dish.chef.address.latitude,
+              lng: dish.chef.address.longitude
+            }
+          )
+        }
+      : dish
+  );
+};
 
 export const Home = () => {
   const [nearDishes, setNearDishes] = useState<Dish[]>([]);
@@ -24,6 +51,8 @@ export const Home = () => {
   const [favouriteDishes, setFavouriteDishes] = useState<Dish[]>([]);
   const [chefs, setChefs] = useState<Chef[]>([]);
   const [displaying, setDisplaying] = useState<DisplayingOptions>('default');
+
+  const { userLocation } = useAuth();
 
   const favRef = useRef(null);
 
@@ -33,7 +62,28 @@ export const Home = () => {
     hasNextPage: hasNextAllDishesPage
   } = useInfiniteQuery(
     ['allDishes'],
-    ({ pageParam = 1 }) => getAllDishes(pageParam),
+    ({ pageParam = 1 }) => getAllDishes(pageParam, 10),
+    {
+      getNextPageParam: currentPage =>
+        currentPage.meta.next_page &&
+        currentPage.meta.next_page <= currentPage.meta.total_pages
+          ? currentPage.meta.next_page
+          : null
+    }
+  );
+
+  const {
+    data: nearDishesData,
+    fetchNextPage: fetchNextNearDishesPage,
+    hasNextPage: hasNextNearDishesPage
+  } = useInfiniteQuery(
+    ['nearDishes', userLocation],
+    ({ pageParam = 1 }) =>
+      getNearDishes(
+        { latitude: userLocation.lat, longitude: userLocation.lng },
+        pageParam,
+        10
+      ),
     {
       getNextPageParam: currentPage =>
         currentPage.meta.next_page &&
@@ -62,28 +112,32 @@ export const Home = () => {
   useEffect(() => {
     if (allDishesData)
       setAllDishes(
-        allDishesData?.pages.flatMap(page => (page.data ? page.data : []))
+        insertDistances(
+          allDishesData?.pages.flatMap(page => (page.data ? page.data : [])),
+          userLocation
+        )
       );
+    console.log(allDishes);
   }, [allDishesData]);
 
   useEffect(() => {
+    if (nearDishesData)
+      setNearDishes(
+        insertDistances(
+          nearDishesData?.pages.flatMap(page => (page.data ? page.data : [])),
+          userLocation
+        )
+      );
+    console.log(nearDishes);
+  }, [nearDishesData]);
+
+  useEffect(() => {
+    console.log(userLocation);
     if (favoritesData)
       setFavouriteDishes(
         favoritesData?.pages.flatMap(page => (page.data ? page.data : []))
       );
   }, [favoritesData]);
-
-  //     const favouriteDishesData = await getFavouriteDishes();
-  //     setFavouriteDishes(favouriteDishesData.data);
-  //     const nearDishesData = await getNearDishes({
-  //       latitude: -3.73883335224498,
-  //       longitude: -3.85402670488225e15
-  //     });
-  //     setNearDishes(nearDishesData.data);
-
-  //     const allDishesData = await getAllDishes();
-  //     console.log(allDishesData);
-  //     setAllDishes(allDishesData.data);
 
   useEffect(() => {
     const getData = async () => {
@@ -116,8 +170,9 @@ export const Home = () => {
               </TitleContainer>
               {nearDishes.length ? (
                 <CardList
+                  type="near"
                   onScroll={
-                    hasNextAllDishesPage ? fetchNextAllDishesPage : null
+                    hasNextNearDishesPage ? fetchNextNearDishesPage : null
                   }
                   dishes={nearDishes}
                   direction="row"
@@ -145,6 +200,7 @@ export const Home = () => {
                 )}
               </TitleContainer>
               <CardList
+                type="all"
                 onScroll={hasNextAllDishesPage ? fetchNextAllDishesPage : null}
                 dishes={allDishes}
                 direction="row"
@@ -176,6 +232,7 @@ export const Home = () => {
             </TitleContainer>
             {favouriteDishes.length ? (
               <CardList
+                type="favorites"
                 onScroll={hasNextFavoritesPage ? fetchNextFavoritesPage : null}
                 dishes={favouriteDishes}
                 direction={displaying === 'favorites' ? 'row' : 'column'}

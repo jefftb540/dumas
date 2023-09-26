@@ -76,6 +76,7 @@ export const DishTitle = styled.span`
   color: ${({ theme }) => theme.colors.text.main};
   font-size: ${({ theme }) => theme.fonts.header.small};
   font-weight: ${({ theme }) => theme.fonts.weight.semiBold};
+  cursor: pointer;
 `;
 
 export const DishInfoContainer = styled.div`

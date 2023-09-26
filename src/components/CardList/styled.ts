@@ -10,7 +10,7 @@ export const List = styled.div<ListProps>`
   justify-content: space-between;
   flex-wrap: wrap;
   overflow: hidden;
-  /* max-height: 400px;  */
+  max-height: 400px;
   gap: 28px;
 
   ${({ direction, fullWidth }) => `
