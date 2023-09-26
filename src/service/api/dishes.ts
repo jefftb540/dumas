@@ -26,13 +26,19 @@ export const getFavouriteDishes = async (page = 1, perPage = 25) => {
   return response.data;
 };
 
-export const getNearDishes = async (location: Locality) => {
+export const getNearDishes = async (
+  location: Locality,
+  page = 1,
+  perPage = 25
+) => {
   const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
     params: {
       active: true,
       available: true,
       latitude: location.latitude,
-      longitude: location.longitude
+      longitude: location.longitude,
+      page,
+      per_page: perPage
     }
   });
 
