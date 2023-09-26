@@ -15,9 +15,15 @@ import { User } from '../../types/Users';
 import { useAuth } from '../../contexts/authContext';
 import { messageErrors } from '../../consts/messageErrors';
 import * as Yup from 'yup';
+import { getLocation } from '../../consts/getLocation';
+import { useEffect } from 'react';
 
 export const StepOne: React.FC<StepProps> = ({ next, data }) => {
   const { signUp, error } = useAuth();
+
+  useEffect(() => {
+    getLocation();
+  }, []);
 
   const handleSubmit = (values: User) => {
     signUp(values);
@@ -29,15 +35,11 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
 
   const validation = Yup.object().shape({
     name: Yup.string()
-      .required('O nome é obrigatório')
-      .test(
-        'validar-nome-completo',
-        'O nome deve conter pelo menos dois nomes',
-        value => {
-          const names = value.split(' ');
-          return names.length >= 2;
-        }
-      ),
+      .required(messageErrors.name.required)
+      .test(messageErrors.name.test, messageErrors.name.invalid, value => {
+        const names = value.split(' ');
+        return names.length >= 2;
+      }),
     email: Yup.string()
       .email(messageErrors.email.invalid)
       .matches(
@@ -49,8 +51,8 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
       .min(6, messageErrors.password.invalid)
       .required(messageErrors.password.required),
     password_confirmation: Yup.string()
-      .oneOf([Yup.ref('password')], 'As senhas não coincidem')
-      .required('A confirmação de senha é obrigatória')
+      .oneOf([Yup.ref('password')], messageErrors.password_confirm.invalid)
+      .required(messageErrors.password_confirm.required)
   });
 
   return (
