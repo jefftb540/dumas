@@ -38,10 +38,8 @@ export const ForgotPassword = () => {
       const response = await handleForgotPassword(values);
 
       if (response.reset_password_token) {
-        console.log('Aqui', response.reset_password_token);
-        navigate('/login'); // Defina a rota apropriada
-      } else {
-        // Exibir mensagem de erro para o usuário (por exemplo, usando um estado)
+        navigate('/redefinir-senha');
+
         setError('Usuário não encontrado');
       }
     } catch (error) {
