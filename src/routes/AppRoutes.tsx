@@ -4,9 +4,11 @@ import { Home } from '../pages/Home';
 import { PageLayout } from '../pages/PageLayout';
 import { Login } from '../pages/Login';
 import { MainLayout } from '../components/MainLayout';
-import { useAuth } from '../contexts/authContext';
+
 import { SignUp } from '../pages/SignUp';
 import { PasswordRecovery } from '../pages/RecoveryPassword';
+
+import { useAuth } from '../contexts/authContext';
 
 export const AppRoutes = () => {
   const { isAuthenticated, loading } = useAuth();

@@ -12,4 +12,7 @@ export interface Address {
   city_id: string;
   addressable_type: string;
   addressable_id: string;
+  state?: string;
+  street?: string;
+  city?: string;
 }
