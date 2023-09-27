@@ -17,7 +17,8 @@ import { User } from '../../types/Users';
 import { useAuth } from '../../contexts/authContext';
 import { api } from '../../service/api';
 import { useEffect, useState } from 'react';
-// import { useEffect } from 'react';
+import { getAndUseLocation } from '../../consts/getLocation';
+import { Address } from '../../types/Address';
 // import { getLocation } from '../../consts/getLocation';
 
 interface Cep {
@@ -27,9 +28,9 @@ interface Cep {
   neighborhood: string;
   street: string;
   service: string;
-  locatinn: {
+  location: {
     type: string;
-    coordinntes: {
+    coordinates: {
       latitude: number;
       longitude: number;
     };
@@ -37,16 +38,17 @@ interface Cep {
   city_id: string;
 }
 
-export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
+export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
   const { error } = useAuth();
   const navigate = useNavigate();
   const [cities, setCities] = useState<Cep[]>([]);
   const [state, setState] = useState<string | undefined>();
   const [states, setStates] = useState<string[]>([]);
+  const [isLocationSet, setIsLocationSet] = useState(false);
 
   useEffect(() => {
     const getStates = async () => {
-      const response = await api.get('/states');
+      const response = await api.get(apiRoutes.state.states);
       setStates(response.data.data);
     };
     getStates();
@@ -63,12 +65,31 @@ export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
     getCities();
   }, [state]);
 
-  // useEffect(() => {
-  //   getLocation();
-  // }, []);
+  useEffect(() => {
+    const getLocation = async () => {
+      const location = await getAndUseLocation();
+      if (location) {
+        setIsLocationSet(true);
+        setData &&
+          setData(prev => ({
+            ...prev,
+            addresses_attributes: [
+              {
+                latitude: location.latitude,
+                longitude: location.longitude
+              } as Address
+            ]
+          }));
+        console.log(location);
+      }
+    };
+    getLocation();
+    console.log(data);
+  }, []);
 
   const handleCepChange = async (
     cep: string,
+    values: User,
     setFieldValue: (
       field: string,
       value: any,
@@ -85,7 +106,16 @@ export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
       const response = await api.get<Cep>(`/addresses/search_zip_code/${cep}`);
 
       const { data } = response;
-
+      if (!isLocationSet) {
+        setFieldValue(
+          'addresses_attributes[0].latitude',
+          data.location.coordinates.latitude
+        );
+        setFieldValue(
+          'addresses_attributes[0].longitude',
+          data.location.coordinates.longitude
+        );
+      }
       setFieldValue('addresses_attributes[0].neighborhood', data.neighborhood);
       setFieldValue('addresses_attributes[0].public_place', data.street);
       setCities(prev => [...prev, { id: data.city_id, name: data.city }]);
@@ -109,8 +139,13 @@ export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
   };
 
   return (
-    <Formik initialValues={data} onSubmit={handleSubmit} validateOnMount={true}>
-      {({ isSubmitting, isValid, setFieldValue }) => (
+    <Formik
+      initialValues={data}
+      onSubmit={handleSubmit}
+      validateOnMount={true}
+      enableReinitialize
+    >
+      {({ values, isSubmitting, isValid, setFieldValue }) => (
         <FormContainer>
           <Title>Cadastro</Title>
           <SubTitle>Endereço</SubTitle>
@@ -120,7 +155,9 @@ export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
               Icon={FiHome}
               placeholder="CEP"
               name="addresses_attributes[0].zip_code"
-              onBlur={e => handleCepChange(e.target.value, setFieldValue)}
+              onBlur={e =>
+                handleCepChange(e.target.value, values, setFieldValue)
+              }
             />
 
             <Input

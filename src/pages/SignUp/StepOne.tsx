@@ -61,7 +61,7 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
       initialValues={data}
       onSubmit={handleSubmit}
       validateOnMount={true}
-      validationSchema={validation}
+      // validationSchema={validation}
     >
       {({ values, isSubmitting, isValid, touched, errors }) => (
         <FormContainer>

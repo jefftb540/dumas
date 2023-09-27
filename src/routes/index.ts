@@ -23,6 +23,7 @@ export const apiRoutes = {
   },
   chefs: '/chefs',
   state: {
+    states: '/states',
     cities: (state: string) => `/states/${state}/cities`
   }
 };
