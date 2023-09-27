@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { media } from '../../consts/mediaquery';
+import { TabletBreakpoint } from '../../consts/breakpoint';
 
 export const NavContainer = styled.div`
   display: flex;
@@ -8,6 +10,11 @@ export const NavContainer = styled.div`
   border-bottom: 4px solid ${({ theme }) => theme.colors.border.main};
   background-color: ${({ theme }) => theme.colors.background.main};
   padding: 0 32px;
+
+  ${media.tablet`
+  padding: 0 12px;
+    
+  `}
 `;
 
 export const NavLeft = styled.div`
@@ -31,6 +38,9 @@ export const NavRight = styled.div`
 export const AddressContainer = styled.div`
   display: flex;
   flex-direction: column;
+  ${media.tablet`
+    display: none;
+  `}
 `;
 
 export const NavIcon = styled.img`
@@ -69,6 +79,13 @@ export const SearchContainer = styled.div<SearchContainerProps>`
   padding-right: 8px;
   cursor: pointer;
   transition: 500ms;
+
+  @media (max-width: ${TabletBreakpoint}) {
+    width: ${({ open }) => (open ? '240px' : '30px')};
+    height: 30px;
+    border-radius: 15px;
+    padding-right: 2px;
+  }
   input {
     color: ${({ theme }) => theme.colors.black};
   }
@@ -80,6 +97,12 @@ export const SearchContainer = styled.div<SearchContainerProps>`
     width: 38px;
     height: 38px;
     border: 1px solid ${({ theme }) => theme.colors.border.main};
+
+    ${media.tablet`
+    width: 24px;
+    height: 24px;
+    padding: 2px;
+    `}
   }
 `;
 
@@ -88,13 +111,17 @@ export const UserMenuToggle = styled.span`
   display: flex;
   gap: 2px;
   align-items: center;
-  font-size: ${({ theme }) => theme.fonts.header.small};
+  font-size: ${({ theme }) => theme.fonts.text.medium};
   font-weight: ${({ theme }) => theme.fonts.weight.semiBold};
   cursor: pointer;
   padding-right: 12px;
   border-right: 1px solid ${({ theme }) => theme.colors.border.main};
   height: 80%;
   position: relative;
+
+  ${media.tablet`
+    display: none;
+  `}
 `;
 
 export const IconContainer = styled.div`
@@ -105,8 +132,8 @@ export const IconContainer = styled.div`
 
   svg {
     color: ${({ theme }) => theme.colors.text.primaryAccent};
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
   }
 `;
 
@@ -120,9 +147,17 @@ export const TotalCartItensNumber = styled.span`
   align-items: center;
   justify-content: center;
   font-size: ${({ theme }) => theme.fonts.text.extraSmall};
-  position: relative;
-  top: -14px;
-  right: -33px;
+  position: absolute;
+  top: 12px;
+  right: 36px;
+
+  ${media.tablet`
+  /* display: none; */
+    width: 16px;
+    height: 16px;
+    right: 16px; 
+    top: 12px; 
+  `}
 `;
 
 export const SearchInput = styled.input`
@@ -133,4 +168,13 @@ export const SearchInput = styled.input`
   font-size: ${({ theme }) => theme.fonts.text.small};
   font-family: ${({ theme }) => theme.fonts.family.primary};
   font-weight: ${({ theme }) => theme.fonts.weight.regular};
+`;
+
+export const MobileIconToggle = styled.div`
+  svg {
+    color: ${({ theme }) => theme.colors.text.primaryAccent};
+    width: 32px;
+    height: 32px;
+    margin-top: 5px;
+  }
 `;

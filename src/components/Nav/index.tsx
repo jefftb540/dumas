@@ -11,7 +11,8 @@ import {
   NavLeft,
   NavRight,
   TotalCartItensNumber,
-  SearchInput
+  SearchInput,
+  MobileIconToggle
 } from './styled';
 
 import { BsSearch } from 'react-icons/bs';
@@ -20,6 +21,7 @@ import {
   MdOutlineKeyboardArrowUp
 } from 'react-icons/md';
 import { FaShoppingCart } from 'react-icons/fa';
+import { GiHamburgerMenu } from 'react-icons/gi';
 import { useCart } from '../../contexts/cartContex';
 import useDebounce from '../../hooks/useDebounce';
 // import { Chef } from '../../types/Chef';
@@ -32,6 +34,8 @@ import { UserMenu } from '../UserMenu';
 import { routes } from '../../routes';
 import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/themeContext';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { TabletBreakpoint } from '../../consts/breakpoint';
 
 export const Navbar = () => {
   const [openSearch, setOpenSearch] = useState(false);
@@ -51,12 +55,14 @@ export const Navbar = () => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
   };
+
+  const toggleMenu = () => setShowMenu(prev => !prev);
+
   useEffect(() => {
     debounce(() => setSearchText(inputText));
   }, [inputText]);
 
   const closeSearchResults = () => {
-    console.log('closeSearchResults');
     setSearchResultDishes([]);
     setSearchText('');
   };
@@ -79,12 +85,18 @@ export const Navbar = () => {
       setSearchResultDishes(data?.pages.flatMap(p => p.data));
     }
   }, [data]);
-  console.log(user);
+
+  const isTablet = useMediaQuery(`(max-width: ${TabletBreakpoint})`);
+
   return (
     <>
       <NavContainer>
         <NavLeft>
-          {theme === 'light' ? (
+          {isTablet ? (
+            <MobileIconToggle>
+              <GiHamburgerMenu onClick={toggleMenu} />
+            </MobileIconToggle>
+          ) : theme === 'light' ? (
             <NavIcon
               onClick={() => navigate(routes.home)}
               src="/images/logo.svg"
@@ -137,15 +149,15 @@ export const Navbar = () => {
             )}
           </SearchContainer>
 
-          <UserMenuToggle onClick={() => setShowMenu(prev => !prev)}>
+          <UserMenuToggle onClick={toggleMenu}>
             {user?.name}
             {showMenu ? (
               <MdOutlineKeyboardArrowUp />
             ) : (
               <MdOutlineKeyboardArrowDown />
             )}
-            {showMenu && <UserMenu />}
           </UserMenuToggle>
+          {showMenu && <UserMenu />}
           <IconContainer onClick={() => navigate(routes.cart)}>
             {cartItensNumber ? (
               <TotalCartItensNumber>{cartItensNumber}</TotalCartItensNumber>
