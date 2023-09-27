@@ -26,12 +26,16 @@ interface FormResetProps {
   passwordConfirm: string;
 }
 
-export const StepTwo = () => {
+export const StepTwo = ({
+  resetPasswordToken
+}: {
+  resetPasswordToken: string;
+}) => {
   const [loading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const initialValues = {
-    token: '',
+    token: resetPasswordToken,
     password: '',
     passwordConfirm: ''
   };
@@ -127,7 +131,6 @@ export const StepTwo = () => {
               type="password"
               name="passwordConfirm"
             />
-
             {touched.passwordConfirm && errors.passwordConfirm && (
               <MessageErrorsContainer>
                 {errors.passwordConfirm}
