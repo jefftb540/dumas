@@ -63,7 +63,7 @@ export const searchDishes = async (query: string, page = 1, perPage = 4) => {
       per_page: perPage,
       active: true,
       available: true,
-      name: query
+      term: query
     }
   });
 
