@@ -40,22 +40,21 @@ interface Cep {
 export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
   const { error } = useAuth();
   const navigate = useNavigate();
-  const [cities, setCities] = useState([]);
-  const [state, setState] = useState();
-  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState<Cep[]>([]);
+  const [state, setState] = useState<string | undefined>();
+  const [states, setStates] = useState<string[]>([]);
 
   useEffect(() => {
     const getStates = async () => {
       const response = await api.get('/states');
       setStates(response.data.data);
-      console.log(response);
     };
     getStates();
   }, []);
 
   useEffect(() => {
     const getCities = async () => {
-      const data = await api.get(apiRoutes.state.cities(state), {
+      const data = await api.get(apiRoutes.state.cities(state as string), {
         params: { per_page: 226 }
       });
       setCities(data.data.data);
@@ -87,23 +86,11 @@ export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
 
       const { data } = response;
 
-      setFieldValue(
-        'addresses_attributes[0].neighborhood',
-        response.data.neighborhood
-      );
-      setFieldValue(
-        'addresses_attributes[0].public_place',
-        response.data.street
-      );
-      setCities(prev => [
-        ...prev,
-        { id: response.data.city_id, name: response.data.city }
-      ]);
-      setStates(prev => [
-        ...prev,
-        { id: 'stateFromCep', name: response.data.state }
-      ]);
-      setFieldValue('addresses_attributes[0].city_id', response.data.city_id);
+      setFieldValue('addresses_attributes[0].neighborhood', data.neighborhood);
+      setFieldValue('addresses_attributes[0].public_place', data.street);
+      setCities(prev => [...prev, { id: data.city_id, name: data.city }]);
+      setStates(prev => [...prev, { id: 'stateFromCep', name: data.state }]);
+      setFieldValue('addresses_attributes[0].city_id', data.city_id);
       setFieldValue('addresses_attributes[0].state', 'stateFromCep');
 
       console.log(data);
