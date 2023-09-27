@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { media } from '../../consts/mediaquery';
 
 export const ResultsContainer = styled.div`
   position: absolute;
@@ -9,6 +10,12 @@ export const ResultsContainer = styled.div`
   display: flex;
   flex-direction: column;
   z-index: 10;
+
+  ${media.tablet`
+    width: 98%;
+    max-height: 460px;
+    left:0;
+  `}
 `;
 
 export const Result = styled.div`
@@ -22,6 +29,9 @@ export const InfoContainer = styled.div`
   flex-direction: column;
   gap: 2px;
   padding: 12px;
+  ${media.tablet`
+    height: 120px;
+  `};
 `;
 export const DishName = styled.span`
   color: ${({ theme }) => theme.colors.text.secondaryAccent};

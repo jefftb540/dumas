@@ -7,7 +7,7 @@ import { useTheme } from '../../contexts/themeContext';
 import { useAuth } from '../../contexts/authContext';
 import { FaMoon, FaSignOutAlt, FaSun, FaUserAlt } from 'react-icons/fa';
 
-export const UserMenu: React.FC = () => {
+export const UserMenu = () => {
   const { toggle, theme } = useTheme();
   const navigate = useNavigate();
   const { signOut } = useAuth();

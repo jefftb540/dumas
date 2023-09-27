@@ -1,5 +1,13 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+import { media } from '../../consts/mediaquery';
 
+const slideDown = keyframes`
+0% {
+  max-height: 0px;
+}
+100% {
+  max-height: 800px;
+}`;
 export const MenuContainer = styled.div`
   position: absolute;
   width: 300px;
@@ -8,9 +16,25 @@ export const MenuContainer = styled.div`
   right: 0;
   color: ${({ theme }) => theme.colors.white};
   box-shadow: 2px inset;
-  &:last-child {
-    border-radius: 0 0 12px 12px;
+  background-color: ${({ theme }) => theme.colors.background.dark};
+
+  animation: ${slideDown} 800ms;
+
+  ${media.tablet`
+  @keyframes slideRight {
+    from {
+      width: 0;
+    }
+    to {
+      width: 80%;
+    }
   }
+    height: 100%;
+    width: 80%;
+    top: 48px;
+    left: 0;
+    animation: slideRight 500ms
+  `};
 `;
 
 export const MenuItem = styled.div`
@@ -22,10 +46,9 @@ export const MenuItem = styled.div`
   font-weight: ${({ theme }) => theme.fonts.weight.regular};
   font-size: ${({ theme }) => theme.fonts.text.medium};
   z-index: 3;
-  border-top: 2px solid ${({ theme }) => theme.colors.white};
+  border-bottom: 2px solid ${({ theme }) => theme.colors.white};
 
   svg {
-    /* position: absolute; */
     margin-top: 4px;
   }
 `;

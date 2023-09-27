@@ -15,7 +15,7 @@ const lightMapId = import.meta.env.VITE_LIGHT_MAP_ID;
 
 const containerStyle = {
   width: '100%',
-  height: '300px'
+  height: '260px'
 };
 
 export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
