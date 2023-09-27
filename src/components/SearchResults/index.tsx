@@ -40,7 +40,7 @@ export const SearchResults = ({
     return () => {
       document.removeEventListener('click', handleClickOutside, true);
     };
-  }, [closeResults]);
+  }, []);
 
   return (
     <>

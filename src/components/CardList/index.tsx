@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { Dish } from '../../types/Dish';
-import { Card } from '../Card/Index';
+import { Card } from '../Card';
 import { List } from './styled';
 import { handleScroll } from '../../utils/handleScroll';
 
@@ -9,15 +9,17 @@ interface CardListProps {
   direction: 'row' | 'column';
   $fullWidth: boolean;
   onScroll: (() => unknown) | ((...arg: unknown[]) => unknown) | null;
+  type: 'favorites' | 'all' | 'near';
 }
 const CardList = ({
   dishes,
   direction,
   $fullWidth,
-
+  type,
   onScroll
 }: CardListProps) => {
   const ref = useRef(null);
+  console.log(dishes);
   return (
     <List
       ref={ref}
@@ -26,8 +28,8 @@ const CardList = ({
       fullWidth={$fullWidth}
     >
       {dishes.length > 0 &&
-        dishes.map((dish, _, arr) => (
-          <Card key={`dishes_${arr.length}_${dish.id}`} dish={dish}></Card>
+        dishes.map(dish => (
+          <Card key={`dishes_${type}_${dish.id}`} dish={dish}></Card>
         ))}
     </List>
   );

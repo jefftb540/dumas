@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { media } from '../../consts/mediaquery';
 
 interface ListProps {
   direction: 'row' | 'column';
@@ -10,7 +11,7 @@ export const List = styled.div<ListProps>`
   justify-content: space-between;
   flex-wrap: wrap;
   overflow: hidden;
-  /* max-height: 400px;  */
+  max-height: 400px;
   gap: 28px;
 
   ${({ direction, fullWidth }) => `
@@ -25,4 +26,10 @@ export const List = styled.div<ListProps>`
         : `max-width: 300px; max-height: 430px`
     }
   `};
+
+  ${media.tablet`
+    max-width:300px;
+    align-items: center;
+    justify-content: center;
+  `}
 `;

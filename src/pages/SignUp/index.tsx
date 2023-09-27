@@ -19,7 +19,8 @@ export const SignUp = () => {
 
   const makeRequest = async (values: User) => {
     try {
-      await handleSignup(values);
+      const response = await handleSignup(values);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -37,7 +38,7 @@ export const SignUp = () => {
 
   const steps = [
     <StepOne next={handleNextStep} data={data} />,
-    <StepTwo next={handleNextStep} data={data} />
+    <StepTwo next={handleNextStep} data={data} setData={setData} />
   ];
 
   return <div>{steps[currentStep]}</div>;
@@ -47,4 +48,5 @@ export interface StepProps {
   next: (values: User, final?: boolean) => void;
   prev?: (values: User) => void;
   data: User;
+  setData?: React.Dispatch<React.SetStateAction<User>>;
 }

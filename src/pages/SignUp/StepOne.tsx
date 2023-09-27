@@ -15,18 +15,19 @@ import { User } from '../../types/Users';
 import { useAuth } from '../../contexts/authContext';
 import { messageErrors } from '../../consts/messageErrors';
 import * as Yup from 'yup';
-import { getLocation } from '../../consts/getLocation';
-import { useEffect } from 'react';
+// import { getLocation } from '../../consts/getLocation';
+// import { useEffect } from 'react';
 
 export const StepOne: React.FC<StepProps> = ({ next, data }) => {
   const { signUp, error } = useAuth();
 
-  useEffect(() => {
-    getLocation();
-  }, []);
+  // useEffect(() => {
+  //   getLocation();
+  // }, []);
 
   const handleSubmit = (values: User) => {
     signUp(values);
+    console.log(values);
   };
 
   const handleContinueToAddress = async (values: User) => {
@@ -60,7 +61,7 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
       initialValues={data}
       onSubmit={handleSubmit}
       validateOnMount={true}
-      validationSchema={validation}
+      // validationSchema={validation}
     >
       {({ values, isSubmitting, isValid, touched, errors }) => (
         <FormContainer>
@@ -117,6 +118,7 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
                 size="large"
                 disabled={isSubmitting || !isValid}
                 onClick={() => handleContinueToAddress(values)}
+                type="submit"
               >
                 Continuar para endereço
               </Button>

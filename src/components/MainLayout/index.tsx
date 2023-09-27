@@ -9,7 +9,7 @@ import {
 } from './styled';
 import { FaSun, FaMoon } from 'react-icons/fa';
 import { IconButton } from '../IconButton';
-import { ThemeProviderContext, useTheme } from '../../contexts/themeContext';
+import { useTheme } from '../../contexts/themeContext';
 import { dark, light } from '../../themes';
 
 export const MainLayout = () => {
@@ -21,28 +21,26 @@ export const MainLayout = () => {
     theme === 'dark' ? dark.centeredImageSrc : light.centeredImageSrc;
 
   return (
-    <ThemeProviderContext>
-      <Wrapper>
-        <IconButton
-          icon={
-            theme === 'dark' ? (
-              <FaSun color={colors.text.main} />
-            ) : (
-              <FaMoon color={colors.primary.main} />
-            )
-          }
-          onClick={toggle}
-        />
-        <MainLayoutContainer>
-          <HalfScreen>
-            <Logo src={logoSrc} alt="Logo Dumas" />
-            <CenteredImage src={centeredImageSrc} alt="Imagem de decoração" />
-          </HalfScreen>
-          <RightContent>
-            <Outlet />
-          </RightContent>
-        </MainLayoutContainer>
-      </Wrapper>
-    </ThemeProviderContext>
+    <Wrapper>
+      <IconButton
+        icon={
+          theme === 'dark' ? (
+            <FaSun color={colors.text.main} />
+          ) : (
+            <FaMoon color={colors.primary.main} />
+          )
+        }
+        onClick={toggle}
+      />
+      <MainLayoutContainer>
+        <HalfScreen>
+          <Logo src={logoSrc} alt="Logo Dumas" />
+          <CenteredImage src={centeredImageSrc} alt="Imagem de decoração" />
+        </HalfScreen>
+        <RightContent>
+          <Outlet />
+        </RightContent>
+      </MainLayoutContainer>
+    </Wrapper>
   );
 };

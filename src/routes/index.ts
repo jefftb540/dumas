@@ -4,9 +4,12 @@ export const routes = {
     profile: '/cadastrar',
     address: '/cadastrar/endereco'
   },
+
+  profile: '/perfil',
   recoverPassword: '/recuperarsenha',
   dish: (id = ':id') => `dish/${id}`,
-  home: '/'
+  home: '/',
+  cart: 'carrinho'
 
   // TODO: Adicionar rotas da area logada
 };
@@ -21,5 +24,9 @@ export const apiRoutes = {
   chef: {
     dishes: (id: string) => `chefs/${id}/dishes`
   },
-  chefs: '/chefs'
+  chefs: '/chefs',
+  state: {
+    states: '/states',
+    cities: (state: string) => `/states/${state}/cities`
+  }
 };

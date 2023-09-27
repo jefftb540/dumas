@@ -3,6 +3,7 @@ import { DefaultTheme } from 'styled-components';
 export const light: DefaultTheme = {
   colors: {
     background: {
+      dark: '#FF5600',
       main: '#FFEDE4',
       light: '#FDFDFD'
     },
@@ -57,9 +58,8 @@ export const light: DefaultTheme = {
       bold: 700
     }
   },
-  logoSrc: 'public/ImagesMainLayout/light/logo.png',
-  centeredImageSrc:
-    'public/ImagesMainLayout/light/eating a variety of foods-bro.svg',
+  logoSrc: 'ImagesMainLayout/light/logo.png',
+  centeredImageSrc: 'ImagesMainLayout/light/eating a variety of foods-bro.svg',
   iconColor: '#000'
 };
 
@@ -68,6 +68,7 @@ export const dark: DefaultTheme = {
   colors: {
     ...light.colors,
     background: {
+      dark: '#8C0B0B',
       main: '#8C0B0B',
       light: '#262626'
     },
@@ -89,9 +90,7 @@ export const dark: DefaultTheme = {
       main: '#FFF'
     }
   },
-  logoSrc: 'public/ImagesMainLayout/dark/logo.png',
-  centeredImageSrc:
-    'public/ImagesMainLayout/dark/eating a variety of foods-bro.svg',
-
+  logoSrc: 'ImagesMainLayout/dark/logo.png',
+  centeredImageSrc: 'ImagesMainLayout/dark/eating a variety of foods-bro.svg',
   iconColor: '#fff'
 };

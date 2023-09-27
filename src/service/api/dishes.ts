@@ -26,13 +26,19 @@ export const getFavouriteDishes = async (page = 1, perPage = 25) => {
   return response.data;
 };
 
-export const getNearDishes = async (location: Locality) => {
+export const getNearDishes = async (
+  location: Locality,
+  page = 1,
+  perPage = 25
+) => {
   const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
     params: {
       active: true,
       available: true,
       latitude: location.latitude,
-      longitude: location.longitude
+      longitude: location.longitude,
+      page,
+      per_page: perPage
     }
   });
 
@@ -50,14 +56,14 @@ export const getDishesPerChef = async (chefId: string) => {
   return response.data;
 };
 
-export const searchDishes = async (query: string, page = 1, perPage = 3) => {
+export const searchDishes = async (query: string, page = 1, perPage = 4) => {
   const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
     params: {
       page,
       per_page: perPage,
       active: true,
       available: true,
-      name: query
+      term: query
     }
   });
 
@@ -67,6 +73,7 @@ export const searchDishes = async (query: string, page = 1, perPage = 3) => {
 export const likeDish = (dishId: string) => {
   api.put(apiRoutes.dish.like(dishId));
 };
+
 export const dislikeDish = (dishId: string) => {
   api.put(apiRoutes.dish.dislike(dishId));
 };
