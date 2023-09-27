@@ -127,7 +127,6 @@ export const Home = () => {
           userLocation
         )
       );
-    console.log(allDishes);
   }, [allDishesData]);
 
   useEffect(() => {
@@ -138,11 +137,9 @@ export const Home = () => {
           userLocation
         )
       );
-    console.log(nearDishes);
   }, [nearDishesData]);
 
   useEffect(() => {
-    console.log(userLocation);
     if (favoritesData)
       setFavouriteDishes(
         favoritesData?.pages.flatMap(page => (page.data ? page.data : []))
