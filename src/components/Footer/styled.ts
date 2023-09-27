@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { media } from '../../consts/mediaquery';
 
 export const FooterContainer = styled.footer`
   height: 50px;
@@ -9,6 +10,10 @@ export const FooterContainer = styled.footer`
   align-items: center;
   justify-content: space-between;
   padding: 0 32px;
+
+  ${media.tablet`
+    display: none;
+  `}
 `;
 
 export const FooterText = styled.span`
