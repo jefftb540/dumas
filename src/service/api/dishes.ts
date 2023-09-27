@@ -56,7 +56,7 @@ export const getDishesPerChef = async (chefId: string) => {
   return response.data;
 };
 
-export const searchDishes = async (query: string, page = 1, perPage = 3) => {
+export const searchDishes = async (query: string, page = 1, perPage = 4) => {
   const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
     params: {
       page,
