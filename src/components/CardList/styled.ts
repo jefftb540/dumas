@@ -31,6 +31,5 @@ export const List = styled.div<ListProps>`
     max-width:300px;
     align-items: center;
     justify-content: center;
-    /* max-height: 200px; */
   `}
 `;
