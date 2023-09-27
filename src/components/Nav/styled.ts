@@ -152,7 +152,6 @@ export const TotalCartItensNumber = styled.span`
   right: 36px;
 
   ${media.tablet`
-  /* display: none; */
     width: 16px;
     height: 16px;
     right: 16px; 
