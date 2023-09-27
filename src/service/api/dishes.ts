@@ -73,6 +73,7 @@ export const searchDishes = async (query: string, page = 1, perPage = 4) => {
 export const likeDish = (dishId: string) => {
   api.put(apiRoutes.dish.like(dishId));
 };
+
 export const dislikeDish = (dishId: string) => {
   api.put(apiRoutes.dish.dislike(dishId));
 };
