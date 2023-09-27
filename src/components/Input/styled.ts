@@ -16,7 +16,8 @@ export const Container = styled.div<InputContainerProps>`
   gap: 8px;
   width: 380px;
 
-  input {
+  input,
+  select {
     border: none;
     flex: 1;
     color: ${({ theme }) => theme.colors.text.main};
@@ -27,6 +28,7 @@ export const Container = styled.div<InputContainerProps>`
 
     &:placeholder-shown {
       opacity: 0.3;
+      background-color: transparent;
     }
   }
 

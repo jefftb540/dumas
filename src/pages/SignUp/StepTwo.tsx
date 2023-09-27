@@ -12,12 +12,13 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { WrapperButton } from './styled';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '../../routes';
+import { apiRoutes, routes } from '../../routes';
 import { User } from '../../types/Users';
 import { useAuth } from '../../contexts/authContext';
 import { api } from '../../service/api';
-import { useEffect } from 'react';
-import { getLocation } from '../../consts/getLocation';
+import { useEffect, useState } from 'react';
+// import { useEffect } from 'react';
+// import { getLocation } from '../../consts/getLocation';
 
 interface Cep {
   cep: string;
@@ -39,10 +40,33 @@ interface Cep {
 export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
   const { error } = useAuth();
   const navigate = useNavigate();
+  const [cities, setCities] = useState([]);
+  const [state, setState] = useState();
+  const [states, setStates] = useState([]);
 
   useEffect(() => {
-    getLocation();
+    const getStates = async () => {
+      const response = await api.get('/states');
+      setStates(response.data.data);
+      console.log(response);
+    };
+    getStates();
   }, []);
+
+  useEffect(() => {
+    const getCities = async () => {
+      const data = await api.get(apiRoutes.state.cities(state), {
+        params: { per_page: 226 }
+      });
+      setCities(data.data.data);
+      console.log(data);
+    };
+    getCities();
+  }, [state]);
+
+  // useEffect(() => {
+  //   getLocation();
+  // }, []);
 
   const handleCepChange = async (
     cep: string,
@@ -63,11 +87,24 @@ export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
 
       const { data } = response;
 
-      setFieldValue('zip_code', response.data.cep);
-      setFieldValue('state', response.data.state);
-      setFieldValue('neighborhood', response.data.neighborhood);
-      setFieldValue('public_place', response.data.street);
-      setFieldValue('city', response.data.city);
+      setFieldValue(
+        'addresses_attributes[0].neighborhood',
+        response.data.neighborhood
+      );
+      setFieldValue(
+        'addresses_attributes[0].public_place',
+        response.data.street
+      );
+      setCities(prev => [
+        ...prev,
+        { id: response.data.city_id, name: response.data.city }
+      ]);
+      setStates(prev => [
+        ...prev,
+        { id: 'stateFromCep', name: response.data.state }
+      ]);
+      setFieldValue('addresses_attributes[0].city_id', response.data.city_id);
+      setFieldValue('addresses_attributes[0].state', 'stateFromCep');
 
       console.log(data);
     } catch (error) {
@@ -78,6 +115,7 @@ export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
     values: User,
     { setSubmitting }: FormikHelpers<User>
   ) => {
+    console.log(values);
     next(values, true);
     setSubmitting(false);
     navigate(routes.home);
@@ -94,20 +132,62 @@ export const StepTwo: React.FC<StepProps> = ({ next, data }) => {
             <Input
               Icon={FiHome}
               placeholder="CEP"
-              name="cep"
+              name="addresses_attributes[0].zip_code"
               onBlur={e => handleCepChange(e.target.value, setFieldValue)}
             />
 
-            <Input Icon={FiHome} placeholder="Rua" name="public_place" />
+            <Input
+              Icon={FiHome}
+              placeholder="Rua"
+              name="addresses_attributes[0].public_place"
+            />
 
-            <Input Icon={FiHome} placeholder="Bairro" name="neighborhood" />
+            <Input
+              Icon={FiHome}
+              placeholder="Bairro"
+              name="addresses_attributes[0].neighborhood"
+            />
 
-            <Input Icon={FiHome} placeholder="Número" name="number" />
-            <Input Icon={FiHome} placeholder="Cidade" name="city" />
-            <Input Icon={FiHome} placeholder="Estado" name="state" />
+            <Input
+              Icon={FiHome}
+              placeholder="Número"
+              name="addresses_attributes[0].number"
+            />
+            <Input
+              Icon={FiHome}
+              placeholder="Cidade"
+              name="addresses_attributes[0].city_id"
+              as="select"
+              s
+            >
+              {cities.length &&
+                cities.map(city => (
+                  <option value={city.id}>{city.name}</option>
+                ))}
+            </Input>
+            <Input
+              onChange={e => setState(e.target.value)}
+              Icon={FiHome}
+              placeholder="Estado"
+              name="addresses_attributes[0].state"
+              as="select"
+            >
+              {states.length &&
+                states.map(state => (
+                  <option value={state.id}>{state.name}</option>
+                ))}
+            </Input>
 
-            <Input Icon={FiHome} placeholder="Referência" name="reference" />
-            <Input Icon={FiHome} placeholder="Complemento" name="complement" />
+            <Input
+              Icon={FiHome}
+              placeholder="Referência"
+              name="addresses_attributes[0].reference"
+            />
+            <Input
+              Icon={FiHome}
+              placeholder="Complemento"
+              name="addresses_attributes[0].complement"
+            />
 
             {error && <MessageErrorsContainer>{error}</MessageErrorsContainer>}
 

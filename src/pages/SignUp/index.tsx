@@ -19,7 +19,8 @@ export const SignUp = () => {
 
   const makeRequest = async (values: User) => {
     try {
-      await handleSignup(values);
+      const response = await handleSignup(values);
+      console.log(response);
     } catch (error) {
       console.log(error);
     }

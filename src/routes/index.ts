@@ -21,5 +21,8 @@ export const apiRoutes = {
   chef: {
     dishes: (id: string) => `chefs/${id}/dishes`
   },
-  chefs: '/chefs'
+  chefs: '/chefs',
+  state: {
+    cities: (state: string) => `/states/${state}/cities`
+  }
 };
