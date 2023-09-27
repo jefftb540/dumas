@@ -8,6 +8,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import CardList from '../../components/CardList';
 import {
+  DishesContainer,
   FavoritesContainer,
   LeftContainer,
   MainContainer,
@@ -20,8 +21,11 @@ import { Chef } from '../../types/Chef';
 import { useInfiniteQuery } from 'react-query';
 import { getAllChefs } from '../../service/api/chefs';
 import { useAuth } from '../../contexts/authContext';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { TabletBreakpoint } from '../../consts/breakpoint';
+import { MobileFooter } from '../../components/MobileFooter';
 
-type DisplayingOptions = 'default' | 'favorites' | 'near' | 'all';
+export type DisplayingOptions = 'default' | 'favorites' | 'near' | 'all';
 
 const insertDistances = (
   dishes: Dish[],
@@ -51,6 +55,8 @@ export const Home = () => {
   const [favouriteDishes, setFavouriteDishes] = useState<Dish[]>([]);
   const [chefs, setChefs] = useState<Chef[]>([]);
   const [displaying, setDisplaying] = useState<DisplayingOptions>('default');
+
+  const isTablet = useMediaQuery(`(max-width: ${TabletBreakpoint})`);
 
   const { userLocation } = useAuth();
 
@@ -110,6 +116,10 @@ export const Home = () => {
   );
 
   useEffect(() => {
+    if (isTablet) setDisplaying('near');
+  }, [isTablet]);
+
+  useEffect(() => {
     if (allDishesData)
       setAllDishes(
         insertDistances(
@@ -150,100 +160,110 @@ export const Home = () => {
   return (
     <>
       <NearDishesMap chefs={chefs} />
-      <MainContainer>
-        <LeftContainer>
-          {(displaying === 'default' || displaying === 'near') && (
-            <>
-              <TitleContainer>
-                <Title color="accent">Pratos próximos</Title>
-                {displaying === 'near' ? (
-                  <SeeMoreToggle onClick={() => setDisplaying('default')}>
-                    {' '}
-                    Voltar
-                  </SeeMoreToggle>
+      <DishesContainer>
+        <MainContainer>
+          <LeftContainer>
+            {(displaying === 'default' || displaying === 'near') && (
+              <>
+                <TitleContainer>
+                  <Title color="accent">Pratos próximos</Title>
+                  {!isTablet &&
+                    (displaying === 'near' && !isTablet ? (
+                      <SeeMoreToggle onClick={() => setDisplaying('default')}>
+                        {' '}
+                        Voltar
+                      </SeeMoreToggle>
+                    ) : (
+                      <SeeMoreToggle onClick={() => setDisplaying('near')}>
+                        {' '}
+                        Ver mais
+                      </SeeMoreToggle>
+                    ))}
+                </TitleContainer>
+                {nearDishes.length ? (
+                  <CardList
+                    type="near"
+                    onScroll={
+                      hasNextNearDishesPage ? fetchNextNearDishesPage : null
+                    }
+                    dishes={nearDishes}
+                    direction="row"
+                    $fullWidth={displaying === 'near'}
+                  />
                 ) : (
-                  <SeeMoreToggle onClick={() => setDisplaying('near')}>
-                    {' '}
-                    Ver mais
-                  </SeeMoreToggle>
+                  <InfoText> Não existem pratos próximos</InfoText>
                 )}
-              </TitleContainer>
-              {nearDishes.length ? (
+              </>
+            )}
+            {(displaying === 'default' || displaying === 'all') && (
+              <>
+                <TitleContainer>
+                  <Title color="accent">Pratos</Title>
+                  {!isTablet &&
+                    (displaying === 'all' ? (
+                      <SeeMoreToggle onClick={() => setDisplaying('default')}>
+                        {' '}
+                        Voltar
+                      </SeeMoreToggle>
+                    ) : (
+                      <SeeMoreToggle onClick={() => setDisplaying('all')}>
+                        {' '}
+                        Ver mais
+                      </SeeMoreToggle>
+                    ))}
+                </TitleContainer>
                 <CardList
-                  type="near"
+                  type="all"
                   onScroll={
-                    hasNextNearDishesPage ? fetchNextNearDishesPage : null
+                    hasNextAllDishesPage ? fetchNextAllDishesPage : null
                   }
-                  dishes={nearDishes}
+                  dishes={allDishes}
                   direction="row"
-                  $fullWidth={displaying === 'near'}
+                  $fullWidth={displaying === 'all'}
+                />
+              </>
+            )}
+          </LeftContainer>
+          {(displaying === 'default' || displaying === 'favorites') && (
+            <FavoritesContainer ref={favRef}>
+              <TitleContainer>
+                <Title>Favoritos</Title>
+                {!isTablet &&
+                  (displaying === 'favorites' && !isTablet ? (
+                    <SeeMoreToggle
+                      accent={true}
+                      onClick={() => setDisplaying('default')}
+                    >
+                      Voltar
+                    </SeeMoreToggle>
+                  ) : (
+                    <SeeMoreToggle
+                      accent={true}
+                      onClick={() => setDisplaying('favorites')}
+                    >
+                      {' '}
+                      Ver mais
+                    </SeeMoreToggle>
+                  ))}
+              </TitleContainer>
+              {favouriteDishes.length ? (
+                <CardList
+                  type="favorites"
+                  onScroll={
+                    hasNextFavoritesPage ? fetchNextFavoritesPage : null
+                  }
+                  dishes={favouriteDishes}
+                  direction={displaying === 'favorites' ? 'row' : 'column'}
+                  $fullWidth={displaying === 'favorites'}
                 />
               ) : (
-                <InfoText> Não existem pratos próximos</InfoText>
+                <InfoText> Adicione pratos à sua lista de favoritos</InfoText>
               )}
-            </>
+            </FavoritesContainer>
           )}
-          {(displaying === 'default' || displaying === 'all') && (
-            <>
-              <TitleContainer>
-                <Title color="accent">Pratos</Title>
-                {displaying === 'all' ? (
-                  <SeeMoreToggle onClick={() => setDisplaying('default')}>
-                    {' '}
-                    Voltar
-                  </SeeMoreToggle>
-                ) : (
-                  <SeeMoreToggle onClick={() => setDisplaying('all')}>
-                    {' '}
-                    Ver mais
-                  </SeeMoreToggle>
-                )}
-              </TitleContainer>
-              <CardList
-                type="all"
-                onScroll={hasNextAllDishesPage ? fetchNextAllDishesPage : null}
-                dishes={allDishes}
-                direction="row"
-                $fullWidth={displaying === 'all'}
-              />
-            </>
-          )}
-        </LeftContainer>
-        {(displaying === 'default' || displaying === 'favorites') && (
-          <FavoritesContainer ref={favRef}>
-            <TitleContainer>
-              <Title>Favoritos</Title>
-              {displaying === 'favorites' ? (
-                <SeeMoreToggle
-                  accent={true}
-                  onClick={() => setDisplaying('default')}
-                >
-                  Voltar
-                </SeeMoreToggle>
-              ) : (
-                <SeeMoreToggle
-                  accent={true}
-                  onClick={() => setDisplaying('favorites')}
-                >
-                  {' '}
-                  Ver mais
-                </SeeMoreToggle>
-              )}
-            </TitleContainer>
-            {favouriteDishes.length ? (
-              <CardList
-                type="favorites"
-                onScroll={hasNextFavoritesPage ? fetchNextFavoritesPage : null}
-                dishes={favouriteDishes}
-                direction={displaying === 'favorites' ? 'row' : 'column'}
-                $fullWidth={displaying === 'favorites'}
-              />
-            ) : (
-              <InfoText> Adicione pratos à sua lista de favoritos</InfoText>
-            )}
-          </FavoritesContainer>
-        )}
-      </MainContainer>
+        </MainContainer>
+      </DishesContainer>
+      <MobileFooter setDisplaying={setDisplaying} />
     </>
   );
 };
