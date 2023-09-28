@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { Dish } from '../../types/Dish';
 import secureLocalStorage from 'react-secure-storage';
+import { Chef } from '../../types/Chef';
 
 interface CartItem {
   item: Dish;
@@ -13,7 +14,8 @@ interface CartContextProps {
   getTotalPrice: () => number;
   getPricePerChef: (chefId: string) => number;
   getItensPerChef: (chefId: string) => CartItem[];
-  getCartItems: () => CartItem[];
+  cartItems: CartItem[];
+  chefsInCart: Chef[];
   clearCartItems: () => void;
   getItemsCount: () => number;
 }
@@ -28,8 +30,20 @@ interface CartProviderProps {
 
 export const CartProviderContext = ({ children }: CartProviderProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [chefsInCart, setChefsInCart] = useState<Chef[]>([]);
   useEffect(() => {
     secureLocalStorage.setItem('cart', JSON.stringify(cartItems));
+    const chefs: Chef[] = [];
+    cartItems.map(item => {
+      if (
+        !chefs.includes(
+          chefs.find(chef => chef.id === item.item.chef.id) || ({} as Chef)
+        )
+      ) {
+        chefs.push(item.item.chef);
+      }
+    });
+    setChefsInCart(chefs);
   }, [cartItems]);
 
   useEffect(() => {
@@ -39,6 +53,7 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
       setCartItems(items);
     }
   }, []);
+
   const addToCart = (item: Dish) => {
     const isItemInCart = cartItems.find(
       cartItem => cartItem.item.id === item.id
@@ -89,8 +104,6 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
   const getItensPerChef = (chefId: string) =>
     cartItems.filter(cartItem => cartItem.item.chef.id === chefId);
 
-  const getCartItems = () => cartItems;
-
   const clearCartItems = () => setCartItems([]);
   const getItemsCount = () =>
     cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -102,7 +115,8 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
         removeFromCart,
         getTotalPrice,
         getPricePerChef,
-        getCartItems,
+        cartItems,
+        chefsInCart,
         getItensPerChef,
         clearCartItems,
         getItemsCount
