@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { api } from '../../service/api';
 import { User } from '../../types/Users';
 import { EditProfile } from '../../components/EditProfile';
+import { Button } from '../../components/Button';
 Modal.setAppElement('#root');
 
 export const Profile: React.FC = () => {
@@ -30,17 +31,20 @@ export const Profile: React.FC = () => {
 
   function openModal() {
     setIsOpen(true);
+    setIsEditing(true);
   }
 
   function closeModal() {
     setIsOpen(false);
+    setIsEditing(false);
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (values: User) => {
     try {
-      const response = await api.put('/clients/update', {});
+      const response = await api.put('/clients/update', values);
 
       if (response && response.data) {
+        setClientData(response.data);
         setIsEditing(false);
         setIsOpen(false);
       } else {
@@ -51,11 +55,27 @@ export const Profile: React.FC = () => {
     }
   };
 
-  //TODO erro 400
-
   return (
     <div>
-      <button onClick={openModal}>Open Modal</button>
+      {isEditing ? (
+        <Button
+          variant="secondary"
+          size="medium"
+          type="button"
+          onClick={closeModal}
+        >
+          Cancelar Edição
+        </Button>
+      ) : (
+        <Button
+          variant="secondary"
+          size="medium"
+          type="button"
+          onClick={openModal}
+        >
+          Editar
+        </Button>
+      )}
 
       <Modal
         isOpen={modalIsOpen}
@@ -64,16 +84,20 @@ export const Profile: React.FC = () => {
       >
         <h2>Editar Dados</h2>
         {clientData ? (
-          <EditProfile initialValues={clientData} onSubmit={handleSubmit} />
+          <EditProfile values={clientData} onSubmit={handleSubmit} />
         ) : (
           <p>Carregando dados...</p>
         )}
 
-        <button type="button" onClick={closeModal}>
+        <Button
+          variant="secondary"
+          size="medium"
+          type="button"
+          onClick={closeModal}
+        >
           Fechar
-        </button>
+        </Button>
       </Modal>
-
       {clientData ? (
         <div>
           <div>
@@ -83,24 +107,27 @@ export const Profile: React.FC = () => {
             <strong>Email:</strong> {clientData.email}
           </div>
           <div>
-            <h3>Endereços:</h3>
-            {clientData.addresses.map(address => (
-              <div key={address.id}>
-                {address.name}
-                <strong>Endereço:</strong> {address.public_place},{' '}
-                {address.number}
-                <br />
-                <strong>CEP:</strong> {address.zip_code}
-              </div>
-            ))}
-          </div>
-          <div>
             <h3>Telefones:</h3>
             {clientData.telephones.map(telephone => (
               <div key={telephone.id}>
                 <strong>Número:</strong> {telephone.number}
               </div>
             ))}
+          </div>
+          <br />
+          <div>
+            <h3>Endereços:</h3>
+            {clientData.addresses?.length &&
+              clientData.addresses.map(address => (
+                <div key={address.id}>
+                  {address.name}
+                  <br />
+                  <strong>Endereço:</strong> {address.public_place},{' '}
+                  {address.number}
+                  <br />
+                  <strong>CEP:</strong> {address.zip_code}
+                </div>
+              ))}
           </div>
         </div>
       ) : (
