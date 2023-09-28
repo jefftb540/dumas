@@ -44,7 +44,7 @@ export const MainLayoutContainer = styled.div`
 `;
 
 export const HalfScreen = styled.div`
-  background-color: ${({ theme }) => theme.colors.background.main};
+  background-color: ${({ theme }) => theme.colors.backgroundMainLayout.main};
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -96,6 +96,7 @@ export const CenteredImage = styled.img`
 
 export const RightContent = styled.div`
   flex: 1;
+  background-color: ${({ theme }) => theme.colors.background.light};
   display: flex;
   justify-content: center;
   align-items: center;
