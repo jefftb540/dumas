@@ -58,8 +58,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setIsLoading(true);
         setUser(response.user);
         configureAxiosToken(response.access_token, response.refresh_token);
+
         if (
-          user?.addresses &&
+          user?.addresses?.length &&
           user.addresses[0].latitude &&
           user.addresses[0].longitude
         ) {
@@ -140,23 +141,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       return;
     }
     configureAxiosToken(token as string, refreshToken as string);
-
+    console.log(authUser);
     if (authUser) {
-      setUser(JSON.parse(authUser as string));
+      const storedUser = JSON.parse(authUser as string);
+      setUser(storedUser);
       if (
-        user?.addresses &&
-        user.addresses[0].latitude &&
-        user.addresses[0].longitude
+        storedUser.addresses[0].latitude &&
+        storedUser.addresses[0].longitude
       ) {
         setUserLocation({
-          lat: user.addresses[0].latitude,
-          lng: user.addresses[0].longitude
+          lat: storedUser.addresses[0].latitude,
+          lng: storedUser.addresses[0].longitude
         });
       } else {
         const getLocation = async () => {
           const data = await getLocationWithIPAddress();
           if (data) {
-            console.log(data);
             setUserLocation({ lat: Number(data.lat), lng: Number(data.lng) });
           }
         };

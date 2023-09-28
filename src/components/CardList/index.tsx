@@ -19,7 +19,6 @@ const CardList = ({
   onScroll
 }: CardListProps) => {
   const ref = useRef(null);
-  console.log(dishes);
   return (
     <List
       ref={ref}
