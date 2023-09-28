@@ -9,6 +9,7 @@ import { SignUp } from '../pages/SignUp';
 import { PasswordRecovery } from '../pages/RecoveryPassword';
 
 import { useAuth } from '../contexts/authContext';
+import { ProductDetails } from '../pages/ProductDetails';
 
 export const AppRoutes = () => {
   const { isAuthenticated, loading, user } = useAuth();
@@ -22,10 +23,7 @@ export const AppRoutes = () => {
         <>
           <Route path={routes.home} element={<PageLayout />}>
             <Route path={routes.home} element={<Home />} />
-            <Route
-              path={routes.dish()}
-              element={<h1>Dish detail Placeholder</h1>}
-            />
+            <Route path={routes.dish()} element={<ProductDetails />} />
             <Route path={routes.cart} element={<h1>Cart Placeholder</h1>} />
             <Route
               path={routes.profile}
