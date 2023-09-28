@@ -4,7 +4,7 @@ import { media } from '../../consts/mediaquery';
 export const CartContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 12px 12px;
+  padding: 12px 80px;
   gap: 18px;
   flex: 1;
   color: ${({ theme }) => theme.colors.text.main};

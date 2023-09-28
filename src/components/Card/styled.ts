@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const CardContainer = styled.div`
-  max-width: 300px;
+  max-width: 260px;
   max-height: 200px;
   border-radius: 12px;
   position: relative;
@@ -9,7 +9,7 @@ export const CardContainer = styled.div`
 
 export const CardImage = styled.img`
   overflow: hidden;
-  width: 300px;
+  width: 260px;
   max-height: 130px;
   display: block;
   border-radius: 12px 12px 0 0;
@@ -76,7 +76,11 @@ export const DishTitle = styled.span`
   color: ${({ theme }) => theme.colors.text.main};
   font-size: ${({ theme }) => theme.fonts.text.large};
   font-weight: ${({ theme }) => theme.fonts.weight.semiBold};
+
   cursor: pointer;
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const DishInfoContainer = styled.div`
