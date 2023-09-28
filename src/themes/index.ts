@@ -19,7 +19,7 @@ export const light: DefaultTheme = {
       light: '#CA1E1E'
     },
     black: '#333333',
-    white: '#EEEEEE',
+    white: '#FEFEFE',
     button: {
       disabled: '#6f6464'
     },
