@@ -1,8 +1,11 @@
 import { Button } from '../../components/Button';
+import { CartItemCard } from '../../components/CartItemCard';
 import { Title } from '../../components/Title';
 import { useCart } from '../../contexts/cartContex';
+import { formatCurrency } from '../../utils/formatCurrency';
 import {
   CartContainer,
+  CartFooter,
   CartInfoContainer,
   CartInfoText,
   CartInfoTitle,
@@ -10,21 +13,23 @@ import {
 } from './styled';
 
 export const Cart = () => {
-  const { chefsInCart, cartItems, getItensPerChef } = useCart();
+  const { chefsInCart, getItensPerChef, getTotalPrice } = useCart();
   return (
     <CartContainer>
       <Title color="accent">Carrinho</Title>
-      <ItensContainer>
-        {chefsInCart.length ? (
-          chefsInCart.map(chef => (
+      {chefsInCart.length ? (
+        chefsInCart.map(chef => (
+          <ItensContainer>
             <>
               <Title>{chef.name}</Title>
               {getItensPerChef(chef.id).map(item => (
-                <div>{item.item.name}</div>
+                <CartItemCard item={item} />
               ))}
             </>
-          ))
-        ) : (
+          </ItensContainer>
+        ))
+      ) : (
+        <ItensContainer>
           <CartInfoContainer>
             <CartInfoTitle>O seu carrinho está vazio</CartInfoTitle>
             <CartInfoText>
@@ -35,8 +40,14 @@ export const Cart = () => {
               Conferir pratos
             </Button>
           </CartInfoContainer>
-        )}
-      </ItensContainer>
+        </ItensContainer>
+      )}
+      <CartFooter>
+        <Title color="accent">{formatCurrency(getTotalPrice())}</Title>
+        <Button size="medium" variant="primary">
+          Comprar
+        </Button>
+      </CartFooter>
     </CartContainer>
   );
 };

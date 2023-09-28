@@ -1,18 +1,26 @@
 import styled from 'styled-components';
+import { media } from '../../consts/mediaquery';
 
 export const CartContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 12px 80px;
+  padding: 12px 12px;
   gap: 18px;
   flex: 1;
   color: ${({ theme }) => theme.colors.text.main};
+  ${media.tablet`
+  padding:8px;
+`}
 `;
 
 export const ItensContainer = styled.div`
   border: 2px solid ${({ theme }) => theme.colors.background.dark};
-  padding: 12px;
+  padding: 24px;
   border-radius: 12px;
+
+  ${media.tablet`
+    padding:8px;
+  `}
 `;
 
 export const CartInfoContainer = styled.div`
@@ -26,3 +34,9 @@ export const CartInfoTitle = styled.div`
   font-weight: ${({ theme }) => theme.fonts.weight.semiBold};
 `;
 export const CartInfoText = styled.div``;
+export const CartFooter = styled.div`
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 12px;
+`;
