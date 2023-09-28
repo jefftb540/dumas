@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { MenuContainer, MenuItem } from './styled';
 import { routes } from '../../routes';
 import { useNavigate } from 'react-router-dom';

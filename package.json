@@ -12,10 +12,8 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "test:coverage": "jest --coverage"
-
   },
   "dependencies": {
-<<<<<<< HEAD
     "@fontsource/poppins": "^5.0.8",
     "@react-google-maps/api": "^2.19.2",
     "@types/styled-components": "^5.1.27",
@@ -24,6 +22,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
+    "react-modal": "^3.16.1",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.16.0",
     "react-secure-storage": "^1.3.0",
@@ -31,10 +30,6 @@
     "react-tooltip": "^5.21.4",
     "styled-components": "^6.0.8",
     "yup": "^1.2.0"
-=======
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
->>>>>>> 01215feb63ee0e0e818efcefad64512280720b9e
   },
   "devDependencies": {
     "@babel/core": "^7.22.17",
@@ -47,6 +42,7 @@
     "@types/jest": "^29.5.4",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@types/react-modal": "^3.16.1",
     "@types/styled-components": "^5.1.27",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
