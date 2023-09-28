@@ -78,13 +78,6 @@ export const dark: DefaultTheme = {
     backgroundMainLayout: {
       main: '#D45513'
     },
-    primary: {
-      main: '#D45513',
-      dark: '#D95829'
-    },
-    secondary: {
-      main: '#FF5600'
-    },
     black: '#333333',
     white: '#EEEEEE',
     text: {
