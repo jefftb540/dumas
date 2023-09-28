@@ -21,6 +21,7 @@ export const Container = styled.div<InputContainerProps>`
     border: none;
     flex: 1;
     color: ${({ theme }) => theme.colors.text.main};
+    background-color: transparent;
 
     &:focus {
       outline: none;

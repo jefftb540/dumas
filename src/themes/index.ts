@@ -7,6 +7,9 @@ export const light: DefaultTheme = {
       main: '#FFEDE4',
       light: '#FDFDFD'
     },
+    backgroundMainLayout: {
+      main: '#FFEDE4'
+    },
     primary: {
       main: '#FF5600',
       dark: '#D95829'
@@ -71,6 +74,9 @@ export const dark: DefaultTheme = {
       dark: '#8C0B0B',
       main: '#8C0B0B',
       light: '#262626'
+    },
+    backgroundMainLayout: {
+      main: '#D45513'
     },
     primary: {
       main: '#D45513',

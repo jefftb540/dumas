@@ -31,6 +31,7 @@ declare module 'styled-components' {
       info?: ColorPalette;
       success?: ColorPalette;
       background: ColorPalette;
+      backgroundMainLayout: ColorPalette;
       text: ColorPalette;
       white: string;
       black: string;
