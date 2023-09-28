@@ -74,7 +74,7 @@ export const DistanceContainer = styled.div`
 `;
 export const DishTitle = styled.span`
   color: ${({ theme }) => theme.colors.text.main};
-  font-size: ${({ theme }) => theme.fonts.header.small};
+  font-size: ${({ theme }) => theme.fonts.text.large};
   font-weight: ${({ theme }) => theme.fonts.weight.semiBold};
   cursor: pointer;
 `;
