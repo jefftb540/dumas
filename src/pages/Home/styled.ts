@@ -56,5 +56,5 @@ export const SeeMoreToggle = styled.span<SeeMoreToggleProps>`
 
 export const DishesContainer = styled.div`
   flex: 1;
-  overflow: scroll;
+  overflow-y: auto;
 `;
