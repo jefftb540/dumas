@@ -7,7 +7,7 @@ export const routes = {
 
   profile: '/perfil',
   recoverPassword: '/recuperarsenha',
-  dish: (id = ':id') => `dish/${id}`,
+  dish: (id = ':id') => `prato/${id}`,
   home: '/',
   cart: 'carrinho'
 

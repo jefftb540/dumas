@@ -77,3 +77,9 @@ export const likeDish = (dishId: string) => {
 export const dislikeDish = (dishId: string) => {
   api.put(apiRoutes.dish.dislike(dishId));
 };
+
+export const getDishId = async (dishId: string) => {
+  const response = await api.get<Dish>(apiRoutes.dish.detail(dishId));
+
+  return response.data;
+};
