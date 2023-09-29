@@ -29,10 +29,7 @@ export const AppRoutes = () => {
               element={<h1>Dish detail Placeholder</h1>}
             />
             <Route path={routes.cart} element={<Cart />} />
-            <Route
-              path={routes.profile}
-              element={<h1>Profile Placeholder</h1>}
-            />
+            <Route path={routes.profile} element={<Profile />} />
           </Route>
           <Route path="*" element={<Navigate to={routes.home} />} />
           <Route></Route>
