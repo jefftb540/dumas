@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { TabletBreakpoint } from '../../consts/breakpoint';
 
 export const Title3 = styled.h3`
   width: 233px;
@@ -35,7 +36,7 @@ export const WrapperModal = styled.div`
   padding: 0 27px;
   position: relative;
 
-  @media (max-width: 768px) {
+  @media (max-width: ${TabletBreakpoint}) {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;

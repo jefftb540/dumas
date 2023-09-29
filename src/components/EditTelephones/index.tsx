@@ -3,25 +3,26 @@ import { Formik } from 'formik';
 import { User } from '../../types/Users';
 import { Button } from '../Button';
 import { Input } from '../Input';
-import { FiMail, FiUser } from 'react-icons/fi';
+import { FiUser } from 'react-icons/fi';
 import { FormContainer, InputContainer } from '../../pages/Login/styled';
+import { Telephone } from '../../types/Telephone';
 
-export interface EditProfileProps {
-  values: User;
-  onSubmit: (values: User) => Promise<void>;
+export interface EditTelephonesProps {
+  values: Telephone;
+  onSubmit: (values: Telephone) => Promise<void>;
 }
 
-export const EditProfile: React.FC<EditProfileProps> = ({
+export const EditProfile: React.FC<EditTelephonesProps> = ({
   values,
   onSubmit
 }) => {
-  const handleSubmit = async (values: User) => {
+  const handleSubmit = async (values: Telephone) => {
     await onSubmit(values);
   };
 
   return (
     <Formik initialValues={values} onSubmit={handleSubmit}>
-      {({ values, handleChange, handleBlur }) => (
+      {({ handleChange, handleBlur }) => (
         <FormContainer>
           <InputContainer>
             <Input
@@ -32,18 +33,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
               placeholder="Nome"
               onChange={handleChange}
               onBlur={handleBlur}
-              value={values.name}
-            />
-
-            <Input
-              Icon={FiMail}
-              type="text"
-              id="email"
-              name="email"
-              placeholder="Email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
+              value={telephones[0].number}
             />
           </InputContainer>
 
