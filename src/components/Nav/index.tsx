@@ -24,7 +24,6 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { useCart } from '../../contexts/cartContex';
 import useDebounce from '../../hooks/useDebounce';
-// import { Chef } from '../../types/Chef';
 import { Dish } from '../../types/Dish';
 import { searchDishes } from '../../service/api/dishes';
 import { SearchResults } from '../SearchResults';

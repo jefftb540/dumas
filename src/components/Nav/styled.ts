@@ -18,12 +18,12 @@ export const NavContainer = styled.div`
 `;
 
 export const NavLeft = styled.div`
-  flex: 2;
+  flex: 3;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 100px;
+  gap: 80px;
 `;
 
 export const NavRight = styled.div`
@@ -38,6 +38,7 @@ export const NavRight = styled.div`
 export const AddressContainer = styled.div`
   display: flex;
   flex-direction: column;
+  flex: 1;
   ${media.tablet`
     display: none;
   `}
@@ -59,7 +60,7 @@ export const AddressTitle = styled.span`
 
 export const AddressDescription = styled.span`
   color: ${({ theme }) => theme.colors.text.secondaryAccent};
-  font-size: ${({ theme }) => theme.fonts.text.medium};
+  font-size: ${({ theme }) => theme.fonts.text.small};
   font-weight: ${({ theme }) => theme.fonts.weight.regular};
   line-height: normal;
 `;
