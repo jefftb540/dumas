@@ -1,10 +1,10 @@
 import secureLocalStorage from 'react-secure-storage';
 import { api } from '../service/api';
 import { refreshToken } from '../service/api/auth';
+import { configureLocalStorage } from './configureLocalStorage';
 
 export function configureAxiosToken(accessToken: string, refresh: string) {
   api.interceptors.request.use(async function (config) {
-    let validToken = accessToken;
     const tokenExpDate = secureLocalStorage.getItem('tokenExpDate');
     if (tokenExpDate) {
       const now = new Date();
@@ -14,12 +14,11 @@ export function configureAxiosToken(accessToken: string, refresh: string) {
         try {
           console.log('Sending refresh token request');
           const data = await refreshToken(refresh);
-          now.setMinutes(now.getMinutes() + 50);
-          validToken = data.access_token;
-          secureLocalStorage.setItem('token', validToken);
-          secureLocalStorage.setItem('refreshToken', data.refresh_token);
-          secureLocalStorage.setItem('tokenExpDate', JSON.stringify(now));
-          config.headers.Authorization = `Bearer ${validToken}`;
+          configureLocalStorage(data.access_token, data.refresh_token);
+
+          config.headers.Authorization = `Bearer ${data.access_token}`;
+          console.log(config);
+          return api(config);
         } catch (error) {
           secureLocalStorage.removeItem('refreshToken');
           secureLocalStorage.removeItem('token');
@@ -29,7 +28,8 @@ export function configureAxiosToken(accessToken: string, refresh: string) {
       }
     }
 
-    config.headers.Authorization = `Bearer ${validToken}`;
+    config.headers.Authorization = `Bearer ${accessToken}`;
+    console.log('no fim da função', config);
     return Promise.resolve(config);
   });
 }

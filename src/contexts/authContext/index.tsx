@@ -15,6 +15,7 @@ import { configureAxiosToken } from '../../utils/configureAxiosAuth';
 import { getLocationWithIPAddress } from '../../service/api/location';
 import { routes } from '../../routes';
 import { handleSignupErrors } from '../../utils/handleSignupErrors';
+import { configureLocalStorage } from '../../utils/configureLocalStorage';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -107,19 +108,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setError(messageError);
     }
   }
-
-  const configureLocalStorage = (
-    token: string,
-    refreshToken: string,
-    user: User
-  ) => {
-    const expDate = new Date();
-    expDate.setHours(expDate.getHours() + 1);
-    secureLocalStorage.setItem('tokenExpDate', JSON.stringify(expDate));
-    secureLocalStorage.setItem('token', token);
-    secureLocalStorage.setItem('refreshToken', refreshToken);
-    secureLocalStorage.setItem('user', JSON.stringify(user));
-  };
 
   function signOut() {
     secureLocalStorage.clear();
