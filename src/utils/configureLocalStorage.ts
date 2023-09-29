@@ -7,7 +7,7 @@ export const configureLocalStorage = (
   user: User | null = null
 ) => {
   const expDate = new Date();
-  expDate.setMinutes(expDate.getMinutes() + 5);
+  expDate.setMinutes(expDate.getMinutes() + 25);
   secureLocalStorage.setItem('tokenExpDate', JSON.stringify(expDate));
   secureLocalStorage.setItem('token', token);
   secureLocalStorage.setItem('refreshToken', refreshToken);
