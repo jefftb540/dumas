@@ -1,5 +1,9 @@
 import { css } from 'styled-components';
-import { MobileBreakpoint, TabletBreakpoint } from './breakpoint';
+import {
+  MobileBreakpoint,
+  TabletBreakpoint,
+  desktopBreakpoint
+} from './breakpoint';
 
 export const media = {
   mobile: (styles: TemplateStringsArray) => css`
@@ -13,7 +17,7 @@ export const media = {
     }
   `,
   desktop: (styles: TemplateStringsArray) => css`
-    @media (min-width: ${TabletBreakpoint}) {
+    @media (min-width: ${desktopBreakpoint}) {
       ${styles}
     }
   `

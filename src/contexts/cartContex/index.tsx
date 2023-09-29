@@ -3,6 +3,7 @@ import { Dish } from '../../types/Dish';
 import secureLocalStorage from 'react-secure-storage';
 import { Chef } from '../../types/Chef';
 import { CartItem } from '../../types/CartItem';
+import { toast } from 'react-toastify';
 
 interface CartContextProps {
   addToCart: (item: Dish) => void;
@@ -62,6 +63,7 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
     } else {
       setCartItems([...cartItems, { item, quantity: 1 }]);
     }
+    toast.success('Item adicionado');
   };
 
   const deleteFromCart = (item: Dish) =>

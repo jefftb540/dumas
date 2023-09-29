@@ -1,13 +1,6 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { media } from '../../consts/mediaquery';
 
-const slideDown = keyframes`
-0% {
-  max-height: 0px;
-}
-100% {
-  max-height: 800px;
-}`;
 export const MenuContainer = styled.div`
   position: absolute;
   width: 300px;
@@ -18,9 +11,23 @@ export const MenuContainer = styled.div`
   box-shadow: 2px inset;
   background-color: ${({ theme }) => theme.colors.background.dark};
 
-  animation: ${slideDown} 800ms;
-
   ${media.tablet`
+  @keyframes slideRight {
+    from {
+      width: 0;
+    }
+    to {
+      width: 30%;
+    }
+  }
+    width: 30%;
+    height: calc(100vh - 118px);
+    flex: 1;
+    top: 60px;
+    left: 0;
+    animation: slideRight 500ms
+  `};
+  ${media.mobile`
   @keyframes slideRight {
     from {
       width: 0;
@@ -29,12 +36,8 @@ export const MenuContainer = styled.div`
       width: 80%;
     }
   }
-    height: 100%;
     width: 80%;
-    top: 48px;
-    left: 0;
-    animation: slideRight 500ms
-  `};
+  `}
 `;
 
 export const MenuItem = styled.div`

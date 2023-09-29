@@ -24,6 +24,7 @@ import { useState } from 'react';
 import { useCart } from '../../contexts/cartContex';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../routes';
+import queryClient from '../../service/reactQuery/queryClient';
 
 interface CardProps {
   dish: Dish;
@@ -34,13 +35,14 @@ export const Card = ({ dish }: CardProps) => {
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
-  const toogleLiked = (dish: Dish) => {
+  const toogleLiked = async (dish: Dish) => {
     if (dish.liked_by_me) {
-      dislikeDish(dish.id!);
+      await dislikeDish(dish.id!);
     } else {
-      likeDish(dish.id!);
+      await likeDish(dish.id!);
     }
     setLiked(prev => !prev);
+    queryClient.invalidateQueries({ queryKey: ['favoriteDishes'] });
   };
 
   const rating =

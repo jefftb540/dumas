@@ -8,11 +8,12 @@ interface ListProps {
 
 export const List = styled.div<ListProps>`
   display: flex;
-  justify-content: space-between;
+  justify-content: baseline;
   flex-wrap: wrap;
   overflow: hidden;
   max-height: 400px;
   gap: 28px;
+  padding: 8px;
 
   ${({ direction, fullWidth }) => `
   flex-direction: ${direction};
@@ -28,7 +29,7 @@ export const List = styled.div<ListProps>`
   `};
 
   ${media.tablet`
-    max-width:300px;
+    width: auto;
     align-items: center;
     justify-content: center;
   `}
