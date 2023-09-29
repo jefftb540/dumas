@@ -17,6 +17,7 @@ export const FavoritesContainer = styled.div`
   border-radius: 12px;
   padding: 18px;
   transition: 500ms;
+  min-width: 320px;
 
   ${media.tablet`
   
