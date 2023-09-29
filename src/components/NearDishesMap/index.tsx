@@ -1,6 +1,6 @@
 import { Container } from './styled';
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Chef } from '../../types/Chef';
 import { useTheme } from '../../contexts/themeContext';
 import { useAuth } from '../../contexts/authContext';
@@ -13,13 +13,14 @@ const apikey = import.meta.env.VITE_MAPS_API_KEY;
 const darkMapId = import.meta.env.VITE_DARK_MAP_ID;
 const lightMapId = import.meta.env.VITE_LIGHT_MAP_ID;
 
-const containerStyle = {
-  width: '100%',
-  height: '260px'
-};
-
 export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const { user, userLocation } = useAuth();
+
+  const containerStyle = {
+    width: '100%',
+    height: containerRef.current?.offsetHeight
+  };
 
   const { theme } = useTheme();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -54,7 +55,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
   });
 
   return (
-    <Container>
+    <Container ref={containerRef}>
       {isLoaded ? (
         <GoogleMap
           mapContainerStyle={containerStyle}

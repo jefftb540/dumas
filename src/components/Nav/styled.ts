@@ -6,7 +6,7 @@ export const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 70px;
+  height: 60px;
   border-bottom: 4px solid ${({ theme }) => theme.colors.border.main};
   background-color: ${({ theme }) => theme.colors.background.main};
   padding: 0 32px;

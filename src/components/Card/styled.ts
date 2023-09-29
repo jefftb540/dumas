@@ -5,6 +5,9 @@ export const CardContainer = styled.div`
   max-height: 200px;
   border-radius: 12px;
   position: relative;
+  box-shadow: 6px -3px 8px -4px rgba(153, 121, 121, 0.75);
+  -webkit-box-shadow: 6px -3px 8px -4px rgba(153, 121, 121, 0.75);
+  -moz-box-shadow: 6px -3px 30px -8px rgba(153, 121, 121, 0.75);
 `;
 
 export const CardImage = styled.img`
@@ -45,6 +48,7 @@ export const TitleAndIconContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 8px;
 `;
 
 export const CartIconContainer = styled.div`
@@ -88,6 +92,7 @@ export const DishInfoContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 8px;
 `;
 
 export const DishInfo = styled.div`

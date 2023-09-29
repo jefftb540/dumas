@@ -25,6 +25,13 @@ export const FavoritesContainer = styled.div`
   `}
 `;
 
+export const DishListContainer = styled.div`
+  ${media.tablet`
+    padding: 0;
+    background-color: inherit;
+`}
+`;
+
 export const LeftContainer = styled.div`
   overflow: hidden;
   display: flex;
@@ -32,7 +39,7 @@ export const LeftContainer = styled.div`
   padding-right: 32px;
 
   ${media.tablet`
-    padding: 0;
+    padding: 0 18px;
     justify-content: center;
   `}
 `;
@@ -55,6 +62,6 @@ export const SeeMoreToggle = styled.span<SeeMoreToggleProps>`
 `;
 
 export const DishesContainer = styled.div`
-  flex: 1;
+  flex: 4;
   overflow-y: auto;
 `;

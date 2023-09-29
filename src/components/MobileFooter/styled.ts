@@ -10,6 +10,7 @@ export const FooterContainer = styled.footer`
   justify-content: space-between;
   padding: 0 32px;
   position: sticky;
+  height: 58px;
 
   ${media.desktop`
     display: none;
@@ -21,6 +22,9 @@ export const FooterOption = styled.div`
   padding: 8px;
   text-align: center;
   border-right: 1px solid ${({ theme }) => theme.colors.white};
+  display: flex;
+  flex: 1;
+  justify-content: center;
 
   &:last-child {
     border: none;
