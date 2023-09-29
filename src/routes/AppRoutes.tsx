@@ -15,6 +15,7 @@ export const AppRoutes = () => {
   const { isAuthenticated, loading, user } = useAuth();
 
   if (loading) return <div>Loading</div>;
+
   if (isAuthenticated && !user) return <div>Loading</div>;
 
   return (

@@ -40,7 +40,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
 
   const onLoad = useCallback(
     function callback(map: google.maps.Map) {
-      map.setZoom(10);
+      map.setZoom(13);
       map.setOptions({ mapId: theme === 'dark' ? darkMapId : lightMapId });
 
       setMap(map);
@@ -61,7 +61,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
           mapContainerStyle={containerStyle}
           center={userLocation}
           options={{ disableDefaultUI: true }}
-          zoom={14}
+          zoom={15}
           onLoad={onLoad}
           onUnmount={onUnmount}
           key={`map_${theme}`}
@@ -78,7 +78,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
                 ? user.addresses[0].name
                 : 'Sua localização',
               color: theme === 'dark' ? '#FFF' : '#333',
-              fontSize: '24px',
+              fontSize: '18px',
               fontWeight: '700'
             }}
           />
@@ -100,7 +100,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
                     label={{
                       text: chef.name,
                       color: theme === 'dark' ? '#FFF' : '#333',
-                      fontSize: '24px',
+                      fontSize: '16px',
                       fontWeight: '700'
                     }}
                   />

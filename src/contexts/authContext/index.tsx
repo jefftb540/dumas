@@ -41,7 +41,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setIsLoading] = useState(true);
   const [userLocation, setUserLocation] = useState({ lat: 0, lng: 0 });
   const navigate = useNavigate();
-
+  const getLocation = async () => {
+    const data = await getLocationWithIPAddress();
+    if (data) {
+      console.log(data);
+      setUserLocation({ lat: Number(data.lat), lng: Number(data.lng) });
+    }
+  };
   async function signIn({ email, password }: LoginProps) {
     try {
       const response = await handleLogin({
@@ -58,24 +64,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setIsLoading(true);
         setUser(response.user);
         configureAxiosToken(response.access_token, response.refresh_token);
-
         if (
-          user?.addresses?.length &&
-          user.addresses[0].latitude &&
-          user.addresses[0].longitude
+          response.user?.addresses?.length &&
+          response.user.addresses[0].latitude &&
+          response.user.addresses[0].longitude
         ) {
           setUserLocation({
-            lat: user.addresses[0].latitude,
-            lng: user.addresses[0].longitude
+            lat: response.user.addresses[0].latitude,
+            lng: response.user.addresses[0].longitude
           });
         } else {
-          const getLocation = async () => {
-            const data = await getLocationWithIPAddress();
-            if (data) {
-              console.log(data);
-              setUserLocation({ lat: Number(data.lat), lng: Number(data.lng) });
-            }
-          };
+          console.log(response.user.addresses);
           getLocation();
         }
         navigate(routes.home);
@@ -141,7 +140,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       return;
     }
     configureAxiosToken(token as string, refreshToken as string);
-    console.log(authUser);
     if (authUser) {
       const storedUser = JSON.parse(authUser as string);
       setUser(storedUser);

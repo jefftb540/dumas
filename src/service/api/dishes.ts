@@ -70,10 +70,10 @@ export const searchDishes = async (query: string, page = 1, perPage = 4) => {
   return response.data;
 };
 
-export const likeDish = (dishId: string) => {
-  api.put(apiRoutes.dish.like(dishId));
+export const likeDish = async (dishId: string) => {
+  await api.put(apiRoutes.dish.like(dishId));
 };
 
-export const dislikeDish = (dishId: string) => {
-  api.put(apiRoutes.dish.dislike(dishId));
+export const dislikeDish = async (dishId: string) => {
+  await api.put(apiRoutes.dish.dislike(dishId));
 };
