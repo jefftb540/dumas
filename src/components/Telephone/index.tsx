@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Title3 } from '../../pages/Profile/styled';
 import { Telephone } from '../../types/Telephone';
 import { api } from '../../service/api';
+import queryClient from '../../service/reactQuery/queryClient';
 
 interface TelephoneProfileProps {
   telephone: Telephone;
@@ -10,12 +11,13 @@ interface TelephoneProfileProps {
 export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newTelephone, setNewTelephone] = useState(telephone.number);
-  const handlePressEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handlePressEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       console.log('enviar os dados', newTelephone);
-      api.put('clients/telephones/' + telephone.id, {
+      await api.put('clients/telephones/' + telephone.id, {
         telephone: { number: newTelephone }
       });
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
       setIsEditing(false);
     }
   };

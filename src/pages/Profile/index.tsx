@@ -8,7 +8,17 @@ import { CircularSpinner } from '../../components/CircularSpinner';
 import { ContainerProfile, Title3, WrapperModal } from './styled';
 import { useAuth } from '../../contexts/authContext';
 import { TelephoneProfile } from '../../components/Telephone';
+import { useQuery } from 'react-query';
 Modal.setAppElement('#root');
+
+const getClientData = async () => {
+  try {
+    const response = await api.get<User>('/clients/me');
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const Profile: React.FC = () => {
   const [clientData, setClientData] = useState<User | null>(null);
@@ -16,25 +26,21 @@ export const Profile: React.FC = () => {
   const [phonesModalIsOpen, setPhonesModalIsOpen] = useState(false);
   const [addressesModalIsOpen, setAddressesModalIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [newPhone, setNewPhone] = useState('');
+  const [phoneNumbers, setPhoneNumbers] = useState([]);
   const { user } = useAuth();
 
-  useEffect(() => {
-    const getClientData = async () => {
-      try {
-        const response = await api.get('/clients/me');
-        if (response && response.data) {
-          const { data } = response;
-          setClientData(data);
-        } else {
-          console.log('Algo deu errado');
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const { data } = useQuery(
+    ['profile'],
 
-    getClientData();
-  }, []);
+    getClientData
+  );
+
+  useEffect(() => {
+    if (data) {
+      setClientData(data);
+    }
+  }, [data]);
 
   function openNameEmailModal() {
     setNameEmailModalIsOpen(true);
@@ -48,22 +54,18 @@ export const Profile: React.FC = () => {
 
   function openPhonesModal() {
     setPhonesModalIsOpen(true);
-    setIsEditing(true);
   }
 
   function closePhonesModal() {
     setPhonesModalIsOpen(false);
-    setIsEditing(false);
   }
 
   function openAddressesModal() {
     setAddressesModalIsOpen(true);
-    setIsEditing(true);
   }
 
   function closeAddressesModal() {
     setAddressesModalIsOpen(false);
-    setIsEditing(false);
   }
 
   const handleSubmit = async (values: User) => {
@@ -73,9 +75,31 @@ export const Profile: React.FC = () => {
       if (response && response.data) {
         setClientData(response.data);
         setIsEditing(false);
+
         closeNameEmailModal();
         closePhonesModal();
         closeAddressesModal();
+      } else {
+        console.log('Algo deu errado');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addPhoneNumber = async () => {
+    try {
+      const response = await api.post('/clients/telephones', {
+        phoneNumber: newPhone
+      });
+
+      if (response && response.data) {
+        setClientData(response.data);
+
+        setPhoneNumbers([...phoneNumbers, newPhone]);
+
+        setNewPhone('');
+        closePhonesModal();
       } else {
         console.log('Algo deu errado');
       }
@@ -143,11 +167,25 @@ export const Profile: React.FC = () => {
         <Modal
           isOpen={phonesModalIsOpen}
           onRequestClose={closePhonesModal}
-          contentLabel="Editar Telefones"
+          contentLabel="Adicionar"
         >
-          <h2>Editar Telefones</h2>
+          <h2>Adicionar Telefones</h2>
 
-          <p>Conteúdo do modal para Telefones</p>
+          <input
+            type="text"
+            placeholder="Digite um número de telefone"
+            value={newPhone}
+            onChange={e => setNewPhone(e.target.value)}
+          />
+
+          <Button
+            variant="primary"
+            size="medium"
+            type="button"
+            onClick={addPhoneNumber}
+          >
+            Adicionar
+          </Button>
 
           <Button
             variant="primary"
@@ -173,7 +211,6 @@ export const Profile: React.FC = () => {
             <CircularSpinner /> Carregando dados...
           </p>
         )}
-
         <div>
           <Button
             variant="primary"
@@ -181,7 +218,7 @@ export const Profile: React.FC = () => {
             type="button"
             onClick={openPhonesModal}
           >
-            Editar
+            Adicionar
           </Button>
         </div>
       </WrapperModal>
