@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  // FieldArray,
-  Formik
-} from 'formik';
+import { FieldArray, Formik } from 'formik';
 import { User } from '../../types/Users';
 import { Button } from '../Button';
 import { Input } from '../Input';
@@ -51,7 +48,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
               value={values.email}
             />
           </div>
-          {/* <div>
+          <div>
             <FieldArray name="telephones">
               {({ push, remove }) => (
                 <>
@@ -59,12 +56,11 @@ export const EditProfile: React.FC<EditProfileProps> = ({
                     <div key={index}>
                       <Input
                         Icon={FiMail}
-                        name={`telephones[${index}]`}
+                        name={`telephones[${index}].number`}
                         placeholder="Telefone"
                         type="text"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.telephones.join(', ')} // Converter para uma única string
                       />
                       <Button
                         variant="secondary"
@@ -81,14 +77,14 @@ export const EditProfile: React.FC<EditProfileProps> = ({
                     variant="secondary"
                     size="medium"
                     type="button"
-                    onClick={() => push('')}
+                    onClick={() => push({ number: '' })}
                   >
                     Adicionar Telefone
                   </Button>
                 </>
               )}
             </FieldArray>
-          </div> */}
+          </div>
           <br />
           <Button variant="secondary" size="medium" type="submit">
             Salvar
