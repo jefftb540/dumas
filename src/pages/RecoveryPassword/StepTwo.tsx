@@ -16,7 +16,7 @@ import * as Yup from 'yup';
 import { handleResetPassword } from '../../service/api/auth';
 import { handleResetPasswordErrors } from '../../utils/handleResetPasswordErros';
 import { AxiosError } from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { routes } from '../../routes';
 
@@ -105,18 +105,6 @@ export const StepTwo = ({
             {touched.token && errors.token && (
               <MessageErrorsContainer>{errors.token}</MessageErrorsContainer>
             )}
-
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-            />
 
             <Input
               Icon={FiLock}
