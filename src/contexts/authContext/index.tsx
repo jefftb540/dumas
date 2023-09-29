@@ -144,6 +144,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const storedUser = JSON.parse(authUser as string);
       setUser(storedUser);
       if (
+        storedUser.addresses.lenght > 0 &&
         storedUser.addresses[0].latitude &&
         storedUser.addresses[0].longitude
       ) {
