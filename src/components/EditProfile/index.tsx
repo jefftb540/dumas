@@ -49,6 +49,19 @@ export const EditProfile: React.FC<EditProfileProps> = ({
             />
           </div>
 
+          <div>
+            <Input
+              Icon={FiUser}
+              type="text"
+              id="password"
+              name="password"
+              placeholder="Senha"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.password}
+            />
+          </div>
+
           <br />
           <Button variant="secondary" size="medium" type="submit">
             Salvar

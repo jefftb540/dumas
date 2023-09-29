@@ -10,6 +10,7 @@ import { PasswordRecovery } from '../pages/RecoveryPassword';
 
 import { useAuth } from '../contexts/authContext';
 import { Profile } from '../pages/Profile';
+import { Cart } from '../pages/Cart';
 
 export const AppRoutes = () => {
   const { isAuthenticated, loading, user } = useAuth();
@@ -27,8 +28,11 @@ export const AppRoutes = () => {
               path={routes.dish()}
               element={<h1>Dish detail Placeholder</h1>}
             />
-            <Route path={routes.cart} element={<h1>Cart Placeholder</h1>} />
-            <Route path={routes.profile} element={<Profile />} />
+            <Route path={routes.cart} element={<Cart />} />
+            <Route
+              path={routes.profile}
+              element={<h1>Profile Placeholder</h1>}
+            />
           </Route>
           <Route path="*" element={<Navigate to={routes.home} />} />
           <Route></Route>

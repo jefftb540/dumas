@@ -35,7 +35,7 @@ export const StepTwo = ({
   const navigate = useNavigate();
 
   const initialValues = {
-    token: resetPasswordToken,
+    token: '',
     password: '',
     passwordConfirm: ''
   };
@@ -45,8 +45,8 @@ export const StepTwo = ({
     password: Yup.string()
       .required('A nova senha é obrigatória.')
       .matches(
-        /^(?=.*[A-Z])(?=.*\d).{6,}$/,
-        'A senha deve conter pelo menos uma letra maiúscula e um número, e ter no mínimo 6 caracteres.'
+        /^\d{6}$/,
+        'A senha deve conter exatamente 6 dígitos numéricos.'
       ),
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), undefined], 'As senhas não coincidem.')
@@ -97,6 +97,9 @@ export const StepTwo = ({
         <FormContainer>
           <Title>Esqueci minha senha</Title>
           <SubTitle>Recuperar minha senha</SubTitle>
+          <SubTitle>
+            Seu código de recuperação: <strong>{resetPasswordToken}</strong>
+          </SubTitle>
           <InputContainer>
             <Input Icon={FiLock} placeholder="Código" name="token" />
             {touched.token && errors.token && (

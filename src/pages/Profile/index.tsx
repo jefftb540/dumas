@@ -376,6 +376,7 @@ export const Profile: React.FC = () => {
           </Button>
         </div>
       </WrapperModal>
+      <img src="public/undraw_breakfast_psiw 3.svg" alt="prato" />
     </ContainerProfile>
   );
 };
