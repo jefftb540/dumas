@@ -147,7 +147,8 @@ import { User } from '../../types/Users';
 import { EditProfile } from '../../components/EditProfile';
 import { Button } from '../../components/Button';
 import { CircularSpinner } from '../../components/CircularSpinner';
-import { ContainerProfile, WrapperModal } from './styled';
+import { ContainerProfile, Title3, WrapperModal } from './styled';
+import { useAuth } from '../../contexts/authContext';
 Modal.setAppElement('#root');
 
 export const Profile: React.FC = () => {
@@ -156,6 +157,7 @@ export const Profile: React.FC = () => {
   const [phonesModalIsOpen, setPhonesModalIsOpen] = useState(false);
   const [addressesModalIsOpen, setAddressesModalIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const { user } = useAuth();
 
   useEffect(() => {
     const getClientData = async () => {
@@ -212,9 +214,9 @@ export const Profile: React.FC = () => {
       if (response && response.data) {
         setClientData(response.data);
         setIsEditing(false);
-        closeNameEmailModal(); // Fechar o modal após submeter os dados
-        closePhonesModal(); // Fechar o modal após submeter os dados
-        closeAddressesModal(); // Fechar o modal após submeter os dados
+        closeNameEmailModal();
+        closePhonesModal();
+        closeAddressesModal();
       } else {
         console.log('Algo deu muito errado');
       }
@@ -230,9 +232,9 @@ export const Profile: React.FC = () => {
           <Modal
             isOpen={nameEmailModalIsOpen}
             onRequestClose={closeNameEmailModal}
-            contentLabel="Editar Nome e Email"
+            contentLabel="Editar"
           >
-            <h2>Editar Nome e Email</h2>
+            <h2>Editar</h2>
             {clientData ? (
               <EditProfile values={clientData} onSubmit={handleSubmit} />
             ) : (
@@ -250,8 +252,10 @@ export const Profile: React.FC = () => {
               Fechar
             </Button>
           </Modal>
+
           {clientData ? (
             <div>
+              <Title3>{user?.name}</Title3>
               <div>
                 <strong>Nome:</strong> {clientData.name}
               </div>
@@ -260,28 +264,30 @@ export const Profile: React.FC = () => {
               </div>
             </div>
           ) : (
-            <p>Carregando dados...</p>
+            <p>
+              <CircularSpinner /> Carregando dados...
+            </p>
           )}
         </div>
-        <Button
-          variant="secondary"
-          size="medium"
-          type="button"
-          onClick={openNameEmailModal}
-        >
-          Editar Nome e Email
-        </Button>
+        <div>
+          <Button
+            variant="secondary"
+            size="medium"
+            type="button"
+            onClick={openNameEmailModal}
+          >
+            Editar
+          </Button>
+        </div>
       </WrapperModal>
       <WrapperModal>
-        {/* Modal para Telefones */}
         <Modal
           isOpen={phonesModalIsOpen}
           onRequestClose={closePhonesModal}
           contentLabel="Editar Telefones"
         >
           <h2>Editar Telefones</h2>
-          {/* Conteúdo do modal para Telefones */}
-          {/* Substitua esta linha pelo conteúdo desejado */}
+
           <p>Conteúdo do modal para Telefones</p>
 
           <Button
@@ -293,38 +299,41 @@ export const Profile: React.FC = () => {
             Fechar
           </Button>
         </Modal>
+
         {clientData ? (
           <div>
-            <h3>Telefones:</h3>
             {clientData.telephones.map((telephone, index) => (
               <div key={index}>
+                <Title3>Telefones</Title3>
                 <strong>Número:</strong> {telephone.number}
               </div>
             ))}
           </div>
         ) : (
-          <p>Carregando dados...</p>
+          <p>
+            <CircularSpinner /> Carregando dados...
+          </p>
         )}
-        <Button
-          variant="secondary"
-          size="medium"
-          type="button"
-          onClick={openPhonesModal}
-        >
-          Editar Telefones
-        </Button>
+
+        <div>
+          <Button
+            variant="secondary"
+            size="medium"
+            type="button"
+            onClick={openPhonesModal}
+          >
+            Editar
+          </Button>
+        </div>
       </WrapperModal>
 
       <WrapperModal>
-        {/* Modal para Endereços */}
         <Modal
           isOpen={addressesModalIsOpen}
           onRequestClose={closeAddressesModal}
           contentLabel="Editar Endereços"
         >
           <h2>Editar Endereços</h2>
-          {/* Conteúdo do modal para Endereços */}
-          {/* Substitua esta linha pelo conteúdo desejado */}
           <p>Conteúdo do modal para Endereços</p>
 
           <Button
@@ -336,14 +345,15 @@ export const Profile: React.FC = () => {
             Fechar
           </Button>
         </Modal>
+
         {clientData ? (
           <div>
-            <h3>Endereços:</h3>
             {clientData.addresses?.length &&
               clientData.addresses.map(address => (
                 <div key={address.id}>
                   {address.name}
                   <br />
+                  <Title3>Endereços</Title3>
                   <strong>Endereço:</strong> {address.public_place},{' '}
                   {address.number}
                   <br />
@@ -354,14 +364,17 @@ export const Profile: React.FC = () => {
         ) : (
           <p>Carregando dados...</p>
         )}
-        <Button
-          variant="secondary"
-          size="medium"
-          type="button"
-          onClick={openAddressesModal}
-        >
-          Editar Endereços
-        </Button>
+
+        <div>
+          <Button
+            variant="secondary"
+            size="medium"
+            type="button"
+            onClick={openAddressesModal}
+          >
+            Editar
+          </Button>
+        </div>
       </WrapperModal>
     </ContainerProfile>
   );
