@@ -184,6 +184,8 @@ export const ProductImage = styled.img`
   width: 550px;
   height: 300px;
 
+  /* overflow: hidden; */
+
   ${media.mobile`
     width: 80%;
     height: auto;
@@ -266,4 +268,60 @@ export const AddButton = styled.button`
   color: ${({ theme }) => theme.colors.text.main};
   font-size: 16px;
   cursor: pointer;
+`;
+
+export const ImageAndLike = styled.button`
+  position: relative;
+  display: inline-block;
+  background-color: transparent;
+
+  ${media.mobile`
+    width: 80%;
+    height: auto;
+  `}
+
+  ${media.tablet`
+     width: 80%;
+     height: auto;
+  `}
+
+  ${media.desktop`
+    flex: 1; 
+ `}
+`;
+
+export const FavouriteIconContainer = styled.button`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.colors.white};
+  position: absolute;
+  right: 2%;
+  top: 2%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  svg {
+    color: ${({ theme }) => theme.colors.secondary.main};
+    position: absolute;
+    width: 20px;
+    height: 30px;
+  }
+
+  ${media.mobile`
+    right: 14%;
+    top: 2%;
+  `}
+
+  ${media.tablet`
+    right: 14%;
+    top: 2%;
+  `}
+
+  ${media.desktop`
+    flex: 1; 
+ `}
 `;

@@ -17,14 +17,20 @@ import {
   CounterContainer,
   CountButton,
   CountDisplay,
-  AddButton
+  AddButton,
+  FavouriteIconContainer,
+  ImageAndLike
 } from './styled';
 import { BsFillStarFill } from 'react-icons/bs';
 import { Title } from '../../components/Title';
 import { Button } from '../../components/Button';
 import { Dish } from '../../types/Dish';
 import { formatCurrency } from '../../utils/formatCurrency';
-import { getDishId } from '../../service/api/dishes';
+import {
+  getDishId,
+  getDishRatings,
+  getDishesPerChef
+} from '../../service/api/dishes';
 import { useParams } from 'react-router-dom';
 import { NearDishesMap } from '../../components/NearDishesMap';
 import { getChef } from '../../service/api/chefs';
@@ -32,6 +38,9 @@ import { Chef } from '../../types/Chef';
 import { useAuth } from '../../contexts/authContext';
 import { useCart } from '../../contexts/cartContex';
 import { toast } from 'react-toastify';
+import { BsHeart, BsHeartFill } from 'react-icons/bs';
+import { dislikeDish, likeDish } from '../../service/api/dishes';
+import queryClient from '../../service/reactQuery/queryClient';
 
 export const ProductDetails = () => {
   const [dishDetail, setDishDetail] = useState<Dish>();
@@ -39,9 +48,12 @@ export const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
   const [chef, setChef] = useState<Chef[]>([]);
+  const [chefDishes, setChefDishes] = useState<Dish[]>([]);
+  const [ratings, setRatings] = useState<Rating[]>([]);
   const { id } = useParams();
   const { userLocation } = useAuth();
   const { addToCart } = useCart();
+  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
@@ -58,6 +70,10 @@ export const ProductDetails = () => {
       if (dishDetail) {
         const chefData = await getChef(dishDetail.chef_id);
         setChef([chefData]);
+        const dishesData = await getDishesPerChef(dishDetail.chef_id);
+        setChefDishes(dishesData.data);
+        const ratingsData = await getDishRatings(dishDetail.id!);
+        setRatings(ratingsData);
       }
     };
     getData();
@@ -101,6 +117,16 @@ export const ProductDetails = () => {
     }
   }, [quantity, dishDetail]);
 
+  const toogleLiked = async (dish: Dish) => {
+    if (dish.liked_by_me) {
+      await dislikeDish(dish.id!);
+    } else {
+      await likeDish(dish.id!);
+    }
+    setLiked(prev => !prev);
+    queryClient.invalidateQueries({ queryKey: ['favoriteDishes'] });
+  };
+
   return (
     <Container>
       <TopContainer>
@@ -109,14 +135,19 @@ export const ProductDetails = () => {
 
       <IntermediateContainer>
         <LeftContainer>
-          <ProductImage src={dishDetail?.images[0]} alt="Imagem do produto" />
-
+          <ImageAndLike>
+            <FavouriteIconContainer
+              onClick={() => dishDetail && toogleLiked(dishDetail)}
+            >
+              {liked ? <BsHeartFill /> : <BsHeart />}
+            </FavouriteIconContainer>
+            <ProductImage src={dishDetail?.images[0]} alt="Imagem do produto" />
+          </ImageAndLike>
           <TextContainer>
             <ChefContainer>
               <Text>
                 <strong>Chefe:</strong> {dishDetail?.chef.name}
               </Text>
-
               <ChefAvaliation>
                 {rating.toFixed(0)}
                 <BsFillStarFill />
@@ -127,7 +158,6 @@ export const ProductDetails = () => {
             </Text>
           </TextContainer>
         </LeftContainer>
-
         <RightContainer>
           <MapContainer>
             <NearDishesMap chefs={chef} />
@@ -143,15 +173,16 @@ export const ProductDetails = () => {
             </CounterContainer>
             <Title color="accent">{formatCurrency(totalPrice)}</Title>
           </QuantityPrice>
-
           <ButtonContainer>
             <Button
               variant="primary"
               size="medium"
               disabled={quantity === 0}
               onClick={() => {
-                addToCart(dishDetail, quantity);
-                toast.success('Item adicionado');
+                if (dishDetail) {
+                  addToCart(dishDetail, quantity);
+                  toast.success('Item adicionado');
+                }
               }}
             >
               Comprar
