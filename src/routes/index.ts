@@ -31,11 +31,12 @@ export const apiRoutes = {
   },
   client: {
     me: '/clients/me',
-    update: '/clients/update'
+    update: '/clients/update',
+    addresses: '/clients/addresses',
+    telephone: '/clients/telephones'
   },
 
   addresses: {
-    cep: (cep: string) => `/addresses/search_zip_code/${cep}`,
-    addresses: '/clients/addresses'
+    cep: (cep: string) => `/addresses/search_zip_code/${cep}`
   }
 };

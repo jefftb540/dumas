@@ -10,7 +10,7 @@ export const getAddressByCep = async (cep: string) => {
 
 export const createAddress = async (address: Address) => {
   try {
-    await api.post(apiRoutes.addresses.addresses, {
+    await api.post(apiRoutes.client.addresses, {
       address
     });
   } catch (error) {

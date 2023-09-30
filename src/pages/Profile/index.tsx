@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { api } from '../../service/api';
 import { User } from '../../types/Users';
 import { EditProfile } from '../../components/EditProfile';
 import { Button } from '../../components/Button';
