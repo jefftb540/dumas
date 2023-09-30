@@ -9,6 +9,7 @@ import { ContainerProfile, Title3, WrapperModal } from './styled';
 import { useAuth } from '../../contexts/authContext';
 import { TelephoneProfile } from '../../components/Telephone';
 import { useQuery } from 'react-query';
+import queryClient from '../../service/reactQuery/queryClient';
 Modal.setAppElement('#root');
 
 const getClientData = async () => {
@@ -27,7 +28,7 @@ export const Profile: React.FC = () => {
   const [addressesModalIsOpen, setAddressesModalIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [newPhone, setNewPhone] = useState('');
-  const [phoneNumbers, setPhoneNumbers] = useState([]);
+
   const { user } = useAuth();
 
   const { data } = useQuery(
@@ -89,20 +90,14 @@ export const Profile: React.FC = () => {
 
   const addPhoneNumber = async () => {
     try {
-      const response = await api.post('/clients/telephones', {
-        phoneNumber: newPhone
+      await api.post('/clients/telephones', {
+        telephone: {
+          number: newPhone
+        }
       });
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
 
-      if (response && response.data) {
-        setClientData(response.data);
-
-        setPhoneNumbers([...phoneNumbers, newPhone]);
-
-        setNewPhone('');
-        closePhonesModal();
-      } else {
-        console.log('Algo deu errado');
-      }
+      closePhonesModal();
     } catch (error) {
       console.log(error);
     }

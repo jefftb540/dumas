@@ -21,6 +21,15 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
       setIsEditing(false);
     }
   };
+
+  const deletePhoneNumber = async (telephone_id: string) => {
+    try {
+      await api.delete(`/clients/telephones/${telephone_id}`);
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
       <Title3>Telefones</Title3>
@@ -36,6 +45,7 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
         <>
           {telephone.number}{' '}
           <span onClick={() => setIsEditing(true)}>Editar</span>
+          <span onClick={() => deletePhoneNumber(telephone.id)}>Excluir</span>
         </>
       )}
     </div>
