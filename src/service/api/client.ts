@@ -9,3 +9,12 @@ export const getClientData = async () => {
     console.log(error);
   }
 };
+
+export const editClient = async (values: User) => {
+  try {
+    const response = await api.put<User>('/clients/update', values);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

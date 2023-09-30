@@ -11,7 +11,7 @@ import { TelephoneProfile } from '../../components/Telephone';
 import { useQuery } from 'react-query';
 import queryClient from '../../service/reactQuery/queryClient';
 import { AddressProfile } from '../../components/Addresses';
-import { getClientData } from '../../service/api/client';
+import { editClient, getClientData } from '../../service/api/client';
 import { createAddress, getAddressByCep } from '../../service/api/address';
 import { Address } from '../../types/Address';
 import {
@@ -100,10 +100,10 @@ export const Profile: React.FC = () => {
 
   const sendEditClient = async (values: User) => {
     try {
-      const response = await api.put('/clients/update', values);
+      const response = await editClient(values);
 
-      if (response && response.data) {
-        setClientData(response.data);
+      if (response && response) {
+        setClientData(response);
 
         closeNameEmailModal();
       } else {
