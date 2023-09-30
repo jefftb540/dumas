@@ -1,39 +1,81 @@
 import { useEffect, useState } from 'react';
-import { Container } from './styled';
+import {
+  Container,
+  TopContainer,
+  IntermediateContainer,
+  LeftContainer,
+  RightContainer,
+  ButtonContainer,
+  MapContainer,
+  DistanceDetails,
+  ProductImage,
+  Text,
+  TextContainer,
+  QuantityPrice
+} from './styled';
 import { Title } from '../../components/Title';
 import { Button } from '../../components/Button';
 import { Dish } from '../../types/Dish';
+import { formatCurrency } from '../../utils/formatCurrency';
 import { getDishId } from '../../service/api/dishes';
 import { useParams } from 'react-router-dom';
 
-export const ProductDetails = ({ dishes, type }: ProductDetailsProps) => {
+export const ProductDetails = () => {
   const [dishDetail, setDishDetail] = useState<Dish>();
-  let { id } = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
     const getData = async () => {
-      const dishDetailData = await getDishId(id);
-      setDishDetail(dishDetailData);
+      if (id) {
+        const dishDetailData = await getDishId(id);
+        setDishDetail(dishDetailData);
+      }
     };
     getData();
   }, []);
 
-
   return (
     <Container>
-      <Title color="accent">{dishDetail?.name}</Title>
+      <TopContainer>
+        <Title color="accent">{dishDetail?.name}</Title>
+      </TopContainer>
 
-      <Title color="accent">{dishDetail?.chef.name}</Title>
-      <Title color="accent">{dishDetail?.available}</Title>
-      <Title color="accent">{dishDetail?.description}</Title>
-      <Title color="accent">{dishDetail?.unit_price}</Title>
-      <Title color="accent">{dishDetail?.distance}</Title>
-      <img src={dishDetail.images[0]} />
+      <IntermediateContainer>
+        <LeftContainer>
+          <ProductImage src={dishDetail?.images[0]} alt="Imagem do produto" />
 
+          <TextContainer>
+            <Text>
+              <strong>Chefe:</strong> {dishDetail?.chef.name}
+            </Text>
+            <Text>{dishDetail?.available}</Text>
+            <Text>
+              <strong>Descrição:</strong> {dishDetail?.description}
+            </Text>
+          </TextContainer>
+        </LeftContainer>
 
-      <Button variant="primary" size="medium">
-        Comprar
-      </Button>
+        <RightContainer>
+          <MapContainer></MapContainer>
+          <DistanceDetails>
+            <Title color="accent">{dishDetail?.distance}</Title>
+          </DistanceDetails>
+          <QuantityPrice>
+            <Button variant="primary" size="medium">
+              1
+            </Button>
+            <Title color="accent">
+              {formatCurrency(dishDetail?.unit_price)} {}
+            </Title>
+          </QuantityPrice>
+
+          <ButtonContainer>
+            <Button variant="primary" size="medium">
+              Comprar
+            </Button>
+          </ButtonContainer>
+        </RightContainer>
+      </IntermediateContainer>
     </Container>
   );
 };

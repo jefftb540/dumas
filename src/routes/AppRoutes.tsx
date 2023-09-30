@@ -7,14 +7,16 @@ import { MainLayout } from '../components/MainLayout';
 
 import { SignUp } from '../pages/SignUp';
 import { PasswordRecovery } from '../pages/RecoveryPassword';
-
-import { useAuth } from '../contexts/authContext';
 import { ProductDetails } from '../pages/ProductDetails';
+import { useAuth } from '../contexts/authContext';
+import { Cart } from '../pages/Cart';
+import { Checkout } from '../pages/Checkout';
 
 export const AppRoutes = () => {
   const { isAuthenticated, loading, user } = useAuth();
 
   if (loading) return <div>Loading</div>;
+
   if (isAuthenticated && !user) return <div>Loading</div>;
 
   return (
@@ -24,7 +26,8 @@ export const AppRoutes = () => {
           <Route path={routes.home} element={<PageLayout />}>
             <Route path={routes.home} element={<Home />} />
             <Route path={routes.dish()} element={<ProductDetails />} />
-            <Route path={routes.cart} element={<h1>Cart Placeholder</h1>} />
+            <Route path={routes.cart} element={<Cart />} />
+            <Route path={routes.checkout} element={<Checkout />} />
             <Route
               path={routes.profile}
               element={<h1>Profile Placeholder</h1>}
