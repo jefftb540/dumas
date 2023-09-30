@@ -15,6 +15,8 @@ interface CartContextProps {
   chefsInCart: Chef[];
   clearCartItems: () => void;
   getItemsCount: () => number;
+  isPaid: boolean;
+  confirmPayment: () => void;
 }
 
 export const CartContext = createContext<CartContextProps>(
@@ -30,6 +32,7 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
   const items = storedCartItems ? JSON.parse(storedCartItems as string) : [];
   const [cartItems, setCartItems] = useState<CartItem[]>(items);
   const [chefsInCart, setChefsInCart] = useState<Chef[]>([]);
+  const [isPaid, setIsPaid] = useState(false);
 
   useMemo(() => {
     secureLocalStorage.setItem('cart', JSON.stringify(cartItems));
@@ -47,6 +50,7 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
   }, [cartItems]);
 
   const addToCart = (item: Dish) => {
+    setIsPaid(false);
     const isItemInCart = cartItems.find(
       cartItem => cartItem.item.id === item.id
     );
@@ -100,8 +104,11 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
     cartItems.filter(cartItem => cartItem.item.chef.id === chefId);
 
   const clearCartItems = () => setCartItems([]);
+
   const getItemsCount = () =>
     cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  const confirmPayment = () => setIsPaid(true);
 
   return (
     <CartContext.Provider
@@ -115,7 +122,9 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
         getItensPerChef,
         clearCartItems,
         getItemsCount,
-        deleteFromCart
+        deleteFromCart,
+        isPaid,
+        confirmPayment
       }}
     >
       {children}
