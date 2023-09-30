@@ -32,6 +32,16 @@ export const apiRoutes = {
     states: '/states',
     cities: (state: string) => `/states/${state}/cities`
   },
+  client: {
+    me: '/clients/me',
+    update: '/clients/update',
+    addresses: '/clients/addresses',
+    telephone: '/clients/telephones'
+  },
+
+  addresses: {
+    cep: (cep: string) => `/addresses/search_zip_code/${cep}`
+  },
 
   order: {
     create: 'clients/orders'

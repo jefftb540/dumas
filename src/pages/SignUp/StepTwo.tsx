@@ -19,7 +19,6 @@ import { api } from '../../service/api';
 import { useEffect, useState } from 'react';
 import { getAndUseLocation } from '../../consts/getLocation';
 import { Address } from '../../types/Address';
-// import { getLocation } from '../../consts/getLocation';
 
 interface Cep {
   cep: string;
@@ -41,9 +40,9 @@ interface Cep {
 export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
   const { error } = useAuth();
   const navigate = useNavigate();
-  const [cities, setCities] = useState<Cep[]>([]);
-  const [state, setState] = useState<string | undefined>();
-  const [states, setStates] = useState<string[]>([]);
+  const [cities, setCities] = useState<{ id: string; name: string }[]>([]);
+  const [state, setState] = useState<string>();
+  const [states, setStates] = useState<{ id: string; name: string }[]>([]);
   const [isLocationSet, setIsLocationSet] = useState(false);
 
   useEffect(() => {
@@ -92,7 +91,7 @@ export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
     values: User,
     setFieldValue: (
       field: string,
-      value: any,
+      value: string | number,
       shouldValidate?: boolean | undefined
     ) => Promise<void | FormikErrors<User>>
   ) => {
@@ -122,6 +121,7 @@ export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
       setStates(prev => [...prev, { id: 'stateFromCep', name: data.state }]);
       setFieldValue('addresses_attributes[0].city_id', data.city_id);
       setFieldValue('addresses_attributes[0].state', 'stateFromCep');
+      setFieldValue('addresses_attributes[0].name', 'Endereço Principal');
 
       console.log(data);
     } catch (error) {
@@ -182,7 +182,6 @@ export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
               placeholder="Cidade"
               name="addresses_attributes[0].city_id"
               as="select"
-              s
             >
               {cities.length &&
                 cities.map(city => (
