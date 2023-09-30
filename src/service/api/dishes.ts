@@ -89,3 +89,9 @@ export const rateDish = async (rating: Rating) => {
   rating.dishId &&
     (await api.post(apiRoutes.dish.rate(rating.dishId), { rating }));
 };
+
+export const getDishRatings = async (dishId: string) => {
+  const response = await api.get<Rating[]>(apiRoutes.dish.ratings(dishId));
+
+  return response.data;
+};

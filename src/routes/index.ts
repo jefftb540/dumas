@@ -22,7 +22,8 @@ export const apiRoutes = {
     like: (id: string) => `/dishes/${id}/like`,
     dislike: (id: string) => `/dishes/${id}/dislike`,
     detail: (id: string) => `/dishes/${id}`,
-    rate: (id: string) => `/dishes/${id}/ratings`
+    rate: (id: string) => `/dishes/${id}/ratings`,
+    ratings: (id: string) => `/dishes/${id}/ratings`
   },
   chef: {
     dishes: (id: string) => `chefs/${id}/dishes`,
