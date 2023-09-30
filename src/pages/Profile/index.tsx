@@ -44,10 +44,9 @@ export const Profile: React.FC = () => {
     complement: '',
     reference: ''
   });
-
+  const { theme } = useTheme();
   const { user } = useAuth();
-
-  const { data } = useQuery(['profile'], getClientData);
+  const { data, isLoading } = useQuery(['profile'], getClientData);
 
   const handleCepChange = async (cep: string) => {
     const cleanedCep = cep.replace(/[^0-9]/g, '');
@@ -99,8 +98,7 @@ export const Profile: React.FC = () => {
     setAddressesModalIsOpen(false);
   }
 
-  const handleSubmit = async (values: User) => {
-    //TODO mudar nome para um que especifique qual request está sendo enviada
+  const sendEditClient = async (values: User) => {
     try {
       const response = await api.put('/clients/update', values);
 
@@ -154,8 +152,6 @@ export const Profile: React.FC = () => {
     }
   };
 
-  const { theme } = useTheme();
-
   const customStyles = {
     content: {
       maxWidth: '500px',
@@ -165,7 +161,9 @@ export const Profile: React.FC = () => {
       backgroundColor: theme === 'light' ? '#FDFDFD' : '#6f6464'
     }
   };
-
+  if (isLoading) {
+    return <h2>Carregando Dados...</h2>;
+  }
   return (
     <ContainerProfile>
       <WrapperModal>
@@ -186,7 +184,7 @@ export const Profile: React.FC = () => {
               </ContainerTitleClose>
 
               {clientData ? (
-                <EditProfile values={clientData} onSubmit={handleSubmit} />
+                <EditProfile values={clientData} onSubmit={sendEditClient} />
               ) : (
                 <p>
                   <CircularSpinner /> Carregando dados...
