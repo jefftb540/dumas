@@ -29,6 +29,14 @@ export const Profile: React.FC = () => {
   const [addressesModalIsOpen, setAddressesModalIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [newPhone, setNewPhone] = useState('');
+  const [newAddress, setNewAddress] = useState({
+    id: '',
+    name: '',
+    public_place: '',
+    zip_code: '',
+    number: '',
+    neighborhood: ''
+  });
 
   const { user } = useAuth();
 
@@ -99,6 +107,28 @@ export const Profile: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: ['profile'] });
 
       closePhonesModal();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addAddress = async () => {
+    try {
+      await api.post('/clients/addresses', {
+        address: newAddress
+      });
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
+
+      setNewAddress({
+        id: '',
+        name: '',
+        public_place: '',
+        zip_code: '',
+        number: '',
+        neighborhood: ''
+      });
+
+      closeAddressesModal();
     } catch (error) {
       console.log(error);
     }
@@ -226,7 +256,58 @@ export const Profile: React.FC = () => {
           contentLabel="Editar Endereços"
         >
           <h2>Editar Endereços</h2>
-          <p>Conteúdo do modal para Endereços</p>
+
+          <input
+            type="text"
+            placeholder="Tipo de endereço"
+            value={newAddress.name}
+            onChange={e =>
+              setNewAddress({ ...newAddress, name: e.target.value })
+            }
+          />
+
+          <input
+            type="text"
+            placeholder="CEP"
+            value={newAddress.zip_code}
+            onChange={e =>
+              setNewAddress({ ...newAddress, zip_code: e.target.value })
+            }
+          />
+          <input
+            type="text"
+            placeholder="Logradouro"
+            value={newAddress.public_place}
+            onChange={e =>
+              setNewAddress({ ...newAddress, public_place: e.target.value })
+            }
+          />
+
+          <input
+            type="text"
+            placeholder="Número"
+            value={newAddress.number}
+            onChange={e =>
+              setNewAddress({ ...newAddress, number: e.target.value })
+            }
+          />
+          <input
+            type="text"
+            placeholder="Bairro"
+            value={newAddress.neighborhood}
+            onChange={e =>
+              setNewAddress({ ...newAddress, neighborhood: e.target.value })
+            }
+          />
+
+          <Button
+            variant="primary"
+            size="medium"
+            type="button"
+            onClick={addAddress}
+          >
+            Adicionar
+          </Button>
 
           <Button
             variant="primary"
@@ -242,15 +323,6 @@ export const Profile: React.FC = () => {
           <div>
             {clientData.addresses?.length &&
               clientData.addresses.map((address, index) => (
-                // <div key={address.id}>
-                //   {address.name}
-                //   <br />
-                //   <Title3>Endereços</Title3>
-                //   <strong>Endereço:</strong> {address.public_place},{' '}
-                //   {address.number}
-                //   <br />
-                //   <strong>CEP:</strong> {address.zip_code}
-                // </div>
                 <AddressProfile key={`address_${index}`} address={address} />
               ))}
           </div>
