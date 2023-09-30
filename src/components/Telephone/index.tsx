@@ -4,6 +4,11 @@ import { Telephone } from '../../types/Telephone';
 import { api } from '../../service/api';
 import queryClient from '../../service/reactQuery/queryClient';
 import { FiEdit, FiDelete } from 'react-icons/fi';
+import {
+  ContainerTelephoneProfile,
+  InputPhone,
+  WrapperEditDelete
+} from './styled';
 
 interface TelephoneProfileProps {
   telephone: Telephone;
@@ -32,11 +37,11 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
     }
   };
   return (
-    <div>
+    <ContainerTelephoneProfile>
       <Title3>Telefones</Title3>
       <strong>Número:</strong>:
       {isEditing ? (
-        <input
+        <InputPhone
           type="phone"
           onKeyUp={handlePressEnter}
           value={newTelephone}
@@ -45,14 +50,16 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
       ) : (
         <>
           {telephone.number}{' '}
-          <span onClick={() => setIsEditing(true)}>
-            <FiEdit />
-          </span>
-          <span onClick={() => deletePhoneNumber(telephone.id)}>
-            <FiDelete />
-          </span>
+          <WrapperEditDelete>
+            <span onClick={() => setIsEditing(true)}>
+              <FiEdit />
+            </span>
+            <span onClick={() => deletePhoneNumber(telephone.id)}>
+              <FiDelete />
+            </span>
+          </WrapperEditDelete>
         </>
       )}
-    </div>
+    </ContainerTelephoneProfile>
   );
 };
