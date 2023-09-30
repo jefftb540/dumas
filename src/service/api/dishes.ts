@@ -3,6 +3,7 @@ import { apiRoutes } from '../../routes';
 import { Dish } from '../../types/Dish';
 import { Locality } from '../../types/Location';
 import { Paginated } from '../../types/Paginated';
+import { Rating } from '../../types/Rating';
 
 export const getAllDishes = async (page = 1, perPage = 25) => {
   const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
@@ -76,4 +77,9 @@ export const likeDish = async (dishId: string) => {
 
 export const dislikeDish = async (dishId: string) => {
   await api.put(apiRoutes.dish.dislike(dishId));
+};
+
+export const rateDish = async (rating: Rating) => {
+  rating.dishId &&
+    (await api.post(apiRoutes.dish.rate(rating.dishId), { rating }));
 };

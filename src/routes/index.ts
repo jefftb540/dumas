@@ -9,7 +9,9 @@ export const routes = {
   recoverPassword: '/recuperarsenha',
   dish: (id = ':id') => `dish/${id}`,
   home: '/',
-  cart: 'carrinho'
+  cart: '/carrinho',
+  checkout: '/carrinho/checkout',
+  rating: '/carrinho/avaliar'
 
   // TODO: Adicionar rotas da area logada
 };
@@ -19,7 +21,8 @@ export const apiRoutes = {
   dish: {
     like: (id: string) => `/dishes/${id}/like`,
     dislike: (id: string) => `/dishes/${id}/dislike`,
-    detail: (id: string) => `/dishes/${id}`
+    detail: (id: string) => `/dishes/${id}`,
+    rate: (id: string) => `/dishes/${id}/ratings`
   },
   chef: {
     dishes: (id: string) => `chefs/${id}/dishes`

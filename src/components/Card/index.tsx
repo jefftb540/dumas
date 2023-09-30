@@ -25,6 +25,7 @@ import { useCart } from '../../contexts/cartContex';
 import { useNavigate } from 'react-router-dom';
 import { routes } from '../../routes';
 import queryClient from '../../service/reactQuery/queryClient';
+import { toast } from 'react-toastify';
 
 interface CardProps {
   dish: Dish;
@@ -62,7 +63,12 @@ export const Card = ({ dish }: CardProps) => {
           <DishTitle onClick={() => navigate(routes.dish(dish.id))}>
             {dish.name}
           </DishTitle>
-          <CartIconContainer onClick={() => addToCart(dish)}>
+          <CartIconContainer
+            onClick={() => {
+              addToCart(dish);
+              toast.success('Item adicionado');
+            }}
+          >
             <BsCartPlus />
           </CartIconContainer>
         </TitleAndIconContainer>

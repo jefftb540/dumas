@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/Button';
 import { CartItemCard } from '../../components/CartItemCard';
 import { Title } from '../../components/Title';
@@ -11,8 +12,10 @@ import {
   CartInfoTitle,
   ItensContainer
 } from './styled';
+import { routes } from '../../routes';
 
 export const Cart = () => {
+  const navigate = useNavigate();
   const { chefsInCart, getItensPerChef, getTotalPrice } = useCart();
   return (
     <CartContainer>
@@ -36,7 +39,11 @@ export const Cart = () => {
               Que tal conferir alguns pratos saborosos preparados pelos nossos
               chefes e fazer o seu pedido?
             </CartInfoText>
-            <Button size="large" variant="primary">
+            <Button
+              size="large"
+              variant="primary"
+              onClick={() => navigate(routes.home)}
+            >
               Conferir pratos
             </Button>
           </CartInfoContainer>
@@ -44,7 +51,11 @@ export const Cart = () => {
       )}
       <CartFooter>
         <Title color="accent">{formatCurrency(getTotalPrice())}</Title>
-        <Button size="medium" variant="primary">
+        <Button
+          size="medium"
+          variant="primary"
+          onClick={() => navigate(routes.checkout)}
+        >
           Comprar
         </Button>
       </CartFooter>
