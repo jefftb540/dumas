@@ -15,6 +15,7 @@ import { configureAxiosToken } from '../../utils/configureAxiosAuth';
 import { getLocationWithIPAddress } from '../../service/api/location';
 import { routes } from '../../routes';
 import { handleSignupErrors } from '../../utils/handleSignupErrors';
+import { configureLocalStorage } from '../../utils/configureLocalStorage';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -63,7 +64,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setIsAuthenticated(true);
         setIsLoading(true);
         setUser(response.user);
-        configureAxiosToken(response.access_token, response.refresh_token);
+        configureAxiosToken();
         if (
           response.user?.addresses?.length &&
           response.user.addresses[0].latitude &&
@@ -99,7 +100,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         );
         setIsAuthenticated(true);
         setIsLoading(true);
-        configureAxiosToken(response.access_token, response.refresh_token);
+        configureAxiosToken();
+        // configureAxiosToken(response.access_token, response.refresh_token);
         navigate(routes.home);
       }
     } catch (error) {
@@ -108,23 +110,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }
 
-  const configureLocalStorage = (
-    token: string,
-    refreshToken: string,
-    user: User
-  ) => {
-    const expDate = new Date();
-    expDate.setHours(expDate.getHours() + 1);
-    secureLocalStorage.setItem('tokenExpDate', JSON.stringify(expDate));
-    secureLocalStorage.setItem('token', token);
-    secureLocalStorage.setItem('refreshToken', refreshToken);
-    secureLocalStorage.setItem('user', JSON.stringify(user));
-  };
-
   function signOut() {
     secureLocalStorage.clear();
 
-    navigate('/');
+    navigate(routes.login);
 
     setIsAuthenticated(false);
   }
@@ -132,14 +121,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const authUser = secureLocalStorage.getItem('user');
     const token = secureLocalStorage.getItem('token');
-    const refreshToken = secureLocalStorage.getItem('refreshToken');
+    // const refreshToken = secureLocalStorage.getItem('refreshToken');
+    console.log('auth');
 
     if (!token) {
       setIsAuthenticated(false);
       setIsLoading(false);
+      navigate(routes.login);
       return;
     }
-    configureAxiosToken(token as string, refreshToken as string);
+    configureAxiosToken();
+    // configureAxiosToken(token as string, refreshToken as string);
     if (authUser) {
       const storedUser = JSON.parse(authUser as string);
       setUser(storedUser);
