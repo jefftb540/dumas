@@ -35,7 +35,11 @@ export const Checkout = () => {
               <QRCode value={`Pagamento no valor de ${value}`} />
             </QrCodeContainer>
             <PriceContainer>{value}</PriceContainer>
-            <Button size="medium" variant="primary">
+            <Button
+              size="medium"
+              variant="primary"
+              onClick={() => navigate(routes.rating)}
+            >
               Confirmar
             </Button>
           </CheckoutContainer>
