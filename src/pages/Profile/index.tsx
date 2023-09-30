@@ -27,7 +27,6 @@ export const Profile: React.FC = () => {
   const [nameEmailModalIsOpen, setNameEmailModalIsOpen] = useState(false);
   const [phonesModalIsOpen, setPhonesModalIsOpen] = useState(false);
   const [addressesModalIsOpen, setAddressesModalIsOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
   const [newPhone, setNewPhone] = useState('');
   const [newAddress, setNewAddress] = useState({
     id: '',
@@ -54,12 +53,10 @@ export const Profile: React.FC = () => {
 
   function openNameEmailModal() {
     setNameEmailModalIsOpen(true);
-    setIsEditing(true);
   }
 
   function closeNameEmailModal() {
     setNameEmailModalIsOpen(false);
-    setIsEditing(false);
   }
 
   function openPhonesModal() {
@@ -84,7 +81,6 @@ export const Profile: React.FC = () => {
 
       if (response && response.data) {
         setClientData(response.data);
-        setIsEditing(false);
 
         closeNameEmailModal();
         closePhonesModal();
@@ -337,7 +333,7 @@ export const Profile: React.FC = () => {
             type="button"
             onClick={openAddressesModal}
           >
-            Editar
+            Adicionar
           </Button>
         </div>
       </WrapperModal>

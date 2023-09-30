@@ -4,6 +4,11 @@ import queryClient from '../../service/reactQuery/queryClient';
 import { Address } from '../../types/Address';
 import { Title3 } from '../../pages/Profile/styled';
 import { FiDelete, FiEdit } from 'react-icons/fi';
+import {
+  ContainerAddressProfile,
+  InputAddress,
+  WrapperEditDelete
+} from './styled';
 
 interface AddressProfileProps {
   address: Address;
@@ -44,82 +49,69 @@ export const AddressProfile: React.FC<AddressProfileProps> = ({
   };
 
   return (
-    <div>
-      <h3>Addresses</h3>
+    <ContainerAddressProfile>
+      <Title3>Endereços</Title3>
       {isEditing ? (
         <div>
-          <label>
-            Nome:
-            <input
-              type="text"
-              value={editedAddress.name}
-              onChange={e =>
-                setEditedAddress({
-                  ...editedAddress,
-                  name: e.target.value
-                })
-              }
-            />
-          </label>
-          <label>
-            Endereço:
-            <input
-              type="text"
-              value={editedAddress.public_place}
-              onChange={e =>
-                setEditedAddress({
-                  ...editedAddress,
-                  public_place: e.target.value
-                })
-              }
-            />
-          </label>
-          <label>
-            Número:
-            <input
-              type="text"
-              value={editedAddress.number}
-              onChange={e =>
-                setEditedAddress({
-                  ...editedAddress,
-                  number: e.target.value
-                })
-              }
-            />
-          </label>
-          <label>
-            CEP:
-            <input
-              type="text"
-              onKeyUp={handlePressEnter}
-              value={editedAddress.zip_code}
-              onChange={e =>
-                setEditedAddress({
-                  ...editedAddress,
-                  zip_code: e.target.value
-                })
-              }
-            />
-          </label>
+          <InputAddress
+            type="text"
+            value={editedAddress.name}
+            onChange={e =>
+              setEditedAddress({
+                ...editedAddress,
+                name: e.target.value
+              })
+            }
+          />
+
+          <InputAddress
+            type="text"
+            value={editedAddress.public_place}
+            onChange={e =>
+              setEditedAddress({
+                ...editedAddress,
+                public_place: e.target.value
+              })
+            }
+          />
+
+          <InputAddress
+            type="text"
+            value={editedAddress.number}
+            onChange={e =>
+              setEditedAddress({
+                ...editedAddress,
+                number: e.target.value
+              })
+            }
+          />
+
+          <InputAddress
+            type="text"
+            onKeyUp={handlePressEnter}
+            value={editedAddress.zip_code}
+            onChange={e =>
+              setEditedAddress({
+                ...editedAddress,
+                zip_code: e.target.value
+              })
+            }
+          />
         </div>
       ) : (
         <>
-          <Title3>Endereços</Title3>
-          <div>
-            <div>{address.name}</div>
-            {address.public_place}, {address.number}
-            <div></div>
+          <strong>{address.name}:</strong>
+          {address.public_place}, {address.number}
+          <WrapperEditDelete>
             <span onClick={() => handleActionClick('edit')}>
               <FiEdit />
             </span>
             <span onClick={() => handleActionClick('delete')}>
               <FiDelete />
             </span>
-          </div>
+          </WrapperEditDelete>
         </>
       )}
-    </div>
+    </ContainerAddressProfile>
   );
 };
-
-//TODOConsertar, pq está aparendo Adresses na tela
