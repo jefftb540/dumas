@@ -20,8 +20,10 @@ export const Checkout = () => {
   const navigate = useNavigate();
 
   const { user } = useAuth();
-  const { getTotalPrice, cartItems } = useCart();
+  const { getTotalPrice, cartItems, confirmPayment } = useCart();
+
   const value = formatCurrency(getTotalPrice());
+
   useEffect(() => {
     if (cartItems.length === 0) navigate(routes.cart);
   }, []);
@@ -35,7 +37,14 @@ export const Checkout = () => {
               <QRCode value={`Pagamento no valor de ${value}`} />
             </QrCodeContainer>
             <PriceContainer>{value}</PriceContainer>
-            <Button size="medium" variant="primary">
+            <Button
+              size="medium"
+              variant="primary"
+              onClick={() => {
+                confirmPayment();
+                navigate(routes.rating);
+              }}
+            >
               Confirmar
             </Button>
           </CheckoutContainer>

@@ -11,6 +11,7 @@ import { ProductDetails } from '../pages/ProductDetails';
 import { useAuth } from '../contexts/authContext';
 import { Cart } from '../pages/Cart';
 import { Checkout } from '../pages/Checkout';
+import { RateDishes } from '../pages/RateDishes';
 
 export const AppRoutes = () => {
   const { isAuthenticated, loading, user } = useAuth();
@@ -28,6 +29,7 @@ export const AppRoutes = () => {
             <Route path={routes.dish()} element={<ProductDetails />} />
             <Route path={routes.cart} element={<Cart />} />
             <Route path={routes.checkout} element={<Checkout />} />
+            <Route path={routes.rating} element={<RateDishes />} />
             <Route
               path={routes.profile}
               element={<h1>Profile Placeholder</h1>}

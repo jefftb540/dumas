@@ -3,6 +3,7 @@ import { apiRoutes } from '../../routes';
 import { Dish } from '../../types/Dish';
 import { Locality } from '../../types/Location';
 import { Paginated } from '../../types/Paginated';
+import { Rating } from '../../types/Rating';
 
 export const getAllDishes = async (page = 1, perPage = 25) => {
   const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
@@ -82,4 +83,9 @@ export const getDishId = async (dishId: string) => {
   const response = await api.get<Dish>(apiRoutes.dish.detail(dishId));
 
   return response.data;
+};
+
+export const rateDish = async (rating: Rating) => {
+  rating.dishId &&
+    (await api.post(apiRoutes.dish.rate(rating.dishId), { rating }));
 };

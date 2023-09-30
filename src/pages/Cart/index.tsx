@@ -6,59 +6,63 @@ import { useCart } from '../../contexts/cartContex';
 import { formatCurrency } from '../../utils/formatCurrency';
 import {
   CartContainer,
-  CartFooter,
+  CartButtonContainer,
   CartInfoContainer,
   CartInfoText,
   CartInfoTitle,
   ItensContainer
 } from './styled';
 import { routes } from '../../routes';
+import { CartFooter } from '../../components/CartFooter';
 
 export const Cart = () => {
   const navigate = useNavigate();
   const { chefsInCart, getItensPerChef, getTotalPrice } = useCart();
   return (
-    <CartContainer>
-      <Title color="accent">Carrinho</Title>
-      {chefsInCart.length ? (
-        chefsInCart.map(chef => (
+    <>
+      <CartContainer>
+        <Title color="accent">Carrinho</Title>
+        {chefsInCart.length ? (
+          chefsInCart.map(chef => (
+            <ItensContainer>
+              <>
+                <Title>{chef.name}</Title>
+                {getItensPerChef(chef.id).map(item => (
+                  <CartItemCard item={item} />
+                ))}
+              </>
+            </ItensContainer>
+          ))
+        ) : (
           <ItensContainer>
-            <>
-              <Title>{chef.name}</Title>
-              {getItensPerChef(chef.id).map(item => (
-                <CartItemCard item={item} />
-              ))}
-            </>
+            <CartInfoContainer>
+              <CartInfoTitle>O seu carrinho está vazio</CartInfoTitle>
+              <CartInfoText>
+                Que tal conferir alguns pratos saborosos preparados pelos nossos
+                chefes e fazer o seu pedido?
+              </CartInfoText>
+              <Button
+                size="large"
+                variant="primary"
+                onClick={() => navigate(routes.home)}
+              >
+                Conferir pratos
+              </Button>
+            </CartInfoContainer>
           </ItensContainer>
-        ))
-      ) : (
-        <ItensContainer>
-          <CartInfoContainer>
-            <CartInfoTitle>O seu carrinho está vazio</CartInfoTitle>
-            <CartInfoText>
-              Que tal conferir alguns pratos saborosos preparados pelos nossos
-              chefes e fazer o seu pedido?
-            </CartInfoText>
-            <Button
-              size="large"
-              variant="primary"
-              onClick={() => navigate(routes.home)}
-            >
-              Conferir pratos
-            </Button>
-          </CartInfoContainer>
-        </ItensContainer>
-      )}
-      <CartFooter>
-        <Title color="accent">{formatCurrency(getTotalPrice())}</Title>
-        <Button
-          size="medium"
-          variant="primary"
-          onClick={() => navigate(routes.checkout)}
-        >
-          Comprar
-        </Button>
-      </CartFooter>
-    </CartContainer>
+        )}
+        <CartButtonContainer>
+          <Title color="accent">{formatCurrency(getTotalPrice())}</Title>
+          <Button
+            size="medium"
+            variant="primary"
+            onClick={() => navigate(routes.checkout)}
+          >
+            Comprar
+          </Button>
+        </CartButtonContainer>
+      </CartContainer>
+      <CartFooter />
+    </>
   );
 };
