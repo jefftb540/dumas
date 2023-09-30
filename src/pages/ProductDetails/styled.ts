@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding-right: 72px;
-  padding-left: 72px;
+  padding: 30px 72px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -38,6 +37,13 @@ export const Text = styled.h2`
   font-weight: ${({ theme }) => theme.fonts.weight.light};
   padding-bottom: 3%;
   color: ${({ theme }) => theme.colors.text.main};
+
+  svg {
+    color: ${({ theme }) => theme.colors.primary.main};
+    position: absolute;
+    margin-top: 2px;
+    margin-left: 4px;
+  }
 `;
 
 export const RightContainer = styled.div`
@@ -73,4 +79,10 @@ export const ProductImage = styled.img`
   border-radius: 12px;
   width: 550px;
   height: 300px;
+`;
+
+export const ChefContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;

@@ -11,10 +11,13 @@ import {
   ProductImage,
   Text,
   TextContainer,
-  QuantityPrice
+  QuantityPrice,
+  ChefContainer
 } from './styled';
+import { BsFillStarFill } from 'react-icons/bs';
 import { Title } from '../../components/Title';
 import { Button } from '../../components/Button';
+import { CartQuantityActions } from '../../components/CartQuantityActions';
 import { Dish } from '../../types/Dish';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { getDishId } from '../../service/api/dishes';
@@ -45,10 +48,14 @@ export const ProductDetails = () => {
           <ProductImage src={dishDetail?.images[0]} alt="Imagem do produto" />
 
           <TextContainer>
-            <Text>
-              <strong>Chefe:</strong> {dishDetail?.chef.name}
-            </Text>
-            <Text>{dishDetail?.available}</Text>
+            <ChefContainer>
+              <Text>
+                <strong>Chefe:</strong> {dishDetail?.chef.name}
+              </Text>
+              <Text>
+                4.5 <BsFillStarFill />
+              </Text>
+            </ChefContainer>
             <Text>
               <strong>Descrição:</strong> {dishDetail?.description}
             </Text>
@@ -61,11 +68,9 @@ export const ProductDetails = () => {
             <Title color="accent">{dishDetail?.distance}</Title>
           </DistanceDetails>
           <QuantityPrice>
-            <Button variant="primary" size="medium">
-              1
-            </Button>
+            <CartQuantityActions item={{ item: dishDetail, quantity: 1 }} />
             <Title color="accent">
-              {formatCurrency(dishDetail?.unit_price)} {}
+              {formatCurrency(dishDetail?.unit_price || 0)}
             </Title>
           </QuantityPrice>
 
