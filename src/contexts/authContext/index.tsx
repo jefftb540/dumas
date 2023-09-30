@@ -101,7 +101,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setIsAuthenticated(true);
         setIsLoading(true);
         configureAxiosToken();
-        // configureAxiosToken(response.access_token, response.refresh_token);
         navigate(routes.home);
       }
     } catch (error) {
@@ -121,7 +120,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const authUser = secureLocalStorage.getItem('user');
     const token = secureLocalStorage.getItem('token');
-    // const refreshToken = secureLocalStorage.getItem('refreshToken');
     console.log('auth');
 
     if (!token) {
@@ -131,7 +129,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       return;
     }
     configureAxiosToken();
-    // configureAxiosToken(token as string, refreshToken as string);
     if (authUser) {
       const storedUser = JSON.parse(authUser as string);
       setUser(storedUser);
