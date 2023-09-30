@@ -20,8 +20,10 @@ export const Checkout = () => {
   const navigate = useNavigate();
 
   const { user } = useAuth();
-  const { getTotalPrice, cartItems } = useCart();
+  const { getTotalPrice, cartItems, confirmPayment } = useCart();
+
   const value = formatCurrency(getTotalPrice());
+
   useEffect(() => {
     if (cartItems.length === 0) navigate(routes.cart);
   }, []);
@@ -38,7 +40,10 @@ export const Checkout = () => {
             <Button
               size="medium"
               variant="primary"
-              onClick={() => navigate(routes.rating)}
+              onClick={() => {
+                confirmPayment();
+                navigate(routes.rating);
+              }}
             >
               Confirmar
             </Button>
