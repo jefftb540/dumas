@@ -9,7 +9,8 @@ export const routes = {
   recoverPassword: '/recuperarsenha',
   dish: (id = ':id') => `prato/${id}`,
   home: '/',
-  cart: 'carrinho'
+  cart: '/carrinho',
+  checkout: '/carrinho/checkout'
 
   // TODO: Adicionar rotas da area logada
 };

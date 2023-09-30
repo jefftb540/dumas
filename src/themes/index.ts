@@ -19,7 +19,7 @@ export const light: DefaultTheme = {
       light: '#CA1E1E'
     },
     black: '#333333',
-    white: '#EEEEEE',
+    white: '#FEFEFE',
     button: {
       disabled: '#6f6464'
     },
@@ -43,15 +43,15 @@ export const light: DefaultTheme = {
     },
     text: {
       errorSize: '10px',
-      extraSmall: '14px',
-      small: '16px',
+      extraSmall: '12px',
+      small: '14px',
       medium: '18px',
-      large: '20px'
+      large: '18px'
     },
     header: {
-      small: '24px',
-      medium: '28px',
-      large: '32px'
+      small: '22px',
+      medium: '24px',
+      large: '28px'
     },
 
     weight: {

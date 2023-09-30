@@ -1,6 +1,6 @@
 import { Container } from './styled';
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Chef } from '../../types/Chef';
 import { useTheme } from '../../contexts/themeContext';
 import { useAuth } from '../../contexts/authContext';
@@ -13,13 +13,14 @@ const apikey = import.meta.env.VITE_MAPS_API_KEY;
 const darkMapId = import.meta.env.VITE_DARK_MAP_ID;
 const lightMapId = import.meta.env.VITE_LIGHT_MAP_ID;
 
-const containerStyle = {
-  width: '100%',
-  height: '260px'
-};
-
 export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const { user, userLocation } = useAuth();
+
+  const containerStyle = {
+    width: '100%',
+    height: containerRef.current?.offsetHeight
+  };
 
   const { theme } = useTheme();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,7 +40,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
 
   const onLoad = useCallback(
     function callback(map: google.maps.Map) {
-      map.setZoom(10);
+      map.setZoom(13);
       map.setOptions({ mapId: theme === 'dark' ? darkMapId : lightMapId });
 
       setMap(map);
@@ -54,13 +55,13 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
   });
 
   return (
-    <Container>
+    <Container ref={containerRef}>
       {isLoaded ? (
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={userLocation}
           options={{ disableDefaultUI: true }}
-          zoom={14}
+          zoom={15}
           onLoad={onLoad}
           onUnmount={onUnmount}
           key={`map_${theme}`}
@@ -77,7 +78,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
                 ? user.addresses[0].name
                 : 'Sua localização',
               color: theme === 'dark' ? '#FFF' : '#333',
-              fontSize: '24px',
+              fontSize: '18px',
               fontWeight: '700'
             }}
           />
@@ -99,7 +100,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
                     label={{
                       text: chef.name,
                       color: theme === 'dark' ? '#FFF' : '#333',
-                      fontSize: '24px',
+                      fontSize: '16px',
                       fontWeight: '700'
                     }}
                   />

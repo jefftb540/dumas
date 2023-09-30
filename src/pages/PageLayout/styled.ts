@@ -1,9 +1,12 @@
 import styled from 'styled-components';
+import { media } from '../../consts/mediaquery';
 
 export const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  gap: 24px;
+  gap: 12px;
   height: 100vh;
+  ${media.tablet`
+  gap:4px;
+`}
 `;

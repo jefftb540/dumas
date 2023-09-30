@@ -24,7 +24,6 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { useCart } from '../../contexts/cartContex';
 import useDebounce from '../../hooks/useDebounce';
-// import { Chef } from '../../types/Chef';
 import { Dish } from '../../types/Dish';
 import { searchDishes } from '../../service/api/dishes';
 import { SearchResults } from '../SearchResults';
@@ -44,7 +43,6 @@ export const Navbar = () => {
   const [searchText, setSearchText] = useState('');
   const [inputText, setInputText] = useState('');
   const [showMenu, setShowMenu] = useState(false);
-  // const [searchResultChefs, setSearchResultChefs] = useState<Chef[]>();
   const [searchResultDishes, setSearchResultDishes] = useState<Dish[]>();
   const inputRef = useRef<HTMLInputElement>(null);
   const { user } = useAuth();
@@ -57,6 +55,7 @@ export const Navbar = () => {
   };
 
   const toggleMenu = () => setShowMenu(prev => !prev);
+  const closeMenu = () => setShowMenu(false);
 
   useEffect(() => {
     debounce(() => setSearchText(inputText));
@@ -157,7 +156,7 @@ export const Navbar = () => {
               <MdOutlineKeyboardArrowDown />
             )}
           </UserMenuToggle>
-          {showMenu && <UserMenu />}
+          {showMenu && <UserMenu closeMenu={closeMenu} />}
           <IconContainer onClick={() => navigate(routes.cart)}>
             {cartItensNumber ? (
               <TotalCartItensNumber>{cartItensNumber}</TotalCartItensNumber>

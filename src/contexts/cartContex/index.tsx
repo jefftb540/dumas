@@ -1,19 +1,18 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 import { Dish } from '../../types/Dish';
 import secureLocalStorage from 'react-secure-storage';
-
-interface CartItem {
-  item: Dish;
-  quantity: number;
-}
+import { Chef } from '../../types/Chef';
+import { CartItem } from '../../types/CartItem';
 
 interface CartContextProps {
   addToCart: (item: Dish) => void;
   removeFromCart: (item: Dish) => void;
+  deleteFromCart: (item: Dish) => void;
   getTotalPrice: () => number;
   getPricePerChef: (chefId: string) => number;
   getItensPerChef: (chefId: string) => CartItem[];
-  getCartItems: () => CartItem[];
+  cartItems: CartItem[];
+  chefsInCart: Chef[];
   clearCartItems: () => void;
   getItemsCount: () => number;
 }
@@ -27,18 +26,26 @@ interface CartProviderProps {
 }
 
 export const CartProviderContext = ({ children }: CartProviderProps) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  useEffect(() => {
+  const storedCartItems = secureLocalStorage.getItem('cart');
+  const items = storedCartItems ? JSON.parse(storedCartItems as string) : [];
+  const [cartItems, setCartItems] = useState<CartItem[]>(items);
+  const [chefsInCart, setChefsInCart] = useState<Chef[]>([]);
+
+  useMemo(() => {
     secureLocalStorage.setItem('cart', JSON.stringify(cartItems));
+    const chefs: Chef[] = [];
+    cartItems.map(item => {
+      if (
+        !chefs.includes(
+          chefs.find(chef => chef.id === item.item.chef.id) || ({} as Chef)
+        )
+      ) {
+        chefs.push(item.item.chef);
+      }
+    });
+    setChefsInCart(chefs);
   }, [cartItems]);
 
-  useEffect(() => {
-    const storedCartItems = secureLocalStorage.getItem('cart');
-    if (storedCartItems) {
-      const items = JSON.parse(storedCartItems as string);
-      setCartItems(items);
-    }
-  }, []);
   const addToCart = (item: Dish) => {
     const isItemInCart = cartItems.find(
       cartItem => cartItem.item.id === item.id
@@ -56,6 +63,9 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
       setCartItems([...cartItems, { item, quantity: 1 }]);
     }
   };
+
+  const deleteFromCart = (item: Dish) =>
+    setCartItems(cartItems.filter(cartItem => cartItem.item.id !== item.id));
   const removeFromCart = (item: Dish) => {
     const isItemInCart = cartItems.find(
       cartItem => cartItem.item.id === item.id
@@ -89,8 +99,6 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
   const getItensPerChef = (chefId: string) =>
     cartItems.filter(cartItem => cartItem.item.chef.id === chefId);
 
-  const getCartItems = () => cartItems;
-
   const clearCartItems = () => setCartItems([]);
   const getItemsCount = () =>
     cartItems.reduce((total, item) => total + item.quantity, 0);
@@ -102,10 +110,12 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
         removeFromCart,
         getTotalPrice,
         getPricePerChef,
-        getCartItems,
+        cartItems,
+        chefsInCart,
         getItensPerChef,
         clearCartItems,
-        getItemsCount
+        getItemsCount,
+        deleteFromCart
       }}
     >
       {children}
