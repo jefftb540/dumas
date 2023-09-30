@@ -1,15 +1,18 @@
 import styled from 'styled-components';
 
 export const CardContainer = styled.div`
-  max-width: 300px;
+  max-width: 260px;
   max-height: 200px;
   border-radius: 12px;
   position: relative;
+  box-shadow: 6px -3px 8px -4px rgba(153, 121, 121, 0.75);
+  -webkit-box-shadow: 6px -3px 8px -4px rgba(153, 121, 121, 0.75);
+  -moz-box-shadow: 6px -3px 30px -8px rgba(153, 121, 121, 0.75);
 `;
 
 export const CardImage = styled.img`
   overflow: hidden;
-  width: 300px;
+  width: 260px;
   max-height: 130px;
   display: block;
   border-radius: 12px 12px 0 0;
@@ -45,6 +48,7 @@ export const TitleAndIconContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 8px;
 `;
 
 export const CartIconContainer = styled.div`
@@ -76,7 +80,11 @@ export const DishTitle = styled.span`
   color: ${({ theme }) => theme.colors.text.main};
   font-size: ${({ theme }) => theme.fonts.text.large};
   font-weight: ${({ theme }) => theme.fonts.weight.semiBold};
+
   cursor: pointer;
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const DishInfoContainer = styled.div`
@@ -84,6 +92,7 @@ export const DishInfoContainer = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+  padding: 8px;
 `;
 
 export const DishInfo = styled.div`

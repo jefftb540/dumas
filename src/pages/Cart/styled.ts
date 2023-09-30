@@ -4,7 +4,7 @@ import { media } from '../../consts/mediaquery';
 export const CartContainer = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 12px 12px;
+  padding: 12px 80px;
   gap: 18px;
   flex: 1;
   color: ${({ theme }) => theme.colors.text.main};
@@ -34,7 +34,7 @@ export const CartInfoTitle = styled.div`
   font-weight: ${({ theme }) => theme.fonts.weight.semiBold};
 `;
 export const CartInfoText = styled.div``;
-export const CartFooter = styled.div`
+export const CartButtonContainer = styled.div`
   display: flex;
   align-items: flex-end;
   flex-direction: column;

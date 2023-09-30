@@ -1,8 +1,18 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useContext,
+  useMemo,
+  useState
+} from 'react';
 import { Dish } from '../../types/Dish';
 import secureLocalStorage from 'react-secure-storage';
 import { Chef } from '../../types/Chef';
 import { CartItem } from '../../types/CartItem';
+import { Address } from '../../types/Address';
+import { OrderItem } from '../../types/Order';
+import { createOrder } from '../../service/api/order';
 
 interface CartContextProps {
   addToCart: (item: Dish) => void;
@@ -15,6 +25,11 @@ interface CartContextProps {
   chefsInCart: Chef[];
   clearCartItems: () => void;
   getItemsCount: () => number;
+  isPaid: boolean;
+  confirmPayment: () => void;
+  activeAddress: Address | undefined;
+  setActiveAddress: Dispatch<SetStateAction<Address | undefined>>;
+  sendOrder: () => void;
 }
 
 export const CartContext = createContext<CartContextProps>(
@@ -30,6 +45,8 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
   const items = storedCartItems ? JSON.parse(storedCartItems as string) : [];
   const [cartItems, setCartItems] = useState<CartItem[]>(items);
   const [chefsInCart, setChefsInCart] = useState<Chef[]>([]);
+  const [isPaid, setIsPaid] = useState(false);
+  const [activeAddress, setActiveAddress] = useState<Address>();
 
   useMemo(() => {
     secureLocalStorage.setItem('cart', JSON.stringify(cartItems));
@@ -47,6 +64,7 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
   }, [cartItems]);
 
   const addToCart = (item: Dish) => {
+    setIsPaid(false);
     const isItemInCart = cartItems.find(
       cartItem => cartItem.item.id === item.id
     );
@@ -100,8 +118,22 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
     cartItems.filter(cartItem => cartItem.item.chef.id === chefId);
 
   const clearCartItems = () => setCartItems([]);
+
   const getItemsCount = () =>
     cartItems.reduce((total, item) => total + item.quantity, 0);
+
+  const sendOrder = async () => {
+    const orderItems: OrderItem[] = cartItems.map(item => ({
+      dish_id: item.item.id!,
+      amount: item.quantity
+    }));
+    await createOrder({
+      delivery_address_id: activeAddress!.id,
+      items_attributes: orderItems
+    });
+  };
+
+  const confirmPayment = () => setIsPaid(true);
 
   return (
     <CartContext.Provider
@@ -115,7 +147,12 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
         getItensPerChef,
         clearCartItems,
         getItemsCount,
-        deleteFromCart
+        deleteFromCart,
+        isPaid,
+        confirmPayment,
+        activeAddress,
+        setActiveAddress,
+        sendOrder
       }}
     >
       {children}

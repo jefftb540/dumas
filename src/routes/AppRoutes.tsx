@@ -11,11 +11,14 @@ import { PasswordRecovery } from '../pages/RecoveryPassword';
 import { useAuth } from '../contexts/authContext';
 import { Profile } from '../pages/Profile';
 import { Cart } from '../pages/Cart';
+import { Checkout } from '../pages/Checkout';
+import { RateDishes } from '../pages/RateDishes';
 
 export const AppRoutes = () => {
   const { isAuthenticated, loading, user } = useAuth();
 
   if (loading) return <div>Loading</div>;
+
   if (isAuthenticated && !user) return <div>Loading</div>;
 
   return (
@@ -30,6 +33,8 @@ export const AppRoutes = () => {
             />
             <Route path={routes.cart} element={<Cart />} />
             <Route path={routes.profile} element={<Profile />} />
+            <Route path={routes.checkout} element={<Checkout />} />
+            <Route path={routes.rating} element={<RateDishes />} />
           </Route>
           <Route path="*" element={<Navigate to={routes.home} />} />
           <Route></Route>
