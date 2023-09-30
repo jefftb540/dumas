@@ -24,6 +24,7 @@ import {
 } from '../../components/EditProfile/styled';
 import { FiHome, FiPhone, FiXCircle } from 'react-icons/fi';
 import { useTheme } from '../../contexts/themeContext';
+import { createTelephones } from '../../service/api/telephone';
 
 Modal.setAppElement('#root');
 
@@ -116,11 +117,7 @@ export const Profile: React.FC = () => {
 
   const addPhoneNumber = async () => {
     try {
-      await api.post('/clients/telephones', {
-        telephone: {
-          number: newPhone
-        }
-      });
+      await createTelephones(newPhone);
       queryClient.invalidateQueries({ queryKey: ['profile'] });
 
       closePhonesModal();

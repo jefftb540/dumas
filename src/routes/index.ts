@@ -28,5 +28,14 @@ export const apiRoutes = {
   state: {
     states: '/states',
     cities: (state: string) => `/states/${state}/cities`
+  },
+  client: {
+    me: '/clients/me',
+    update: '/clients/update'
+  },
+
+  addresses: {
+    cep: (cep: string) => `/addresses/search_zip_code/${cep}`,
+    addresses: '/clients/addresses'
   }
 };
