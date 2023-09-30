@@ -46,7 +46,7 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
     setChefsInCart(chefs);
   }, [cartItems]);
 
-  const addToCart = (item: Dish) => {
+  const addToCart = (item: Dish, quantity = 1) => {
     const isItemInCart = cartItems.find(
       cartItem => cartItem.item.id === item.id
     );
@@ -55,12 +55,12 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
       setCartItems(
         cartItems.map(cartItem =>
           cartItem.item.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            ? { ...cartItem, quantity: cartItem.quantity + quantity }
             : cartItem
         )
       );
     } else {
-      setCartItems([...cartItems, { item, quantity: 1 }]);
+      setCartItems([...cartItems, { item, quantity: quantity }]);
     }
   };
 

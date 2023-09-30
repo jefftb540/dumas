@@ -1,14 +1,66 @@
 import styled from 'styled-components';
+import { media } from '../../consts/mediaquery';
 
 export const Container = styled.div`
   padding: 30px 72px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+
+  ${media.mobile`
+    /* padding: 30px 16px; */
+
+    /* display: flex; */
+    align-items: flex-start;
+    /* flex-direction: center;
+    justify-content: center; */
+
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+
+
+  `}
+
+  ${media.tablet`
+    padding: 30px 16px;
+
+    align-items: flex-start;
+    /* align-items: flex-start; */
+    /* flex-direction: center;
+    justify-content: center; */
+  `}
+
+  ${media.desktop`
+    flex: 1; 
+  `}
 `;
 
 export const TopContainer = styled.div`
   text-align: right;
+
+  ${media.mobile`
+    /* padding: 30px 16px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: center;
+    justify-content: center;
+    text-align: left; */
+
+
+  `}
+
+  ${media.tablet`
+    /* padding: 30px 16px;
+    align-items: flex-start;
+    flex-direction: center;
+    justify-content: center;
+    text-align: left; */
+  `}
+
+  ${media.desktop`
+    flex: 1; 
+  `}
 `;
 
 export const IntermediateContainer = styled.div`
@@ -16,6 +68,27 @@ export const IntermediateContainer = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   flex-direction: row;
+  flex-wrap: wrap;
+
+  flex-basis: calc(50% - 10px);
+
+  ${media.mobile`
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+  `}
+
+  ${media.tablet`
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+  `}
+
+  ${media.desktop`
+    flex: 1; 
+  `}
 `;
 
 export const LeftContainer = styled.div`
@@ -24,12 +97,26 @@ export const LeftContainer = styled.div`
   align-items: flex-start;
   flex-direction: column;
   text-align: left;
+
+  
 `;
 
 export const TextContainer = styled.div`
   width: 550px;
-  height: 300px;
+  height: auto;
   padding-top: 4%;
+
+  ${media.mobile`
+    width: 60%;
+  `}
+
+  ${media.tablet`
+    width: 60%;
+  `}
+
+  ${media.desktop`
+    flex: 1; 
+  `}
 `;
 
 export const Text = styled.h2`
@@ -37,13 +124,6 @@ export const Text = styled.h2`
   font-weight: ${({ theme }) => theme.fonts.weight.light};
   padding-bottom: 3%;
   color: ${({ theme }) => theme.colors.text.main};
-
-  svg {
-    color: ${({ theme }) => theme.colors.primary.main};
-    position: absolute;
-    margin-top: 2px;
-    margin-left: 4px;
-  }
 `;
 
 export const RightContainer = styled.div`
@@ -56,6 +136,22 @@ export const MapContainer = styled.div`
   border: 2px solid ${({ theme }) => theme.colors.secondary.main};
   border-radius: 12px;
   box-sizing: border-box;
+  display: flex;
+  padding: 12px 0;
+
+  ${media.mobile`
+    width: 100%;
+    height: 80%;
+  `}
+
+  ${media.tablet`
+    width: 100%;
+    height: 80%;
+  `}
+
+  ${media.desktop`
+    flex: 1; 
+  `}
 `;
 
 export const QuantityPrice = styled.div`
@@ -67,7 +163,7 @@ export const QuantityPrice = styled.div`
 `;
 
 export const DistanceDetails = styled.div`
-  /* text-align: right; */
+ padding: 10px;
 `;
 
 export const ButtonContainer = styled.div`
@@ -79,10 +175,35 @@ export const ProductImage = styled.img`
   border-radius: 12px;
   width: 550px;
   height: 300px;
+
+  ${media.mobile`
+    width: 80%;
+    height: auto;
+  `}
+
+  ${media.tablet`
+    width: 80%;
+    height: auto;
+  `}
+
+  ${media.desktop`
+    flex: 1; 
+  `}
 `;
 
 export const ChefContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+`;
+
+export const ChefAvaliation = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  svg {
+    color: ${({ theme }) => theme.colors.primary.main};
+    margin-top: 2px;
+    margin-left: 4px;
+  }
 `;
