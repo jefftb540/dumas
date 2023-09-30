@@ -4,9 +4,7 @@ import { refreshToken } from '../service/api/auth';
 import { configureLocalStorage } from './configureLocalStorage';
 
 export function configureAxiosToken() {
-  console.log('Configure axios token');
   api.interceptors.request.use(async function (config) {
-    console.log('Linha 8');
     const tokenExpDate = secureLocalStorage.getItem('tokenExpDate');
     const refresh = secureLocalStorage.getItem('refreshToken');
     const token = secureLocalStorage.getItem('token');
@@ -18,7 +16,6 @@ export function configureAxiosToken() {
       if (expDate < now) {
         secureLocalStorage.removeItem('tokenExpDate');
         try {
-          console.log('Sending refresh token request');
           const data = await refreshToken(refresh as string);
           configureLocalStorage(data.access_token, data.refresh_token);
 
@@ -36,7 +33,6 @@ export function configureAxiosToken() {
     }
 
     config.headers.Authorization = `Bearer ${token}`;
-    console.log('no fim da função', config);
     return Promise.resolve(config);
   });
 }

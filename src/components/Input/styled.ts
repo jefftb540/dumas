@@ -41,6 +41,5 @@ export const Container = styled.div<InputContainerProps>`
   @media (max-width: ${TabletBreakpoint}) {
     width: ${({ size }) => (size === 'medium' ? '138px' : '249px')};
     padding: 12px 26px;
-    //TODO tentar implementar logica da carol depois.
   }
 `;
