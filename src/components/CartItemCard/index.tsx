@@ -1,16 +1,16 @@
 import { useCart } from '../../contexts/cartContex';
 import { CartItem } from '../../types/CartItem';
 import { formatCurrency } from '../../utils/formatCurrency';
+import { CartQuantityActions } from '../CartQuantityActions';
 import {
-  Action,
   CartActions,
   ItemActions,
   ItemContainer,
   ItemDetails,
   ItemImage,
   ItemInfo,
+  Price,
   PriceContainer,
-  QuantityContainer,
   RemoveButton,
   RemoveItemContainer,
   Text
@@ -20,7 +20,7 @@ interface CartItemProps {
   item: CartItem;
 }
 export const CartItemCard = ({ item }: CartItemProps) => {
-  const { addToCart, removeFromCart, deleteFromCart } = useCart();
+  const { deleteFromCart } = useCart();
   const rating =
     item.item.ratings.length > 0
       ? item.item.ratings.reduce((acc, rating) => acc + rating.rate, 0) /
@@ -40,12 +40,10 @@ export const CartItemCard = ({ item }: CartItemProps) => {
 
       <CartActions>
         <ItemActions>
-          <Action onClick={() => removeFromCart(item.item)}>-</Action>
-          <QuantityContainer>{item.quantity}</QuantityContainer>
-          <Action onClick={() => addToCart(item.item)}>+</Action>
+          <CartQuantityActions item={item} />
         </ItemActions>
         <PriceContainer>
-          <span>{formatCurrency(item.item.unit_price * item.quantity)}</span>
+          <Price>{formatCurrency(item.item.unit_price * item.quantity)}</Price>
         </PriceContainer>
         <RemoveItemContainer>
           <RemoveButton onClick={() => deleteFromCart(item.item)}>
