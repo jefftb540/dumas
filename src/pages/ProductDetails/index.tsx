@@ -108,7 +108,7 @@ export const ProductDetails = () => {
             {/* {chef && <NearDishesMap chefs={[chef]} />} */}
           </MapContainer>
           <DistanceDetails>
-            <Text>{distance.toFixed(2)} Km</Text>
+            <Text>{distance.toFixed(1)} Km</Text>
           </DistanceDetails>
           <QuantityPrice>
             <CartQuantityActions item={{ item: dishDetail, quantity: 1 }} />

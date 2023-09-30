@@ -7,15 +7,9 @@ export const Container = styled.div`
   justify-content: space-between;
   flex-direction: column;
 
-  ${media.mobile`
-    /* padding: 30px 16px; */
-
-    /* display: flex; */
-    align-items: flex-start;
-    /* flex-direction: center;
-    justify-content: center; */
-
+  /* ${media.mobile`
     display: flex;
+    flex-direction: center;
     align-items: center;
     justify-content: center; 
 
@@ -26,36 +20,25 @@ export const Container = styled.div`
     padding: 30px 16px;
 
     align-items: flex-start;
-    /* align-items: flex-start; */
-    /* flex-direction: center;
-    justify-content: center; */
+    
   `}
 
   ${media.desktop`
     flex: 1; 
-  `}
+  `} */
 `;
 
 export const TopContainer = styled.div`
   text-align: right;
 
   ${media.mobile`
-    /* padding: 30px 16px;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: center;
-    justify-content: center;
-    text-align: left; */
-
-
+    width: 80%;
+    height: auto;
   `}
 
   ${media.tablet`
-    /* padding: 30px 16px;
-    align-items: flex-start;
-    flex-direction: center;
-    justify-content: center;
-    text-align: left; */
+    width: 80%;
+    height: auto;
   `}
 
   ${media.desktop`
@@ -98,7 +81,25 @@ export const LeftContainer = styled.div`
   flex-direction: column;
   text-align: left;
 
-  
+  ${media.mobile`
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+  `}
+
+  ${media.tablet`
+    width: 70%;
+    display: flex;
+    flex-direction: center;
+    align-items: center; 
+    justify-content: center;
+  `}
+
+  ${media.desktop`
+    flex: 1; 
+  `}
 `;
 
 export const TextContainer = styled.div`
@@ -107,11 +108,13 @@ export const TextContainer = styled.div`
   padding-top: 4%;
 
   ${media.mobile`
-    width: 60%;
+    width: 80%;
+    height: auto;
   `}
 
   ${media.tablet`
-    width: 60%;
+    width: 80%;
+    height: auto;
   `}
 
   ${media.desktop`
@@ -128,6 +131,16 @@ export const Text = styled.h2`
 
 export const RightContainer = styled.div`
   float: right;
+
+  ${media.mobile`
+    width: 80%;
+    padding-top: 4%;
+  `}
+
+  ${media.tablet`
+    width: 80%;
+    padding-top: 4%;
+  `}
 `;
 
 export const MapContainer = styled.div`
@@ -141,12 +154,10 @@ export const MapContainer = styled.div`
 
   ${media.mobile`
     width: 100%;
-    height: 80%;
   `}
 
   ${media.tablet`
     width: 100%;
-    height: 80%;
   `}
 
   ${media.desktop`
@@ -163,7 +174,8 @@ export const QuantityPrice = styled.div`
 `;
 
 export const DistanceDetails = styled.div`
- padding: 10px;
+  padding: 10px;
+  text-align: right;
 `;
 
 export const ButtonContainer = styled.div`
@@ -195,6 +207,18 @@ export const ChefContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  ${media.mobile`
+    width: 100%;
+  `}
+
+  ${media.tablet`
+    width: 100%;
+  `}
+
+  ${media.desktop`
+    flex: 1; 
+  `}
 `;
 
 export const ChefAvaliation = styled.div`
