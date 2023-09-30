@@ -10,6 +10,7 @@ import { useAuth } from '../../contexts/authContext';
 import { TelephoneProfile } from '../../components/Telephone';
 import { useQuery } from 'react-query';
 import queryClient from '../../service/reactQuery/queryClient';
+import { AddressProfile } from '../../components/Addresses';
 Modal.setAppElement('#root');
 
 const getClientData = async () => {
@@ -240,16 +241,17 @@ export const Profile: React.FC = () => {
         {clientData ? (
           <div>
             {clientData.addresses?.length &&
-              clientData.addresses.map(address => (
-                <div key={address.id}>
-                  {address.name}
-                  <br />
-                  <Title3>Endereços</Title3>
-                  <strong>Endereço:</strong> {address.public_place},{' '}
-                  {address.number}
-                  <br />
-                  <strong>CEP:</strong> {address.zip_code}
-                </div>
+              clientData.addresses.map((address, index) => (
+                // <div key={address.id}>
+                //   {address.name}
+                //   <br />
+                //   <Title3>Endereços</Title3>
+                //   <strong>Endereço:</strong> {address.public_place},{' '}
+                //   {address.number}
+                //   <br />
+                //   <strong>CEP:</strong> {address.zip_code}
+                // </div>
+                <AddressProfile key={`address_${index}`} address={address} />
               ))}
           </div>
         ) : (
