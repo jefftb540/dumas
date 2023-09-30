@@ -5,12 +5,7 @@ import { User } from '../../types/Users';
 import { EditProfile } from '../../components/EditProfile';
 import { Button } from '../../components/Button';
 import { CircularSpinner } from '../../components/CircularSpinner';
-import {
-  ContainerProfile,
-  Title3,
-  WrapperModal,
-  WrapperModalProfile
-} from './styled';
+import { ContainerImg, ContainerProfile, Title3, WrapperModal } from './styled';
 import { useAuth } from '../../contexts/authContext';
 import { TelephoneProfile } from '../../components/Telephone';
 import { useQuery } from 'react-query';
@@ -137,7 +132,7 @@ export const Profile: React.FC = () => {
 
   return (
     <ContainerProfile>
-      <WrapperModalProfile>
+      <WrapperModal>
         <div>
           <Modal
             isOpen={nameEmailModalIsOpen}
@@ -189,7 +184,7 @@ export const Profile: React.FC = () => {
             Editar
           </Button>
         </div>
-      </WrapperModalProfile>
+      </WrapperModal>
       <WrapperModal>
         <Modal
           isOpen={phonesModalIsOpen}
@@ -342,7 +337,9 @@ export const Profile: React.FC = () => {
           </Button>
         </div>
       </WrapperModal>
-      <img src="public/undraw_breakfast_psiw 3.svg" alt="prato" />
+      <ContainerImg>
+        <img src="public/undraw_breakfast_psiw 3.svg" alt="prato" />
+      </ContainerImg>
     </ContainerProfile>
   );
 };
