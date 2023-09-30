@@ -34,7 +34,7 @@ export const CartInfoTitle = styled.div`
   font-weight: ${({ theme }) => theme.fonts.weight.semiBold};
 `;
 export const CartInfoText = styled.div``;
-export const CartFooter = styled.div`
+export const CartButtonContainer = styled.div`
   display: flex;
   align-items: flex-end;
   flex-direction: column;

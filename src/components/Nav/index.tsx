@@ -12,7 +12,10 @@ import {
   NavRight,
   TotalCartItensNumber,
   SearchInput,
-  MobileIconToggle
+  MobileIconToggle,
+  AddressSelectorToggle,
+  AddressInfo,
+  AddressToggleIcon
 } from './styled';
 
 import { BsSearch } from 'react-icons/bs';
@@ -35,6 +38,8 @@ import { useNavigate } from 'react-router-dom';
 import { useTheme } from '../../contexts/themeContext';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { TabletBreakpoint } from '../../consts/breakpoint';
+import { AddressSelector } from '../AddressSelector';
+import { FaLocationDot } from 'react-icons/fa6';
 
 export const Navbar = () => {
   const [openSearch, setOpenSearch] = useState(false);
@@ -43,6 +48,7 @@ export const Navbar = () => {
   const [searchText, setSearchText] = useState('');
   const [inputText, setInputText] = useState('');
   const [showMenu, setShowMenu] = useState(false);
+  const [showAddressSelector, setShowAddressSelector] = useState(false);
   const [searchResultDishes, setSearchResultDishes] = useState<Dish[]>();
   const inputRef = useRef<HTMLInputElement>(null);
   const { user } = useAuth();
@@ -50,12 +56,15 @@ export const Navbar = () => {
   const { theme } = useTheme();
   const navigate = useNavigate();
 
+  const { setActiveAddress, activeAddress } = useCart();
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
   };
 
   const toggleMenu = () => setShowMenu(prev => !prev);
   const closeMenu = () => setShowMenu(false);
+  const closeAddressSelector = () => setShowAddressSelector(false);
 
   useEffect(() => {
     debounce(() => setSearchText(inputText));
@@ -85,6 +94,14 @@ export const Navbar = () => {
     }
   }, [data]);
 
+  useEffect(() => {
+    if (user && user.addresses?.length) {
+      if (!activeAddress) {
+        setActiveAddress(user.addresses[0]);
+      }
+    }
+  }, [user]);
+
   const isTablet = useMediaQuery(`(max-width: ${TabletBreakpoint})`);
 
   return (
@@ -107,10 +124,30 @@ export const Navbar = () => {
             />
           )}
           <AddressContainer>
-            {user?.addresses?.length ? (
+            {activeAddress ? (
               <>
-                <AddressTitle>{user.addresses[0].name}</AddressTitle>
-                <AddressDescription>{`${user.addresses[0].public_place}, ${user.addresses[0].number}`}</AddressDescription>
+                <AddressToggleIcon
+                  onClick={() => setShowAddressSelector(prev => !prev)}
+                >
+                  <FaLocationDot />
+                </AddressToggleIcon>
+                <AddressInfo
+                  onClick={() => setShowAddressSelector(prev => !prev)}
+                >
+                  <AddressTitle>{activeAddress.name}</AddressTitle>
+                  <AddressDescription>{`${activeAddress.public_place}, ${activeAddress.number}`}</AddressDescription>
+                </AddressInfo>
+                <AddressSelectorToggle>
+                  {showAddressSelector ? (
+                    <MdOutlineKeyboardArrowUp />
+                  ) : (
+                    <MdOutlineKeyboardArrowDown />
+                  )}
+                </AddressSelectorToggle>
+
+                {showAddressSelector && (
+                  <AddressSelector closeSelector={closeAddressSelector} />
+                )}
               </>
             ) : (
               <AddressTitle>Cadastre um endereço</AddressTitle>
