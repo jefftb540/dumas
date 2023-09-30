@@ -9,6 +9,12 @@ export const getAllChefs = async () => {
   return response.data;
 };
 
+export const getChef = async (id: string) => {
+  const response = await api.get<Chef>(apiRoutes.chef.detail(id));
+
+  return response.data;
+};
+
 // export const searchChefs = async (query: string) => {
 //   const response = await api.get<Paginated<Chef>>(apiRoutes.chefs, {
 //     params: { active: true, available: true, name: query, description: query }

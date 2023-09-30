@@ -23,7 +23,8 @@ export const apiRoutes = {
     detail: (id: string) => `/dishes/${id}`
   },
   chef: {
-    dishes: (id: string) => `chefs/${id}/dishes`
+    dishes: (id: string) => `chefs/${id}/dishes`,
+    detail: (id: string) => `chefs/${id}`
   },
   chefs: '/chefs',
   state: {
