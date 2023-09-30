@@ -11,16 +11,11 @@ import { TelephoneProfile } from '../../components/Telephone';
 import { useQuery } from 'react-query';
 import queryClient from '../../service/reactQuery/queryClient';
 import { AddressProfile } from '../../components/Addresses';
-Modal.setAppElement('#root');
+import { getClientData } from '../../service/api/client';
+import { createAddress, getAddressByCep } from '../../service/api/address';
+import { Address } from '../../types/Address';
 
-const getClientData = async () => {
-  try {
-    const response = await api.get<User>('/clients/me');
-    return response.data;
-  } catch (error) {
-    console.log(error);
-  }
-};
+Modal.setAppElement('#root');
 
 export const Profile: React.FC = () => {
   const [clientData, setClientData] = useState<User | null>(null);
@@ -28,22 +23,41 @@ export const Profile: React.FC = () => {
   const [phonesModalIsOpen, setPhonesModalIsOpen] = useState(false);
   const [addressesModalIsOpen, setAddressesModalIsOpen] = useState(false);
   const [newPhone, setNewPhone] = useState('');
-  const [newAddress, setNewAddress] = useState({
+  const [newAddress, setNewAddress] = useState<Address>({
     id: '',
     name: '',
     public_place: '',
     zip_code: '',
     number: '',
-    neighborhood: ''
+    neighborhood: '',
+    city_id: '',
+    complement: '',
+    reference: ''
   });
 
   const { user } = useAuth();
 
-  const { data } = useQuery(
-    ['profile'],
+  const { data } = useQuery(['profile'], getClientData);
 
-    getClientData
-  );
+  const handleCepChange = async (cep: string) => {
+    const cleanedCep = cep.replace(/[^0-9]/g, '');
+
+    if (cleanedCep.length !== 8) {
+      alert('CEP deve conter 8 números');
+      return;
+    }
+    try {
+      const data = await getAddressByCep(cep);
+      setNewAddress(prev => ({
+        ...prev,
+        city_id: data.city_id,
+        neighborhood: data.neighborhood,
+        public_place: data.street
+      }));
+    } catch (error) {
+      console.error('Erro ao buscar CEP:', error);
+    }
+  };
 
   useEffect(() => {
     if (data) {
@@ -76,6 +90,7 @@ export const Profile: React.FC = () => {
   }
 
   const handleSubmit = async (values: User) => {
+    //TODO mudar nome para um que especifique qual request está sendo enviada
     try {
       const response = await api.put('/clients/update', values);
 
@@ -83,8 +98,6 @@ export const Profile: React.FC = () => {
         setClientData(response.data);
 
         closeNameEmailModal();
-        closePhonesModal();
-        closeAddressesModal();
       } else {
         console.log('Algo deu errado');
       }
@@ -110,9 +123,7 @@ export const Profile: React.FC = () => {
 
   const addAddress = async () => {
     try {
-      await api.post('/clients/addresses', {
-        address: newAddress
-      });
+      await createAddress(newAddress);
       queryClient.invalidateQueries({ queryKey: ['profile'] });
 
       setNewAddress({
@@ -121,7 +132,10 @@ export const Profile: React.FC = () => {
         public_place: '',
         zip_code: '',
         number: '',
-        neighborhood: ''
+        neighborhood: '',
+        city_id: '',
+        complement: '',
+        reference: ''
       });
 
       closeAddressesModal();
@@ -266,9 +280,10 @@ export const Profile: React.FC = () => {
             type="text"
             placeholder="CEP"
             value={newAddress.zip_code}
-            onChange={e =>
-              setNewAddress({ ...newAddress, zip_code: e.target.value })
-            }
+            onChange={e => {
+              setNewAddress({ ...newAddress, zip_code: e.target.value });
+            }}
+            onBlur={e => handleCepChange(e.target.value)}
           />
           <input
             type="text"
@@ -300,7 +315,9 @@ export const Profile: React.FC = () => {
             variant="primary"
             size="medium"
             type="button"
-            onClick={addAddress}
+            onClick={() => {
+              addAddress();
+            }}
           >
             Adicionar
           </Button>

@@ -3,7 +3,7 @@ import { api } from '../../service/api';
 import queryClient from '../../service/reactQuery/queryClient';
 import { Address } from '../../types/Address';
 import { Title3 } from '../../pages/Profile/styled';
-import { FiDelete, FiEdit } from 'react-icons/fi';
+import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import {
   ContainerAddressProfile,
   InputAddress,
@@ -107,7 +107,7 @@ export const AddressProfile: React.FC<AddressProfileProps> = ({
               <FiEdit />
             </span>
             <span onClick={() => handleActionClick('delete')}>
-              <FiDelete />
+              <FiTrash2 />
             </span>
           </WrapperEditDelete>
         </>
@@ -115,4 +115,3 @@ export const AddressProfile: React.FC<AddressProfileProps> = ({
     </ContainerAddressProfile>
   );
 };
-//TODO adicionar esta retornando erro 422
