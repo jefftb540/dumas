@@ -32,8 +32,25 @@ export const WrapperModal = styled.div`
   border-radius: 12px;
   border: 2px solid #8c0b0b;
   min-width: 100%;
-  height: 164px;
-  padding: 0 27px;
+  height: auto;
+  padding: 50px 27px;
+  position: relative;
+
+  @media (max-width: ${TabletBreakpoint}) {
+    align-items: flex-start;
+    padding: 10px;
+  }
+`;
+export const WrapperModalProfile = styled.div`
+  color: ${({ theme }) => theme.colors.text.main};
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 12px;
+  border: 2px solid #8c0b0b;
+  min-width: 100%;
+  height: 150px;
+  padding: 50px 27px;
   position: relative;
 
   @media (max-width: ${TabletBreakpoint}) {

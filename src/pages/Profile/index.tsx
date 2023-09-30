@@ -5,7 +5,12 @@ import { User } from '../../types/Users';
 import { EditProfile } from '../../components/EditProfile';
 import { Button } from '../../components/Button';
 import { CircularSpinner } from '../../components/CircularSpinner';
-import { ContainerProfile, Title3, WrapperModal } from './styled';
+import {
+  ContainerProfile,
+  Title3,
+  WrapperModal,
+  WrapperModalProfile
+} from './styled';
 import { useAuth } from '../../contexts/authContext';
 import { TelephoneProfile } from '../../components/Telephone';
 import { useQuery } from 'react-query';
@@ -132,7 +137,7 @@ export const Profile: React.FC = () => {
 
   return (
     <ContainerProfile>
-      <WrapperModal>
+      <WrapperModalProfile>
         <div>
           <Modal
             isOpen={nameEmailModalIsOpen}
@@ -184,7 +189,7 @@ export const Profile: React.FC = () => {
             Editar
           </Button>
         </div>
-      </WrapperModal>
+      </WrapperModalProfile>
       <WrapperModal>
         <Modal
           isOpen={phonesModalIsOpen}

@@ -31,8 +31,6 @@ export const Container = styled.div<InputContainerProps>`
       opacity: 0.3;
       background-color: transparent;
     }
-
-    // TODO arrumar o focus do input.
   }
 
   svg {

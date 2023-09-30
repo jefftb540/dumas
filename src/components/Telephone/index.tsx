@@ -7,7 +7,8 @@ import { FiEdit, FiDelete } from 'react-icons/fi';
 import {
   ContainerTelephoneProfile,
   InputPhone,
-  WrapperEditDelete
+  WrapperEditDelete,
+  WrapperInputsPhones
 } from './styled';
 
 interface TelephoneProfileProps {
@@ -41,12 +42,14 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
       <Title3>Telefones</Title3>
       <strong>Número:</strong>:
       {isEditing ? (
-        <InputPhone
-          type="phone"
-          onKeyUp={handlePressEnter}
-          value={newTelephone}
-          onChange={e => setNewTelephone(e.target.value)}
-        />
+        <WrapperInputsPhones>
+          <InputPhone
+            type="phone"
+            onKeyUp={handlePressEnter}
+            value={newTelephone}
+            onChange={e => setNewTelephone(e.target.value)}
+          />
+        </WrapperInputsPhones>
       ) : (
         <>
           {telephone.number}{' '}

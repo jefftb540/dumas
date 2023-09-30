@@ -19,5 +19,20 @@ export const WrapperEditDelete = styled.div`
 export const InputAddress = styled.input`
   margin-left: 10px;
   padding: 3px;
-  border: none;
+  border: 1px solid;
+  border-color: ${({ theme }) => theme.colors.border.main};
+  border-radius: 5px;
+
+  flex: 1;
+  color: ${({ theme }) => theme.colors.text.main};
+  background-color: transparent;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:placeholder-shown {
+    opacity: 0.3;
+    background-color: transparent;
+  }
 `;

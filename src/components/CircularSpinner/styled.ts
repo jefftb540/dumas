@@ -14,3 +14,5 @@ export const SpinnerContainer = styled.div`
   border-radius: 50%;
   animation: ${spin} 1s linear infinite;
 `;
+
+//TODO consertar cor do spinner para theme border-color e border-top-color
