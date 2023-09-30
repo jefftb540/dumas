@@ -1,8 +1,16 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useContext,
+  useMemo,
+  useState
+} from 'react';
 import { Dish } from '../../types/Dish';
 import secureLocalStorage from 'react-secure-storage';
 import { Chef } from '../../types/Chef';
 import { CartItem } from '../../types/CartItem';
+import { Address } from '../../types/Address';
 
 interface CartContextProps {
   addToCart: (item: Dish) => void;
@@ -17,6 +25,8 @@ interface CartContextProps {
   getItemsCount: () => number;
   isPaid: boolean;
   confirmPayment: () => void;
+  activeAddress: Address | undefined;
+  setActiveAddress: Dispatch<SetStateAction<Address | undefined>>;
 }
 
 export const CartContext = createContext<CartContextProps>(
@@ -33,6 +43,7 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>(items);
   const [chefsInCart, setChefsInCart] = useState<Chef[]>([]);
   const [isPaid, setIsPaid] = useState(false);
+  const [activeAddress, setActiveAddress] = useState<Address>();
 
   useMemo(() => {
     secureLocalStorage.setItem('cart', JSON.stringify(cartItems));
@@ -124,7 +135,9 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
         getItemsCount,
         deleteFromCart,
         isPaid,
-        confirmPayment
+        confirmPayment,
+        activeAddress,
+        setActiveAddress
       }}
     >
       {children}
