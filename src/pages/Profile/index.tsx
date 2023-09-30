@@ -23,6 +23,7 @@ import {
   TitleModal
 } from '../../components/EditProfile/styled';
 import { FiHome, FiPhone, FiXCircle } from 'react-icons/fi';
+import { useTheme } from '../../contexts/themeContext';
 
 Modal.setAppElement('#root');
 
@@ -153,12 +154,15 @@ export const Profile: React.FC = () => {
     }
   };
 
+  const { theme } = useTheme();
+
   const customStyles = {
     content: {
       maxWidth: '500px',
       maxHeight: '470px',
       margin: 'auto',
-      padding: '20px'
+      padding: '20px',
+      backgroundColor: theme === 'light' ? '#FDFDFD' : '#6f6464'
     }
   };
 
