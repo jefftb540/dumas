@@ -35,18 +35,17 @@ export const StepTwo = ({
   const navigate = useNavigate();
 
   const initialValues = {
-    token: '',
+    token: resetPasswordToken,
     password: '',
     passwordConfirm: ''
   };
 
   const validationSchema = Yup.object().shape({
-    token: Yup.string().required('O token é obrigatório.'),
     password: Yup.string()
       .required('A nova senha é obrigatória.')
       .matches(
-        /^\d{6}$/,
-        'A senha deve conter exatamente 6 dígitos numéricos.'
+        /^\d{6,}$/,
+        'A senha deve conter pelo menos 6 dígitos numéricos.'
       ),
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), undefined], 'As senhas não coincidem.')
@@ -61,7 +60,7 @@ export const StepTwo = ({
 
       toast.success('Senha redefinida com sucesso!', {
         position: 'top-right',
-        autoClose: 2500,
+        autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -69,7 +68,7 @@ export const StepTwo = ({
       });
       setTimeout(() => {
         navigate('/login');
-      }, 3000);
+      }, 2000);
     } catch (error) {
       console.log(error);
       const errorMessage = handleResetPasswordErrors(error as AxiosError);
@@ -97,15 +96,7 @@ export const StepTwo = ({
         <FormContainer>
           <Title>Esqueci minha senha</Title>
           <SubTitle>Recuperar minha senha</SubTitle>
-          <SubTitle>
-            Seu código de recuperação: <strong>{resetPasswordToken}</strong>
-          </SubTitle>
           <InputContainer>
-            <Input Icon={FiLock} placeholder="Código" name="token" />
-            {touched.token && errors.token && (
-              <MessageErrorsContainer>{errors.token}</MessageErrorsContainer>
-            )}
-
             <Input
               Icon={FiLock}
               placeholder="Nova senha"
