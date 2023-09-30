@@ -6,7 +6,7 @@ export const NavContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 70px;
+  height: 60px;
   border-bottom: 4px solid ${({ theme }) => theme.colors.border.main};
   background-color: ${({ theme }) => theme.colors.background.main};
   padding: 0 32px;
@@ -18,12 +18,16 @@ export const NavContainer = styled.div`
 `;
 
 export const NavLeft = styled.div`
-  flex: 2;
+  flex: 3;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 100px;
+  gap: 80px;
+
+  ${media.tablet`
+    gap: 20px;
+  `}
 `;
 
 export const NavRight = styled.div`
@@ -35,11 +39,45 @@ export const NavRight = styled.div`
   flex: 3;
 `;
 
-export const AddressContainer = styled.div`
+export const AddressToggleIcon = styled.div`
+  color: ${({ theme }) => theme.colors.text.primaryAccent};
+  svg {
+    margin-top: 5px;
+    width: 24px;
+    height: 24px;
+  }
+  ${media.desktop`
+    display: none;
+
+    
+  `}
+`;
+export const AddressSelectorToggle = styled.div`
+  display: flex;
+  align-items: center;
+  svg {
+    color: ${({ theme }) => theme.colors.text.primaryAccent};
+    width: 32px;
+    height: 32px;
+  }
+`;
+export const AddressInfo = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
   ${media.tablet`
     display: none;
+  `}
+`;
+
+export const AddressContainer = styled.div`
+  display: flex;
+  flex: 1;
+  gap: 4px;
+  position: relative;
+
+  ${media.tablet`
+    gap:0
   `}
 `;
 
@@ -55,13 +93,15 @@ export const AddressTitle = styled.span`
   font-size: ${({ theme }) => theme.fonts.text.medium};
   font-weight: ${({ theme }) => theme.fonts.weight.regular};
   line-height: normal;
+  cursor: pointer;
 `;
 
 export const AddressDescription = styled.span`
   color: ${({ theme }) => theme.colors.text.secondaryAccent};
-  font-size: ${({ theme }) => theme.fonts.text.medium};
+  font-size: ${({ theme }) => theme.fonts.text.small};
   font-weight: ${({ theme }) => theme.fonts.weight.regular};
   line-height: normal;
+  cursor: pointer;
 `;
 
 interface SearchContainerProps {

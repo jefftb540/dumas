@@ -37,7 +37,7 @@ export const handleLogin = async ({ email, password }: LoginProps) => {
 
 export const refreshToken = async (token: string) => {
   const response = await api.post<LoginResponseProps>('/sessions/refresh', {
-    refresh_token: token
+    auth: { refresh_token: token }
   });
 
   return response.data;

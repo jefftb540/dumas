@@ -6,6 +6,7 @@ import { AuthProvider } from './contexts/authContext';
 import { CartProviderContext } from './contexts/cartContex';
 import { QueryClientProvider } from 'react-query';
 import queryClient from './service/reactQuery/queryClient';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
@@ -14,6 +15,18 @@ function App() {
         <BrowserRouter>
           <AuthProvider>
             <CartProviderContext>
+              <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+              />
+
               <GlobalStyle />
               <AppRoutes />
             </CartProviderContext>

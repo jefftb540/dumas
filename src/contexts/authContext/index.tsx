@@ -15,6 +15,7 @@ import { configureAxiosToken } from '../../utils/configureAxiosAuth';
 import { getLocationWithIPAddress } from '../../service/api/location';
 import { routes } from '../../routes';
 import { handleSignupErrors } from '../../utils/handleSignupErrors';
+import { configureLocalStorage } from '../../utils/configureLocalStorage';
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -41,7 +42,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setIsLoading] = useState(true);
   const [userLocation, setUserLocation] = useState({ lat: 0, lng: 0 });
   const navigate = useNavigate();
-
+  const getLocation = async () => {
+    const data = await getLocationWithIPAddress();
+    if (data) {
+      console.log(data);
+      setUserLocation({ lat: Number(data.lat), lng: Number(data.lng) });
+    }
+  };
   async function signIn({ email, password }: LoginProps) {
     try {
       const response = await handleLogin({
@@ -57,24 +64,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setIsAuthenticated(true);
         setIsLoading(true);
         setUser(response.user);
-        configureAxiosToken(response.access_token, response.refresh_token);
+        configureAxiosToken();
         if (
-          user?.addresses &&
-          user.addresses[0].latitude &&
-          user.addresses[0].longitude
+          response.user?.addresses?.length &&
+          response.user.addresses[0].latitude &&
+          response.user.addresses[0].longitude
         ) {
           setUserLocation({
-            lat: user.addresses[0].latitude,
-            lng: user.addresses[0].longitude
+            lat: response.user.addresses[0].latitude,
+            lng: response.user.addresses[0].longitude
           });
         } else {
-          const getLocation = async () => {
-            const data = await getLocationWithIPAddress();
-            if (data) {
-              console.log(data);
-              setUserLocation({ lat: Number(data.lat), lng: Number(data.lng) });
-            }
-          };
+          console.log(response.user.addresses);
           getLocation();
         }
         navigate(routes.home);
@@ -99,7 +100,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         );
         setIsAuthenticated(true);
         setIsLoading(true);
-        configureAxiosToken(response.access_token, response.refresh_token);
+        configureAxiosToken();
         navigate(routes.home);
       }
     } catch (error) {
@@ -108,23 +109,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }
 
-  const configureLocalStorage = (
-    token: string,
-    refreshToken: string,
-    user: User
-  ) => {
-    const expDate = new Date();
-    expDate.setHours(expDate.getHours() + 1);
-    secureLocalStorage.setItem('tokenExpDate', JSON.stringify(expDate));
-    secureLocalStorage.setItem('token', token);
-    secureLocalStorage.setItem('refreshToken', refreshToken);
-    secureLocalStorage.setItem('user', JSON.stringify(user));
-  };
-
   function signOut() {
     secureLocalStorage.clear();
 
-    navigate('/');
+    navigate(routes.login);
 
     setIsAuthenticated(false);
   }
@@ -132,31 +120,31 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const authUser = secureLocalStorage.getItem('user');
     const token = secureLocalStorage.getItem('token');
-    const refreshToken = secureLocalStorage.getItem('refreshToken');
+    console.log('auth');
 
     if (!token) {
       setIsAuthenticated(false);
       setIsLoading(false);
+      navigate(routes.login);
       return;
     }
-    configureAxiosToken(token as string, refreshToken as string);
-
+    configureAxiosToken();
     if (authUser) {
-      setUser(JSON.parse(authUser as string));
+      const storedUser = JSON.parse(authUser as string);
+      setUser(storedUser);
       if (
-        user?.addresses &&
-        user.addresses[0].latitude &&
-        user.addresses[0].longitude
+        storedUser.addresses.lenght > 0 &&
+        storedUser.addresses[0].latitude &&
+        storedUser.addresses[0].longitude
       ) {
         setUserLocation({
-          lat: user.addresses[0].latitude,
-          lng: user.addresses[0].longitude
+          lat: storedUser.addresses[0].latitude,
+          lng: storedUser.addresses[0].longitude
         });
       } else {
         const getLocation = async () => {
           const data = await getLocationWithIPAddress();
           if (data) {
-            console.log(data);
             setUserLocation({ lat: Number(data.lat), lng: Number(data.lng) });
           }
         };

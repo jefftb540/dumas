@@ -21,6 +21,7 @@ export const Container = styled.div<InputContainerProps>`
     border: none;
     flex: 1;
     color: ${({ theme }) => theme.colors.text.main};
+    background-color: transparent;
 
     &:focus {
       outline: none;
@@ -40,6 +41,5 @@ export const Container = styled.div<InputContainerProps>`
   @media (max-width: ${TabletBreakpoint}) {
     width: ${({ size }) => (size === 'medium' ? '138px' : '249px')};
     padding: 12px 26px;
-    //TODO tentar implementar logica da carol depois.
   }
 `;

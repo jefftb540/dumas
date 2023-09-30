@@ -15,6 +15,7 @@ import { routes } from '../../routes';
 import { Link } from 'react-router-dom';
 import { CircularSpinner } from '../CircularSpinner';
 import { handleScroll } from '../../utils/handleScroll';
+import { closeOnClickOutside } from '../../utils/closeOnClickOutside';
 interface SearchResultsProps {
   dishes: Dish[];
   fetchNextPage: () => void;
@@ -31,14 +32,11 @@ export const SearchResults = ({
   const resultRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (resultRef.current && !resultRef.current.contains(e.target as Node)) {
-        closeResults && closeResults();
-      }
-    };
-    document.addEventListener('click', handleClickOutside, true);
+    const listener = (e: MouseEvent) =>
+      closeOnClickOutside(e, resultRef, closeResults);
+    document.addEventListener('click', listener, true);
     return () => {
-      document.removeEventListener('click', handleClickOutside, true);
+      document.removeEventListener('click', listener, true);
     };
   }, []);
 

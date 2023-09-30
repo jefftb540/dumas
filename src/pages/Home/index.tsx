@@ -8,6 +8,7 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import CardList from '../../components/CardList';
 import {
+  DishListContainer,
   DishesContainer,
   FavoritesContainer,
   LeftContainer,
@@ -127,7 +128,6 @@ export const Home = () => {
           userLocation
         )
       );
-    console.log(allDishes);
   }, [allDishesData]);
 
   useEffect(() => {
@@ -138,11 +138,9 @@ export const Home = () => {
           userLocation
         )
       );
-    console.log(nearDishes);
   }, [nearDishesData]);
 
   useEffect(() => {
-    console.log(userLocation);
     if (favoritesData)
       setFavouriteDishes(
         favoritesData?.pages.flatMap(page => (page.data ? page.data : []))
@@ -164,7 +162,7 @@ export const Home = () => {
         <MainContainer>
           <LeftContainer>
             {(displaying === 'default' || displaying === 'near') && (
-              <>
+              <DishListContainer>
                 <TitleContainer>
                   <Title color="accent">Pratos próximos</Title>
                   {!isTablet &&
@@ -193,10 +191,10 @@ export const Home = () => {
                 ) : (
                   <InfoText> Não existem pratos próximos</InfoText>
                 )}
-              </>
+              </DishListContainer>
             )}
             {(displaying === 'default' || displaying === 'all') && (
-              <>
+              <DishListContainer>
                 <TitleContainer>
                   <Title color="accent">Pratos</Title>
                   {!isTablet &&
@@ -221,7 +219,7 @@ export const Home = () => {
                   direction="row"
                   $fullWidth={displaying === 'all'}
                 />
-              </>
+              </DishListContainer>
             )}
           </LeftContainer>
           {(displaying === 'default' || displaying === 'favorites') && (
