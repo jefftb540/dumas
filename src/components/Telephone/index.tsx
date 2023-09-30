@@ -3,7 +3,7 @@ import { Title3 } from '../../pages/Profile/styled';
 import { Telephone } from '../../types/Telephone';
 import { api } from '../../service/api';
 import queryClient from '../../service/reactQuery/queryClient';
-import { FiEdit, FiDelete } from 'react-icons/fi';
+import { FiEdit, FiTrash2 } from 'react-icons/fi';
 import {
   ContainerTelephoneProfile,
   InputPhone,
@@ -58,7 +58,7 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
               <FiEdit />
             </span>
             <span onClick={() => deletePhoneNumber(telephone.id)}>
-              <FiDelete />
+              <FiTrash2 />
             </span>
           </WrapperEditDelete>
         </>

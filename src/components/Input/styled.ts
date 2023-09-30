@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { TabletBreakpoint } from '../../consts/breakpoint';
 
-interface InputContainerProps {
+export interface InputContainerProps {
   size: 'medium' | 'large';
 }
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { User } from '../../types/Users';
-import { Button } from '../Button';
 import { Input } from '../Input';
 import { FiMail, FiUser } from 'react-icons/fi';
 import { FormContainer, InputContainer } from '../../pages/Login/styled';
+import { Button } from '../Button';
 
 export interface EditProfileProps {
   values: User;
@@ -48,7 +48,7 @@ export const EditProfile: React.FC<EditProfileProps> = ({
           </InputContainer>
 
           <br />
-          <Button variant="secondary" size="medium" type="submit">
+          <Button variant="primary" size="medium" type="submit">
             Salvar
           </Button>
         </FormContainer>

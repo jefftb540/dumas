@@ -14,6 +14,15 @@ import { AddressProfile } from '../../components/Addresses';
 import { getClientData } from '../../service/api/client';
 import { createAddress, getAddressByCep } from '../../service/api/address';
 import { Address } from '../../types/Address';
+import {
+  ButtonClose,
+  ContainerInput,
+  ContainerTitleClose,
+  InputModal,
+  ModalContent,
+  TitleModal
+} from '../../components/EditProfile/styled';
+import { FiHome, FiPhone, FiXCircle } from 'react-icons/fi';
 
 Modal.setAppElement('#root');
 
@@ -144,6 +153,15 @@ export const Profile: React.FC = () => {
     }
   };
 
+  const customStyles = {
+    content: {
+      maxWidth: '500px',
+      maxHeight: '470px',
+      margin: 'auto',
+      padding: '20px'
+    }
+  };
+
   return (
     <ContainerProfile>
       <WrapperModal>
@@ -152,24 +170,25 @@ export const Profile: React.FC = () => {
             isOpen={nameEmailModalIsOpen}
             onRequestClose={closeNameEmailModal}
             contentLabel="Editar"
+            style={customStyles}
           >
-            <h2>Editar</h2>
-            {clientData ? (
-              <EditProfile values={clientData} onSubmit={handleSubmit} />
-            ) : (
-              <p>
-                <CircularSpinner /> Carregando dados...
-              </p>
-            )}
+            <ModalContent>
+              <ContainerTitleClose>
+                <TitleModal>Editar Nome e Email</TitleModal>
 
-            <Button
-              variant="primary"
-              size="medium"
-              type="button"
-              onClick={closeNameEmailModal}
-            >
-              Fechar
-            </Button>
+                <ButtonClose onClick={closeNameEmailModal}>
+                  <FiXCircle />
+                </ButtonClose>
+              </ContainerTitleClose>
+
+              {clientData ? (
+                <EditProfile values={clientData} onSubmit={handleSubmit} />
+              ) : (
+                <p>
+                  <CircularSpinner /> Carregando dados...
+                </p>
+              )}
+            </ModalContent>
           </Modal>
 
           {clientData ? (
@@ -204,33 +223,36 @@ export const Profile: React.FC = () => {
           isOpen={phonesModalIsOpen}
           onRequestClose={closePhonesModal}
           contentLabel="Adicionar"
+          style={customStyles}
         >
-          <h2>Adicionar Telefones</h2>
+          <ModalContent>
+            <ContainerTitleClose>
+              <TitleModal>Adicionar Telefones</TitleModal>
 
-          <input
-            type="text"
-            placeholder="Digite um número de telefone"
-            value={newPhone}
-            onChange={e => setNewPhone(e.target.value)}
-          />
+              <ButtonClose onClick={closePhonesModal}>
+                <FiXCircle />
+              </ButtonClose>
+            </ContainerTitleClose>
 
-          <Button
-            variant="primary"
-            size="medium"
-            type="button"
-            onClick={addPhoneNumber}
-          >
-            Adicionar
-          </Button>
+            <ContainerInput size="large">
+              <FiPhone />
+              <InputModal
+                type="text"
+                placeholder="Digite um número de telefone"
+                value={newPhone}
+                onChange={e => setNewPhone(e.target.value)}
+              />
+            </ContainerInput>
 
-          <Button
-            variant="primary"
-            size="medium"
-            type="button"
-            onClick={closePhonesModal}
-          >
-            Fechar
-          </Button>
+            <Button
+              variant="primary"
+              size="medium"
+              type="button"
+              onClick={addPhoneNumber}
+            >
+              Adicionar
+            </Button>
+          </ModalContent>
         </Modal>
 
         {clientData ? (
@@ -264,72 +286,77 @@ export const Profile: React.FC = () => {
           isOpen={addressesModalIsOpen}
           onRequestClose={closeAddressesModal}
           contentLabel="Editar Endereços"
+          style={customStyles}
         >
-          <h2>Editar Endereços</h2>
+          <ModalContent>
+            <ContainerTitleClose>
+              <TitleModal>Adicionar Endereços</TitleModal>
 
-          <input
-            type="text"
-            placeholder="Tipo de endereço"
-            value={newAddress.name}
-            onChange={e =>
-              setNewAddress({ ...newAddress, name: e.target.value })
-            }
-          />
+              <ButtonClose onClick={closeAddressesModal}>
+                <FiXCircle />
+              </ButtonClose>
+            </ContainerTitleClose>
 
-          <input
-            type="text"
-            placeholder="CEP"
-            value={newAddress.zip_code}
-            onChange={e => {
-              setNewAddress({ ...newAddress, zip_code: e.target.value });
-            }}
-            onBlur={e => handleCepChange(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Logradouro"
-            value={newAddress.public_place}
-            onChange={e =>
-              setNewAddress({ ...newAddress, public_place: e.target.value })
-            }
-          />
+            <ContainerInput size="large">
+              <FiHome />
+              <InputModal
+                type="text"
+                placeholder="CEP"
+                value={newAddress.zip_code}
+                onChange={e => {
+                  setNewAddress({ ...newAddress, zip_code: e.target.value });
+                }}
+                onBlur={e => handleCepChange(e.target.value)}
+              />
+            </ContainerInput>
 
-          <input
-            type="text"
-            placeholder="Número"
-            value={newAddress.number}
-            onChange={e =>
-              setNewAddress({ ...newAddress, number: e.target.value })
-            }
-          />
-          <input
-            type="text"
-            placeholder="Bairro"
-            value={newAddress.neighborhood}
-            onChange={e =>
-              setNewAddress({ ...newAddress, neighborhood: e.target.value })
-            }
-          />
+            <ContainerInput size="large">
+              <FiHome />
+              <InputModal
+                type="text"
+                placeholder="Logradouro"
+                value={newAddress.public_place}
+                onChange={e =>
+                  setNewAddress({ ...newAddress, public_place: e.target.value })
+                }
+              />
+            </ContainerInput>
 
-          <Button
-            variant="primary"
-            size="medium"
-            type="button"
-            onClick={() => {
-              addAddress();
-            }}
-          >
-            Adicionar
-          </Button>
+            <ContainerInput size="large">
+              <FiHome />
+              <InputModal
+                type="text"
+                placeholder="Número"
+                value={newAddress.number}
+                onChange={e =>
+                  setNewAddress({ ...newAddress, number: e.target.value })
+                }
+              />
+            </ContainerInput>
 
-          <Button
-            variant="primary"
-            size="medium"
-            type="button"
-            onClick={closeAddressesModal}
-          >
-            Fechar
-          </Button>
+            <ContainerInput size="large">
+              <FiHome />
+              <InputModal
+                type="text"
+                placeholder="Bairro"
+                value={newAddress.neighborhood}
+                onChange={e =>
+                  setNewAddress({ ...newAddress, neighborhood: e.target.value })
+                }
+              />
+            </ContainerInput>
+
+            <Button
+              variant="primary"
+              size="medium"
+              type="button"
+              onClick={() => {
+                addAddress();
+              }}
+            >
+              Adicionar
+            </Button>
+          </ModalContent>
         </Modal>
 
         {clientData ? (
@@ -340,7 +367,9 @@ export const Profile: React.FC = () => {
               ))}
           </div>
         ) : (
-          <p>Carregando dados...</p>
+          <p>
+            <CircularSpinner /> Carregando dados...
+          </p>
         )}
 
         <div>
