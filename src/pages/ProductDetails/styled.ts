@@ -7,25 +7,25 @@ export const Container = styled.div`
   justify-content: space-between;
   flex-direction: column;
 
-  /* ${media.mobile`
+  ${media.mobile`
+    padding: 20px;
     display: flex;
-    flex-direction: center;
-    align-items: center;
-    justify-content: center; 
-
-
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
   `}
 
   ${media.tablet`
-    padding: 30px 16px;
-
-    align-items: flex-start;
-    
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
   `}
 
   ${media.desktop`
     flex: 1; 
-  `} */
+  `}
 `;
 
 export const TopContainer = styled.div`
@@ -52,8 +52,6 @@ export const IntermediateContainer = styled.div`
   align-items: flex-start;
   flex-direction: row;
   flex-wrap: wrap;
-
-  flex-basis: calc(50% - 10px);
 
   ${media.mobile`
     display: flex;
@@ -82,7 +80,6 @@ export const LeftContainer = styled.div`
   text-align: left;
 
   ${media.mobile`
-    width: 70%;
     display: flex;
     flex-direction: column;
     align-items: center; 
@@ -90,7 +87,6 @@ export const LeftContainer = styled.div`
   `}
 
   ${media.tablet`
-    width: 70%;
     display: flex;
     flex-direction: center;
     align-items: center; 
@@ -222,6 +218,9 @@ export const ChefContainer = styled.div`
 `;
 
 export const ChefAvaliation = styled.div`
+  font-size: ${({ theme }) => theme.fonts.text.small};
+  font-weight: ${({ theme }) => theme.fonts.weight.light};
+  color: ${({ theme }) => theme.colors.text.main};
   display: flex;
   justify-content: space-between;
 
@@ -230,4 +229,41 @@ export const ChefAvaliation = styled.div`
     margin-top: 2px;
     margin-left: 4px;
   }
+`;
+
+export const CounterContainer = styled.div`
+  border-radius: 38px;
+  border: 1px solid ${({ theme }) => theme.colors.primary.main};
+`;
+
+export const CountButton = styled.button`
+  border-top-left-radius: 38px;
+  border-bottom-left-radius: 38px;
+  margin-right: 0;
+  padding: 5px 10px;
+  background: ${({ theme }) => theme.colors.background.main};
+  color: ${({ theme }) => theme.colors.text.main};
+  font-size: 16px;
+  cursor: pointer;
+`;
+
+export const CountDisplay = styled.span`
+  font-size: 16px;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+  font-size: ${({ theme }) => theme.fonts.text.small};
+  font-weight: ${({ theme }) => theme.fonts.weight.light};
+  color: ${({ theme }) => theme.colors.text.main};
+`;
+
+export const AddButton = styled.button`
+  border-top-right-radius: 38px;
+  border-bottom-right-radius: 38px;
+  margin-left: 0;
+  padding: 5px 10px;
+  background: ${({ theme }) => theme.colors.background.main};
+  color: ${({ theme }) => theme.colors.text.main};
+  font-size: 16px;
+  cursor: pointer;
 `;

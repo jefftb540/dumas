@@ -5,7 +5,7 @@ import { Chef } from '../../types/Chef';
 import { CartItem } from '../../types/CartItem';
 
 interface CartContextProps {
-  addToCart: (item: Dish) => void;
+  addToCart: (item: Dish, quantity?: number) => void;
   removeFromCart: (item: Dish) => void;
   deleteFromCart: (item: Dish) => void;
   getTotalPrice: () => number;

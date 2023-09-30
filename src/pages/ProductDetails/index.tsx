@@ -13,12 +13,15 @@ import {
   TextContainer,
   QuantityPrice,
   ChefContainer,
-  ChefAvaliation
+  ChefAvaliation,
+  CounterContainer,
+  CountButton,
+  CountDisplay,
+  AddButton
 } from './styled';
 import { BsFillStarFill } from 'react-icons/bs';
 import { Title } from '../../components/Title';
 import { Button } from '../../components/Button';
-import { CartQuantityActions } from '../../components/CartQuantityActions';
 import { Dish } from '../../types/Dish';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { getDishId } from '../../service/api/dishes';
@@ -27,13 +30,18 @@ import { NearDishesMap } from '../../components/NearDishesMap';
 import { getChef } from '../../service/api/chefs';
 import { Chef } from '../../types/Chef';
 import { useAuth } from '../../contexts/authContext';
+import { useCart } from '../../contexts/cartContex';
+import { toast } from 'react-toastify';
 
 export const ProductDetails = () => {
   const [dishDetail, setDishDetail] = useState<Dish>();
   const [distance, setDistance] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [chef, setChef] = useState<Chef[]>([]);
   const { id } = useParams();
   const { userLocation } = useAuth();
+  const { addToCart } = useCart();
 
   useEffect(() => {
     const getData = async () => {
@@ -75,6 +83,24 @@ export const ProductDetails = () => {
         dishDetail.ratings.length
       : 0;
 
+  const decreaseQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
+  };
+
+  const increaseQuantity = () => {
+    setQuantity(quantity + 1);
+  };
+
+  useEffect(() => {
+    if (dishDetail && quantity >= 0) {
+      const itemPrice = dishDetail.unit_price || 0;
+      const calculatedTotalPrice = itemPrice * quantity;
+      setTotalPrice(calculatedTotalPrice);
+    }
+  }, [quantity, dishDetail]);
+
   return (
     <Container>
       <TopContainer>
@@ -105,20 +131,29 @@ export const ProductDetails = () => {
         <RightContainer>
           <MapContainer>
             <NearDishesMap chefs={chef} />
-            {/* {chef && <NearDishesMap chefs={[chef]} />} */}
           </MapContainer>
           <DistanceDetails>
             <Text>{distance.toFixed(1)} Km</Text>
           </DistanceDetails>
           <QuantityPrice>
-            <CartQuantityActions item={{ item: dishDetail, quantity: 1 }} />
-            <Title color="accent">
-              {formatCurrency(dishDetail?.unit_price || 0)}
-            </Title>
+            <CounterContainer>
+              <CountButton onClick={decreaseQuantity}>-</CountButton>
+              <CountDisplay>{quantity}</CountDisplay>
+              <AddButton onClick={increaseQuantity}>+</AddButton>
+            </CounterContainer>
+            <Title color="accent">{formatCurrency(totalPrice)}</Title>
           </QuantityPrice>
 
           <ButtonContainer>
-            <Button variant="primary" size="medium">
+            <Button
+              variant="primary"
+              size="medium"
+              disabled={quantity === 0}
+              onClick={() => {
+                addToCart(dishDetail, quantity);
+                toast.success('Item adicionado');
+              }}
+            >
               Comprar
             </Button>
           </ButtonContainer>
