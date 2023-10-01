@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Modal from 'react-modal';
 import { User } from '../../types/Users';
 import { Button } from '../../components/Button';
@@ -29,6 +29,7 @@ import { createTelephones } from '../../service/api/telephone';
 import { EditUserModal } from '../../components/EditUserModal';
 import { AddTelephoneModal } from '../../components/AddTelephoneModal';
 import { AddAddressModal } from '../../components/AddAddressModal';
+import { getCustomStyles } from '../../consts/modalStyles';
 
 Modal.setAppElement('#root');
 
@@ -37,8 +38,9 @@ export const Profile: React.FC = () => {
   const [nameEmailModalIsOpen, setNameEmailModalIsOpen] = useState(false);
   const [phonesModalIsOpen, setPhonesModalIsOpen] = useState(false);
   const [addressesModalIsOpen, setAddressesModalIsOpen] = useState(false);
-
   const { theme } = useTheme();
+  const [customStyles, setCustomStyles] = useState(getCustomStyles(theme));
+
   const { user } = useAuth();
   const { data, isLoading } = useQuery(['profile'], getClientData);
 
@@ -92,18 +94,14 @@ export const Profile: React.FC = () => {
     closeAddressesModal();
   };
 
-  const customStyles = {
-    content: {
-      maxWidth: '500px',
-      maxHeight: '470px',
-      margin: 'auto',
-      padding: '20px',
-      backgroundColor: theme === 'light' ? '#FDFDFD' : '#6f6464'
-    }
-  };
+  useMemo(() => {
+    setCustomStyles(getCustomStyles(theme));
+  }, [theme]);
+
   if (isLoading) {
     return <h2>Carregando Dados...</h2>;
   }
+
   return (
     <ContainerProfile>
       <WrapperModal>
@@ -153,6 +151,8 @@ export const Profile: React.FC = () => {
 
         {clientData ? (
           <UserInfoContainer>
+            <Title3>Telefones</Title3>
+
             {clientData.telephones.map((telephone, index) => (
               <TelephoneProfile
                 key={`telephone_${index}`}
@@ -187,6 +187,8 @@ export const Profile: React.FC = () => {
 
         {clientData ? (
           <UserInfoContainer>
+            <Title3>Endereços</Title3>
+
             {clientData.addresses?.length &&
               clientData.addresses.map((address, index) => (
                 <AddressProfile key={`address_${index}`} address={address} />

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Title3 } from '../../pages/Profile/styled';
 import { Telephone } from '../../types/Telephone';
 import { api } from '../../service/api';
 import queryClient from '../../service/reactQuery/queryClient';
@@ -39,7 +38,6 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
   };
   return (
     <ContainerTelephoneProfile>
-      <Title3>Telefones</Title3>
       <strong>Número:</strong>:
       {isEditing ? (
         <WrapperInputsPhones>
