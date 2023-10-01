@@ -42,7 +42,8 @@ export const apiRoutes = {
   },
 
   addresses: {
-    cep: (cep: string) => `/addresses/search_zip_code/${cep}`
+    cep: (cep: string) => `/addresses/search_zip_code/${cep}`,
+    myAddresses: '/clients/addresses'
   },
 
   order: {

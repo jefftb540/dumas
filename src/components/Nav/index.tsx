@@ -41,6 +41,7 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { TabletBreakpoint } from '../../consts/breakpoint';
 import { AddressSelector } from '../AddressSelector';
 import { FaLocationDot } from 'react-icons/fa6';
+import secureLocalStorage from 'react-secure-storage';
 
 export const Navbar = () => {
   const [openSearch, setOpenSearch] = useState(false);
@@ -96,9 +97,14 @@ export const Navbar = () => {
   }, [data]);
 
   useEffect(() => {
-    if (user && user.addresses?.length) {
-      if (!activeAddress) {
-        setActiveAddress(user.addresses[0]);
+    const storedAddress = secureLocalStorage.getItem('activeAddress');
+    if (storedAddress) {
+      setActiveAddress(JSON.parse(storedAddress as string));
+    } else {
+      if (user && user.addresses?.length) {
+        if (!activeAddress) {
+          setActiveAddress(user.addresses[0]);
+        }
       }
     }
   }, [user]);
