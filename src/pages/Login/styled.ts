@@ -46,7 +46,6 @@ export const InputContainer = styled.div`
 `;
 
 export const Paragrafo = styled.p`
-  width: 413px;
   display: flex;
   align-items: center;
   font-size: ${({ theme }) => theme.fonts.text.medium};

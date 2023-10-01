@@ -59,24 +59,7 @@ export const HalfScreen = styled.div`
 `;
 
 export const Logo = styled.img`
-  width: 12%;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-
-  ${media.mobile`
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding-top: 24px;
-  `}
-
-  ${media.tablet`
-    width: 12%;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-  `}
+  width: 150px;
 `;
 
 export const CenteredImage = styled.img`
