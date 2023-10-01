@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const CardsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
   flex-direction: row;
+  padding-bottom: 20px;
 `;
 
 export const CardContainer = styled.div`
@@ -12,7 +12,7 @@ export const CardContainer = styled.div`
   flex-direction: column;
   align-items: center;
   border-radius: 12px 12px;
-  width: 260px; 
+  width: 261px;
   border: 1px solid ${({ theme }) => theme.colors.secondary.main};
 `;
 
