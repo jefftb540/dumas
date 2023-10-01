@@ -83,7 +83,6 @@ export const ProductDetails = () => {
     getData();
   }, [dishDetail]);
 
-  console.log('Pratos do chefe', chefDishes);
 
   useEffect(() => {
     if (
