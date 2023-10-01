@@ -7,7 +7,7 @@ export const routes = {
 
   profile: '/perfil',
   recoverPassword: '/recuperarsenha',
-  dish: (id = ':id') => `dish/${id}`,
+  dish: (id = ':id') => `prato/${id}`,
   home: '/',
   cart: '/carrinho',
   checkout: '/carrinho/checkout',
@@ -22,10 +22,12 @@ export const apiRoutes = {
     like: (id: string) => `/dishes/${id}/like`,
     dislike: (id: string) => `/dishes/${id}/dislike`,
     detail: (id: string) => `/dishes/${id}`,
-    rate: (id: string) => `/dishes/${id}/ratings`
+    rate: (id: string) => `/dishes/${id}/ratings`,
+    ratings: (id: string) => `/dishes/${id}/ratings`
   },
   chef: {
-    dishes: (id: string) => `chefs/${id}/dishes`
+    dishes: (id: string) => `chefs/${id}/dishes`,
+    detail: (id: string) => `chefs/${id}`
   },
   chefs: '/chefs',
   state: {
