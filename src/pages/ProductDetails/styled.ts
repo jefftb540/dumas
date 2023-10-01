@@ -332,10 +332,28 @@ export const ContainerChefsDishes = styled.div`
   flex-direction: row;
 `;
 
+export const ContainerComents = styled.div`
+  padding: 30px 72px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+`;
+
 export const ContainerCards = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 20px;
   width: 100%;
+`;
+
+export const Coments = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 0px 72px;
+  gap: 20px;
+`;
+
+export const ComentsCard = styled.div`
+  display: flex;
 `;

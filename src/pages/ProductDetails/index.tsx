@@ -21,7 +21,9 @@ import {
   FavouriteIconContainer,
   ImageAndLike,
   ContainerChefsDishes,
-  ContainerCards
+  ContainerCards,
+  Coments,
+  ContainerComents
 } from './styled';
 import { BsFillStarFill } from 'react-icons/bs';
 import { Title } from '../../components/Title';
@@ -44,6 +46,7 @@ import { toast } from 'react-toastify';
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { dislikeDish, likeDish } from '../../service/api/dishes';
 import queryClient from '../../service/reactQuery/queryClient';
+import { Rating } from '../../types/Rating';
 
 export const ProductDetails = () => {
   const [dishDetail, setDishDetail] = useState<Dish>();
@@ -64,10 +67,11 @@ export const ProductDetails = () => {
         const dishDetailData = await getDishId(id);
         setDishDetail(dishDetailData);
         setLiked(dishDetailData?.liked_by_me || false);
+        setRatings(dishDetailData?.ratings);
       }
     };
     getData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const getData = async () => {
@@ -76,13 +80,10 @@ export const ProductDetails = () => {
         setChef([chefData]);
         const dishesData = await getDishesPerChef(dishDetail.chef_id);
         setChefDishes(dishesData.data);
-        const ratingsData = await getDishRatings(dishDetail.id!);
-        setRatings(ratingsData);
       }
     };
     getData();
   }, [dishDetail]);
-
 
   useEffect(() => {
     if (
@@ -200,6 +201,21 @@ export const ProductDetails = () => {
           </RightContainer>
         </IntermediateContainer>
       </Container>
+
+      <ContainerComents>
+        <Title>Avaliações: </Title>
+      </ContainerComents>
+      {ratings.map((rating, index) => (
+        <Coments key={index}>
+          <Text>
+            <strong>{rating.user_name}:</strong> {rating.comment}
+          </Text>
+
+          <ChefAvaliation>
+            {rating.rate} <BsFillStarFill />
+          </ChefAvaliation>
+        </Coments>
+      ))}
 
       <ContainerChefsDishes>
         <Title>Outros pratos do mesmo chef</Title>

@@ -7,7 +7,6 @@ import {
   CardsContainer
 } from './styled';
 import { useNavigate } from 'react-router-dom';
-import { routes } from '../../routes';
 import { Dish } from '../../types/Dish';
 
 interface DishCardProps {
@@ -16,6 +15,10 @@ interface DishCardProps {
 
 export const DishCard = ({ chefDish }: DishCardProps) => {
   const navigate = useNavigate();
+
+  const handleDishTitleClick = () => {
+    navigate(`/prato/${chefDish.id}`);
+  };
   return (
     <CardsContainer>
       <CardContainer>
@@ -23,7 +26,7 @@ export const DishCard = ({ chefDish }: DishCardProps) => {
           src={chefDish.images || 'images/image_placeholder.png'}
           alt={chefDish.chef.name}
         />
-        <DishTitle onClick={() => navigate(routes.dish(chefDish.id))}>
+        <DishTitle onClick={() => handleDishTitleClick()}>
           {chefDish.name}
         </DishTitle>
         <DishPrice>{formatCurrency(chefDish.unit_price)}</DishPrice>
