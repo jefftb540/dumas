@@ -24,7 +24,7 @@ const CardList = ({
       ref={ref}
       onScroll={() => handleScroll(ref, onScroll)}
       direction={direction}
-      fullWidth={$fullWidth}
+      $fullWidth={$fullWidth}
     >
       {dishes.length > 0 &&
         dishes.map(dish => (
