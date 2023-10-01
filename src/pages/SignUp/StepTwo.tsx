@@ -19,6 +19,7 @@ import { api } from '../../service/api';
 import { useEffect, useState } from 'react';
 import { getAndUseLocation } from '../../consts/getLocation';
 import { Address } from '../../types/Address';
+import { DefaultLink } from '../../components/DefaultLink';
 
 interface Cep {
   cep: string;
@@ -225,7 +226,9 @@ export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
               </Button>
             </WrapperButton>
           </InputContainer>
-          
+          <DefaultLink variant="primary" to={routes.login}>
+            Voltar
+          </DefaultLink>
         </FormContainer>
       )}
     </Formik>

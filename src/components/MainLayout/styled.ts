@@ -51,11 +51,10 @@ export const HalfScreen = styled.div`
   justify-content: center;
   padding: 20px;
   width: 100%;
-  height: 107px;
+  height: 100%;
 
   ${media.desktop`
     flex: 1; 
-    height: 100vh;
   `}
 `;
 
