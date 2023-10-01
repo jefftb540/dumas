@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { api } from '../../service/api';
 import queryClient from '../../service/reactQuery/queryClient';
 import { Address } from '../../types/Address';
 import { Title3 } from '../../pages/Profile/styled';
 import { FiEdit, FiTrash2 } from 'react-icons/fi';
-import {
-  ContainerAddressProfile,
-  InputAddress,
-  WrapperEditDelete
-} from './styled';
+import { ContainerAddressProfile, WrapperEditDelete } from './styled';
+import { useCart } from '../../contexts/cartContex';
+import { AddAddressModal } from '../AddAddressModal';
+import { getCustomStyles } from '../../consts/modalStyles';
+import { useTheme } from 'styled-components';
 
 interface AddressProfileProps {
   address: Address;
@@ -18,17 +18,27 @@ export const AddressProfile: React.FC<AddressProfileProps> = ({
   address
 }: AddressProfileProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedAddress, setEditedAddress] = useState({ ...address });
+  const { activeAddress, setActiveAddress } = useCart();
+  const { theme } = useTheme();
 
-  const handlePressEnter = async (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      console.log('enviar dados', editedAddress);
-      await api.put(`/clients/addresses/${address.id}`, {
-        address: editedAddress
-      });
-      queryClient.invalidateQueries({ queryKey: ['profile'] });
-      setIsEditing(false);
+  const [customStyles, setCustomStyles] = useState(getCustomStyles(theme));
+
+  useMemo(() => {
+    setCustomStyles(getCustomStyles(theme));
+  }, [theme]);
+
+  const handleSubmit = async (address: Address) => {
+    console.log('enviar dados', address);
+    await api.put<Address>(`/clients/addresses/${address.id}`, {
+      address
+    });
+
+    if (address.id === activeAddress?.id) {
+      setActiveAddress(address);
     }
+    queryClient.invalidateQueries({ queryKey: ['profile'] });
+    queryClient.invalidateQueries({ queryKey: ['addresses'] });
+    setIsEditing(false);
   };
 
   const handleActionClick = (action: 'edit' | 'delete') => {
@@ -53,49 +63,12 @@ export const AddressProfile: React.FC<AddressProfileProps> = ({
       <Title3>Endereços</Title3>
       {isEditing ? (
         <div>
-          <InputAddress
-            type="text"
-            value={editedAddress.name}
-            onChange={e =>
-              setEditedAddress({
-                ...editedAddress,
-                name: e.target.value
-              })
-            }
-          />
-
-          <InputAddress
-            type="text"
-            value={editedAddress.public_place}
-            onChange={e =>
-              setEditedAddress({
-                ...editedAddress,
-                public_place: e.target.value
-              })
-            }
-          />
-
-          <InputAddress
-            type="text"
-            value={editedAddress.number}
-            onChange={e =>
-              setEditedAddress({
-                ...editedAddress,
-                number: e.target.value
-              })
-            }
-          />
-
-          <InputAddress
-            type="text"
-            onKeyUp={handlePressEnter}
-            value={editedAddress.zip_code}
-            onChange={e =>
-              setEditedAddress({
-                ...editedAddress,
-                zip_code: e.target.value
-              })
-            }
+          <AddAddressModal
+            closeModal={() => setIsEditing(false)}
+            isOpen={isEditing}
+            styles={customStyles}
+            address={address}
+            onSubmit={handleSubmit}
           />
         </div>
       ) : (

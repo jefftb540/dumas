@@ -2,6 +2,9 @@ import { Cep } from '../../types/Cep';
 import { api } from '../api';
 import { Address } from '../../types/Address';
 import { apiRoutes } from '../../routes';
+import { handleRequestError } from '../../utils/handleRequestError';
+import { AxiosError } from 'axios';
+import { Paginated } from '../../types/Paginated';
 
 export const getAddressByCep = async (cep: string) => {
   const response = await api.get<Cep>(apiRoutes.addresses.cep(cep as string));
@@ -15,5 +18,16 @@ export const createAddress = async (address: Address) => {
     });
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const getAddresses = async () => {
+  try {
+    const response = await api.get<Paginated<Address>>(
+      apiRoutes.addresses.myAddresses
+    );
+    return response.data;
+  } catch (error) {
+    handleRequestError(error as AxiosError);
   }
 };

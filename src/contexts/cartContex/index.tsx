@@ -3,6 +3,7 @@ import {
   SetStateAction,
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useState
 } from 'react';
@@ -62,6 +63,15 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
     });
     setChefsInCart(chefs);
   }, [cartItems]);
+
+  useEffect(() => {
+    if (activeAddress) {
+      secureLocalStorage.setItem(
+        'activeAddress',
+        JSON.stringify(activeAddress)
+      );
+    }
+  }, [activeAddress]);
 
   const addToCart = (item: Dish) => {
     setIsPaid(false);

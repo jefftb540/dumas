@@ -18,25 +18,31 @@ interface EditUserModalProps {
   closeModal: () => void;
   styles: Modal.Styles;
   onSubmit: (values: Address) => Promise<void>;
+  address?: Address;
 }
 
 export const AddAddressModal = ({
   closeModal,
   isOpen,
   styles,
-  onSubmit
+  onSubmit,
+  address
 }: EditUserModalProps) => {
-  const [newAddress, setNewAddress] = useState<Address>({
-    id: '',
-    name: '',
-    public_place: '',
-    zip_code: '',
-    number: '',
-    neighborhood: '',
-    city_id: '',
-    complement: '',
-    reference: ''
-  });
+  const [newAddress, setNewAddress] = useState<Address>(
+    address
+      ? address
+      : {
+          id: '',
+          name: '',
+          public_place: '',
+          zip_code: '',
+          number: '',
+          neighborhood: '',
+          city_id: '',
+          complement: '',
+          reference: ''
+        }
+  );
 
   const handleCepChange = async (cep: string) => {
     const cleanedCep = cep.replace(/[^0-9]/g, '');
