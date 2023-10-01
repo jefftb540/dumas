@@ -53,13 +53,14 @@ export const ProductDetails = () => {
   const { id } = useParams();
   const { userLocation } = useAuth();
   const { addToCart } = useCart();
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(dishDetail?.liked_by_me || false);
 
   useEffect(() => {
     const getData = async () => {
       if (id) {
         const dishDetailData = await getDishId(id);
         setDishDetail(dishDetailData);
+        setLiked(dishDetailData?.liked_by_me || false);
       }
     };
     getData();
