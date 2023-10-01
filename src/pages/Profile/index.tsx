@@ -1,72 +1,46 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { User } from '../../types/Users';
-import { EditProfile } from '../../components/EditProfile';
 import { Button } from '../../components/Button';
 import { CircularSpinner } from '../../components/CircularSpinner';
-import { ContainerImg, ContainerProfile, Title3, WrapperModal } from './styled';
+import {
+  ButtonContainer,
+  ContainerImg,
+  ContainerProfile,
+  DecorativeImage,
+  SpinnerContainer,
+  Strong,
+  Title3,
+  UserInfo,
+  UserInfoAndModalContainer,
+  UserInfoContainer,
+  WrapperModal
+} from './styled';
 import { useAuth } from '../../contexts/authContext';
 import { TelephoneProfile } from '../../components/Telephone';
 import { useQuery } from 'react-query';
 import queryClient from '../../service/reactQuery/queryClient';
 import { AddressProfile } from '../../components/Addresses';
 import { editClient, getClientData } from '../../service/api/client';
-import { createAddress, getAddressByCep } from '../../service/api/address';
+import { createAddress } from '../../service/api/address';
 import { Address } from '../../types/Address';
-import {
-  ButtonClose,
-  ContainerInput,
-  ContainerTitleClose,
-  InputModal,
-  ModalContent,
-  TitleModal
-} from '../../components/EditProfile/styled';
-import { FiHome, FiPhone, FiXCircle } from 'react-icons/fi';
 import { useTheme } from '../../contexts/themeContext';
 import { createTelephones } from '../../service/api/telephone';
+import { EditUserModal } from '../../components/EditUserModal';
+import { AddTelephoneModal } from '../../components/AddTelephoneModal';
+import { AddAddressModal } from '../../components/AddAddressModal';
 
 Modal.setAppElement('#root');
 
 export const Profile: React.FC = () => {
-  const [clientData, setClientData] = useState<User | null>(null);
+  const [clientData, setClientData] = useState<User>();
   const [nameEmailModalIsOpen, setNameEmailModalIsOpen] = useState(false);
   const [phonesModalIsOpen, setPhonesModalIsOpen] = useState(false);
   const [addressesModalIsOpen, setAddressesModalIsOpen] = useState(false);
-  const [newPhone, setNewPhone] = useState('');
-  const [newAddress, setNewAddress] = useState<Address>({
-    id: '',
-    name: '',
-    public_place: '',
-    zip_code: '',
-    number: '',
-    neighborhood: '',
-    city_id: '',
-    complement: '',
-    reference: ''
-  });
+
   const { theme } = useTheme();
   const { user } = useAuth();
   const { data, isLoading } = useQuery(['profile'], getClientData);
-
-  const handleCepChange = async (cep: string) => {
-    const cleanedCep = cep.replace(/[^0-9]/g, '');
-
-    if (cleanedCep.length !== 8) {
-      alert('CEP deve conter 8 números');
-      return;
-    }
-    try {
-      const data = await getAddressByCep(cep);
-      setNewAddress(prev => ({
-        ...prev,
-        city_id: data.city_id,
-        neighborhood: data.neighborhood,
-        public_place: data.street
-      }));
-    } catch (error) {
-      console.error('Erro ao buscar CEP:', error);
-    }
-  };
 
   useEffect(() => {
     if (data) {
@@ -99,53 +73,23 @@ export const Profile: React.FC = () => {
   }
 
   const sendEditClient = async (values: User) => {
-    try {
-      const response = await editClient(values);
+    const response = await editClient(values);
+    setClientData(response);
 
-      if (response && response) {
-        setClientData(response);
-
-        closeNameEmailModal();
-      } else {
-        console.log('Algo deu errado');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    closeNameEmailModal();
   };
 
-  const addPhoneNumber = async () => {
-    try {
-      await createTelephones(newPhone);
-      queryClient.invalidateQueries({ queryKey: ['profile'] });
+  const addPhoneNumber = async (newPhone: string) => {
+    await createTelephones(newPhone);
+    queryClient.invalidateQueries({ queryKey: ['profile'] });
 
-      closePhonesModal();
-    } catch (error) {
-      console.log(error);
-    }
+    closePhonesModal();
   };
 
-  const addAddress = async () => {
-    try {
-      await createAddress(newAddress);
-      queryClient.invalidateQueries({ queryKey: ['profile'] });
-
-      setNewAddress({
-        id: '',
-        name: '',
-        public_place: '',
-        zip_code: '',
-        number: '',
-        neighborhood: '',
-        city_id: '',
-        complement: '',
-        reference: ''
-      });
-
-      closeAddressesModal();
-    } catch (error) {
-      console.log(error);
-    }
+  const addAddress = async (newAddress: Address) => {
+    await createAddress(newAddress);
+    queryClient.invalidateQueries({ queryKey: ['profile'] });
+    closeAddressesModal();
   };
 
   const customStyles = {
@@ -163,49 +107,32 @@ export const Profile: React.FC = () => {
   return (
     <ContainerProfile>
       <WrapperModal>
-        <div>
-          <Modal
+        <UserInfoAndModalContainer>
+          <EditUserModal
             isOpen={nameEmailModalIsOpen}
-            onRequestClose={closeNameEmailModal}
-            contentLabel="Editar"
-            style={customStyles}
-          >
-            <ModalContent>
-              <ContainerTitleClose>
-                <TitleModal>Editar Nome e Email</TitleModal>
-
-                <ButtonClose onClick={closeNameEmailModal}>
-                  <FiXCircle />
-                </ButtonClose>
-              </ContainerTitleClose>
-
-              {clientData ? (
-                <EditProfile values={clientData} onSubmit={sendEditClient} />
-              ) : (
-                <p>
-                  <CircularSpinner /> Carregando dados...
-                </p>
-              )}
-            </ModalContent>
-          </Modal>
+            closeModal={closeNameEmailModal}
+            onSubmit={sendEditClient}
+            styles={customStyles}
+            user={clientData}
+          />
 
           {clientData ? (
-            <div>
+            <UserInfoContainer>
               <Title3>{user?.name}</Title3>
-              <div>
-                <strong>Nome:</strong> {clientData.name}
-              </div>
-              <div>
-                <strong>Email:</strong> {clientData.email}
-              </div>
-            </div>
+              <UserInfo>
+                <Strong>Nome:</Strong> {clientData.name}
+              </UserInfo>
+              <UserInfo>
+                <Strong>Email:</Strong> {clientData.email}
+              </UserInfo>
+            </UserInfoContainer>
           ) : (
-            <p>
+            <SpinnerContainer>
               <CircularSpinner /> Carregando dados...
-            </p>
+            </SpinnerContainer>
           )}
-        </div>
-        <div>
+        </UserInfoAndModalContainer>
+        <ButtonContainer>
           <Button
             variant="primary"
             size="medium"
@@ -214,60 +141,31 @@ export const Profile: React.FC = () => {
           >
             Editar
           </Button>
-        </div>
+        </ButtonContainer>
       </WrapperModal>
       <WrapperModal>
-        <Modal
+        <AddTelephoneModal
           isOpen={phonesModalIsOpen}
-          onRequestClose={closePhonesModal}
-          contentLabel="Adicionar"
-          style={customStyles}
-        >
-          <ModalContent>
-            <ContainerTitleClose>
-              <TitleModal>Adicionar Telefones</TitleModal>
-
-              <ButtonClose onClick={closePhonesModal}>
-                <FiXCircle />
-              </ButtonClose>
-            </ContainerTitleClose>
-
-            <ContainerInput size="large">
-              <FiPhone />
-              <InputModal
-                type="text"
-                placeholder="Digite um número de telefone"
-                value={newPhone}
-                onChange={e => setNewPhone(e.target.value)}
-              />
-            </ContainerInput>
-
-            <Button
-              variant="primary"
-              size="medium"
-              type="button"
-              onClick={addPhoneNumber}
-            >
-              Adicionar
-            </Button>
-          </ModalContent>
-        </Modal>
+          closeModal={closePhonesModal}
+          styles={customStyles}
+          onSubmit={addPhoneNumber}
+        />
 
         {clientData ? (
-          <div>
+          <UserInfoContainer>
             {clientData.telephones.map((telephone, index) => (
               <TelephoneProfile
                 key={`telephone_${index}`}
                 telephone={telephone}
               />
             ))}
-          </div>
+          </UserInfoContainer>
         ) : (
-          <p>
+          <SpinnerContainer>
             <CircularSpinner /> Carregando dados...
-          </p>
+          </SpinnerContainer>
         )}
-        <div>
+        <ButtonContainer>
           <Button
             variant="primary"
             size="medium"
@@ -276,101 +174,31 @@ export const Profile: React.FC = () => {
           >
             Adicionar
           </Button>
-        </div>
+        </ButtonContainer>
       </WrapperModal>
 
       <WrapperModal>
-        <Modal
+        <AddAddressModal
+          closeModal={closeAddressesModal}
           isOpen={addressesModalIsOpen}
-          onRequestClose={closeAddressesModal}
-          contentLabel="Editar Endereços"
-          style={customStyles}
-        >
-          <ModalContent>
-            <ContainerTitleClose>
-              <TitleModal>Adicionar Endereços</TitleModal>
-
-              <ButtonClose onClick={closeAddressesModal}>
-                <FiXCircle />
-              </ButtonClose>
-            </ContainerTitleClose>
-
-            <ContainerInput size="large">
-              <FiHome />
-              <InputModal
-                type="text"
-                placeholder="CEP"
-                value={newAddress.zip_code}
-                onChange={e => {
-                  setNewAddress({ ...newAddress, zip_code: e.target.value });
-                }}
-                onBlur={e => handleCepChange(e.target.value)}
-              />
-            </ContainerInput>
-
-            <ContainerInput size="large">
-              <FiHome />
-              <InputModal
-                type="text"
-                placeholder="Logradouro"
-                value={newAddress.public_place}
-                onChange={e =>
-                  setNewAddress({ ...newAddress, public_place: e.target.value })
-                }
-              />
-            </ContainerInput>
-
-            <ContainerInput size="large">
-              <FiHome />
-              <InputModal
-                type="text"
-                placeholder="Número"
-                value={newAddress.number}
-                onChange={e =>
-                  setNewAddress({ ...newAddress, number: e.target.value })
-                }
-              />
-            </ContainerInput>
-
-            <ContainerInput size="large">
-              <FiHome />
-              <InputModal
-                type="text"
-                placeholder="Bairro"
-                value={newAddress.neighborhood}
-                onChange={e =>
-                  setNewAddress({ ...newAddress, neighborhood: e.target.value })
-                }
-              />
-            </ContainerInput>
-
-            <Button
-              variant="primary"
-              size="medium"
-              type="button"
-              onClick={() => {
-                addAddress();
-              }}
-            >
-              Adicionar
-            </Button>
-          </ModalContent>
-        </Modal>
+          styles={customStyles}
+          onSubmit={addAddress}
+        />
 
         {clientData ? (
-          <div>
+          <UserInfoContainer>
             {clientData.addresses?.length &&
               clientData.addresses.map((address, index) => (
                 <AddressProfile key={`address_${index}`} address={address} />
               ))}
-          </div>
+          </UserInfoContainer>
         ) : (
-          <p>
+          <SpinnerContainer>
             <CircularSpinner /> Carregando dados...
-          </p>
+          </SpinnerContainer>
         )}
 
-        <div>
+        <ButtonContainer>
           <Button
             variant="primary"
             size="medium"
@@ -379,10 +207,10 @@ export const Profile: React.FC = () => {
           >
             Adicionar
           </Button>
-        </div>
+        </ButtonContainer>
       </WrapperModal>
       <ContainerImg>
-        <img src="public/undraw_breakfast_psiw 3.svg" alt="prato" />
+        <DecorativeImage src="public/undraw_breakfast_psiw 3.svg" alt="prato" />
       </ContainerImg>
     </ContainerProfile>
   );
