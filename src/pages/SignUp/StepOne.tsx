@@ -1,4 +1,4 @@
-import { Formik } from 'formik';
+import { ErrorMessage, Formik } from 'formik';
 import {
   FormContainer,
   InputContainer,
@@ -49,7 +49,14 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
       .required(messageErrors.password.required),
     password_confirmation: Yup.string()
       .oneOf([Yup.ref('password')], messageErrors.password_confirm.invalid)
-      .required(messageErrors.password_confirm.required)
+      .required(messageErrors.password_confirm.required),
+    telephones_attributes: Yup.array().of(
+      Yup.object({
+        number: Yup.string()
+          .matches(/^[0-9]{8,9}$/, 'Número de telefone inválido')
+          .required('O telefone é obrigatório')
+      })
+    )
   });
 
   return (
@@ -59,7 +66,7 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
       validateOnMount={true}
       validationSchema={validation}
     >
-      {({ values, isSubmitting, isValid, touched, errors }) => (
+      {({ values, isSubmitting, isValid }) => (
         <FormContainer>
           <Title>Cadastro</Title>
           <SubTitle>Informações pessoais</SubTitle>
@@ -67,14 +74,10 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
           <InputContainer>
             <Input Icon={FiUser} placeholder="Nome e Sobrenome" name="name" />
 
-            {touched.name && errors.name && (
-              <MessageErrorsContainer>{errors.name}</MessageErrorsContainer>
-            )}
+            <ErrorMessage name="name" component={MessageErrorsContainer} />
 
             <Input Icon={FiMail} placeholder="Email" name="email" />
-            {touched.email && errors.email && (
-              <MessageErrorsContainer>{errors.email}</MessageErrorsContainer>
-            )}
+            <ErrorMessage name="email" component={MessageErrorsContainer} />
 
             <Input
               placeholder="Senha"
@@ -83,10 +86,7 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
               Icon={FiLock}
             />
 
-            {touched.password && errors.password && (
-              <MessageErrorsContainer>{errors.password}</MessageErrorsContainer>
-            )}
-
+            <ErrorMessage name="password" component={MessageErrorsContainer} />
             <Input
               placeholder="Confirmar senha"
               type="password"
@@ -94,11 +94,10 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
               Icon={FiLock}
             />
 
-            {touched.password_confirmation && errors.password_confirmation && (
-              <MessageErrorsContainer>
-                {errors.password_confirmation}
-              </MessageErrorsContainer>
-            )}
+            <ErrorMessage
+              name="password_confirmation"
+              component={MessageErrorsContainer}
+            />
 
             <Input
               placeholder="Telefone"
@@ -106,6 +105,11 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
               name="telephones_attributes[0].number"
               Icon={FiPhone}
             />
+            <ErrorMessage
+              name="telephones_attributes[0].number"
+              component={MessageErrorsContainer}
+            />
+
             {error && <MessageErrorsContainer>{error}</MessageErrorsContainer>}
 
             <WrapperButton>
