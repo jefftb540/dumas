@@ -10,9 +10,4 @@ export interface Address {
   latitude?: number;
   longitude?: number;
   city_id: string;
-  addressable_type: string;
-  addressable_id: string;
-  state?: string;
-  street?: string;
-  city?: string;
 }

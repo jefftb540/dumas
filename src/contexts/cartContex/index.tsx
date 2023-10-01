@@ -11,6 +11,8 @@ import secureLocalStorage from 'react-secure-storage';
 import { Chef } from '../../types/Chef';
 import { CartItem } from '../../types/CartItem';
 import { Address } from '../../types/Address';
+import { OrderItem } from '../../types/Order';
+import { createOrder } from '../../service/api/order';
 
 interface CartContextProps {
   addToCart: (item: Dish, quantity?: number) => void;
@@ -27,6 +29,7 @@ interface CartContextProps {
   confirmPayment: () => void;
   activeAddress: Address | undefined;
   setActiveAddress: Dispatch<SetStateAction<Address | undefined>>;
+  sendOrder: () => void;
 }
 
 export const CartContext = createContext<CartContextProps>(
@@ -119,6 +122,17 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
   const getItemsCount = () =>
     cartItems.reduce((total, item) => total + item.quantity, 0);
 
+  const sendOrder = async () => {
+    const orderItems: OrderItem[] = cartItems.map(item => ({
+      dish_id: item.item.id!,
+      amount: item.quantity
+    }));
+    await createOrder({
+      delivery_address_id: activeAddress!.id,
+      items_attributes: orderItems
+    });
+  };
+
   const confirmPayment = () => setIsPaid(true);
 
   return (
@@ -137,7 +151,8 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
         isPaid,
         confirmPayment,
         activeAddress,
-        setActiveAddress
+        setActiveAddress,
+        sendOrder
       }}
     >
       {children}

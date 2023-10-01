@@ -14,10 +14,20 @@ import {
 } from './styled';
 import { routes } from '../../routes';
 import { CartFooter } from '../../components/CartFooter';
+import { toast } from 'react-toastify';
 
 export const Cart = () => {
   const navigate = useNavigate();
-  const { chefsInCart, getItensPerChef, getTotalPrice } = useCart();
+  const { chefsInCart, getItensPerChef, getTotalPrice, sendOrder } = useCart();
+  const placeOrder = () => {
+    try {
+      sendOrder();
+      toast.success('Pedido enviado');
+      navigate(routes.checkout);
+    } catch {
+      toast.error('Problema ao enviar pedido');
+    }
+  };
   return (
     <>
       <CartContainer>
@@ -53,11 +63,7 @@ export const Cart = () => {
         )}
         <CartButtonContainer>
           <Title color="accent">{formatCurrency(getTotalPrice())}</Title>
-          <Button
-            size="medium"
-            variant="primary"
-            onClick={() => navigate(routes.checkout)}
-          >
+          <Button size="medium" variant="primary" onClick={placeOrder}>
             Comprar
           </Button>
         </CartButtonContainer>

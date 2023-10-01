@@ -55,10 +55,11 @@ export const AddressToggleIcon = styled.div`
 export const AddressSelectorToggle = styled.div`
   display: flex;
   align-items: center;
+  cursor: pointer;
   svg {
     color: ${({ theme }) => theme.colors.text.primaryAccent};
-    width: 32px;
-    height: 32px;
+    width: 18px;
+    height: 18px;
   }
 `;
 export const AddressInfo = styled.div`
@@ -90,7 +91,7 @@ export const NavIcon = styled.img`
 
 export const AddressTitle = styled.span`
   color: ${({ theme }) => theme.colors.text.primaryAccent};
-  font-size: ${({ theme }) => theme.fonts.text.medium};
+  font-size: ${({ theme }) => theme.fonts.text.small};
   font-weight: ${({ theme }) => theme.fonts.weight.regular};
   line-height: normal;
   cursor: pointer;
@@ -151,7 +152,7 @@ export const UserMenuToggle = styled.span`
   display: flex;
   gap: 2px;
   align-items: center;
-  font-size: ${({ theme }) => theme.fonts.text.medium};
+  font-size: ${({ theme }) => theme.fonts.text.small};
   font-weight: ${({ theme }) => theme.fonts.weight.semiBold};
   cursor: pointer;
   padding-right: 12px;
@@ -207,6 +208,19 @@ export const SearchInput = styled.input`
   font-size: ${({ theme }) => theme.fonts.text.small};
   font-family: ${({ theme }) => theme.fonts.family.primary};
   font-weight: ${({ theme }) => theme.fonts.weight.regular};
+`;
+
+export const NoResults = styled.div`
+  position: absolute;
+  top: 72px;
+  background-color: ${({ theme }) => theme.colors.background.light};
+  color: ${({ theme }) => theme.colors.text.secondaryAccent};
+  width: 600px;
+  height: 50px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const MobileIconToggle = styled.div`

@@ -67,8 +67,9 @@ export const CartIconContainer = styled.div`
 
 export const PriceAndRatingContainer = styled.div`
   display: flex;
-  flex: 4;
+  flex: 1;
   justify-content: space-between;
+  padding-right: 32px;
 `;
 
 export const DistanceContainer = styled.div`

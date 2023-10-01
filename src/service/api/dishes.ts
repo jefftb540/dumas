@@ -4,6 +4,8 @@ import { Dish } from '../../types/Dish';
 import { Locality } from '../../types/Location';
 import { Paginated } from '../../types/Paginated';
 import { Rating } from '../../types/Rating';
+import { handleRequestError } from '../../utils/handleRequestError';
+import { AxiosError } from 'axios';
 
 export const getAllDishes = async (page = 1, perPage = 25) => {
   const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
@@ -32,51 +34,71 @@ export const getNearDishes = async (
   page = 1,
   perPage = 25
 ) => {
-  const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
-    params: {
-      active: true,
-      available: true,
-      latitude: location.latitude,
-      longitude: location.longitude,
-      page,
-      per_page: perPage
-    }
-  });
+  try {
+    const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
+      params: {
+        active: true,
+        available: true,
+        latitude: location.latitude,
+        longitude: location.longitude,
+        page,
+        per_page: perPage
+      }
+    });
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    handleRequestError(error as AxiosError);
+  }
 };
 
 export const getDishesPerChef = async (chefId: string) => {
-  const response = await api.get<Paginated<Dish>>(
-    apiRoutes.chef.dishes(chefId),
-    {
-      params: { active: true, available: true }
-    }
-  );
+  try {
+    const response = await api.get<Paginated<Dish>>(
+      apiRoutes.chef.dishes(chefId),
+      {
+        params: { active: true, available: true }
+      }
+    );
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    handleRequestError(error as AxiosError);
+  }
 };
 
 export const searchDishes = async (query: string, page = 1, perPage = 4) => {
-  const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
-    params: {
-      page,
-      per_page: perPage,
-      active: true,
-      available: true,
-      term: query
-    }
-  });
+  try {
+    const response = await api.get<Paginated<Dish>>(apiRoutes.dishes, {
+      params: {
+        page,
+        per_page: perPage,
+        active: true,
+        available: true,
+        term: query
+      }
+    });
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    handleRequestError(error as AxiosError);
+  }
 };
 
 export const likeDish = async (dishId: string) => {
-  await api.put(apiRoutes.dish.like(dishId));
+  try {
+    await api.put(apiRoutes.dish.like(dishId));
+  } catch (error) {
+    handleRequestError(error as AxiosError);
+  }
 };
 
 export const dislikeDish = async (dishId: string) => {
-  await api.put(apiRoutes.dish.dislike(dishId));
+  try {
+    await api.put(apiRoutes.dish.dislike(dishId));
+  } catch (error) {
+    handleRequestError(error as AxiosError);
+  }
 };
 
 export const getDishId = async (dishId: string) => {
@@ -86,8 +108,12 @@ export const getDishId = async (dishId: string) => {
 };
 
 export const rateDish = async (rating: Rating) => {
-  rating.dishId &&
-    (await api.post(apiRoutes.dish.rate(rating.dishId), { rating }));
+  try {
+    rating.dishId &&
+      (await api.post(apiRoutes.dish.rate(rating.dishId), { rating }));
+  } catch (error) {
+    handleRequestError(error as AxiosError);
+  }
 };
 
 export const getDishRatings = async (dishId: string) => {
