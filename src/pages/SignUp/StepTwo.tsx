@@ -7,6 +7,7 @@ import {
   SubTitle,
   Title
 } from '../Login/styled';
+import { messageErrors } from '../../consts/messageErrors';
 import { FiHome } from 'react-icons/fi';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
@@ -131,12 +132,23 @@ export const StepTwo: React.FC<StepProps> = ({ prev, next, data, setData }) => {
     addresses_attributes: Yup.array().of(
       Yup.object({
         zip_code: Yup.string()
-          .matches(/^\d{8}$/, 'CEP deve conter 8 números')
-          .required('CEP é obrigatório'),
-        public_place: Yup.string().required('A rua é obrigatória'),
-        neighborhood: Yup.string().required('O bairro é obrigatório'),
-        number: Yup.string().required('O número é obrigatório'),
-        city_id: Yup.string().required('A cidade é obrigatória')
+          .matches(
+            /^\d{8}$/,
+            messageErrors.addresses_attributes.zip_code.invalid
+          )
+          .required(messageErrors.addresses_attributes.zip_code.required),
+        public_place: Yup.string().required(
+          messageErrors.addresses_attributes.public_place.required
+        ),
+        neighborhood: Yup.string().required(
+          messageErrors.addresses_attributes.neighborhood.required
+        ),
+        number: Yup.string().required(
+          messageErrors.addresses_attributes.number.required
+        ),
+        city_id: Yup.string().required(
+          messageErrors.addresses_attributes.city_id.required
+        )
       })
     )
   });

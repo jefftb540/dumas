@@ -15,5 +15,29 @@ export const messageErrors = {
   password_confirm: {
     invalid: 'As senhas não coincidem',
     required: 'A confirmação de senha é obrigatória'
+  },
+  telephones_attributes: {
+    number: {
+      invalid: 'Número de telefone inválido',
+      required: 'O telefone é obrigatório'
+    }
+  },
+  addresses_attributes: {
+    zip_code: {
+      invalid: 'O CEP deve conter 8 números',
+      required: 'O CEP é obrigatório'
+    },
+    public_place: {
+      required: 'A rua é obrigatória'
+    },
+    neighborhood: {
+      required: 'O bairro é obrigatório'
+    },
+    number: {
+      required: 'O número é obrigatório'
+    },
+    city_id: {
+      required: 'A cidade é obrigatória'
+    }
   }
 };

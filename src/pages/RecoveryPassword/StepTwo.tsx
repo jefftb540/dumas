@@ -19,6 +19,7 @@ import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { routes } from '../../routes';
+import { messageErrors } from '../../consts/messageErrors';
 
 interface FormResetProps {
   token: string;
@@ -42,14 +43,14 @@ export const StepTwo = ({
 
   const validationSchema = Yup.object().shape({
     password: Yup.string()
-      .required('A nova senha é obrigatória.')
-      .matches(
-        /^\d{6,}$/,
-        'A senha deve conter pelo menos 6 dígitos numéricos.'
-      ),
+      .required(messageErrors.password.required)
+      .matches(/^\d{6,}$/, messageErrors.password.invalid),
     passwordConfirm: Yup.string()
-      .oneOf([Yup.ref('password'), undefined], 'As senhas não coincidem.')
-      .required('A confirmação de senha é obrigatória.')
+      .oneOf(
+        [Yup.ref('password'), undefined],
+        messageErrors.password_confirm.invalid
+      )
+      .required(messageErrors.password_confirm.required)
   });
 
   const onSubmit = async (values: FormResetProps) => {
