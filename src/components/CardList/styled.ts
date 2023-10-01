@@ -3,7 +3,7 @@ import { media } from '../../consts/mediaquery';
 
 interface ListProps {
   direction: 'row' | 'column';
-  fullWidth: boolean;
+  $fullWidth: boolean;
 }
 
 export const List = styled.div<ListProps>`
@@ -15,10 +15,10 @@ export const List = styled.div<ListProps>`
   gap: 28px;
   padding: 8px;
 
-  ${({ direction, fullWidth }) => `
+  ${({ direction, $fullWidth }) => `
   flex-direction: ${direction};
     ${
-      fullWidth
+      $fullWidth
         ? `widht: 100%;
           overflow-y: auto;
       `
