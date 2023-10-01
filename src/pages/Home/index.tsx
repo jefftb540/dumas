@@ -28,27 +28,27 @@ import { MobileFooter } from '../../components/MobileFooter';
 
 export type DisplayingOptions = 'default' | 'favorites' | 'near' | 'all';
 
-const insertDistances = (
-  dishes: Dish[],
-  center: { lat: number; lng: number }
-) => {
-  return dishes.map(dish =>
-    dish.chef.address &&
-    dish.chef.address.latitude &&
-    dish.chef.address.longitude
-      ? {
-          ...dish,
-          distance: google.maps.geometry.spherical.computeDistanceBetween(
-            center,
-            {
-              lat: dish.chef.address.latitude,
-              lng: dish.chef.address.longitude
-            }
-          )
-        }
-      : dish
-  );
-};
+// const insertDistances = (
+//   dishes: Dish[],
+//   center: { lat: number; lng: number }
+// ) => {
+//   return dishes.map(dish =>
+//     dish.chef.address &&
+//     dish.chef.address.latitude &&
+//     dish.chef.address.longitude
+//       ? {
+//           ...dish,
+//           distance: google.maps.geometry.spherical.computeDistanceBetween(
+//             center,
+//             {
+//               lat: dish.chef.address.latitude,
+//               lng: dish.chef.address.longitude
+//             }
+//           )
+//         }
+//       : dish
+//   );
+// };
 
 export const Home = () => {
   const [nearDishes, setNearDishes] = useState<Dish[]>([]);
@@ -124,21 +124,15 @@ export const Home = () => {
   useEffect(() => {
     if (allDishesData)
       setAllDishes(
-        insertDistances(
-          allDishesData?.pages.flatMap(page => (page.data ? page.data : [])),
-          userLocation
-        )
+        allDishesData?.pages.flatMap(page => (page.data ? page.data : []))
       );
   }, [allDishesData]);
 
   useEffect(() => {
     if (nearDishesData)
       setNearDishes(
-        insertDistances(
-          nearDishesData?.pages.flatMap(page =>
-            page && page.data ? page.data : []
-          ),
-          userLocation
+        nearDishesData?.pages.flatMap(page =>
+          page && page.data ? page.data : []
         )
       );
   }, [nearDishesData]);
