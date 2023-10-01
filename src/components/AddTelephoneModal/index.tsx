@@ -10,18 +10,17 @@ import {
 import Modal from 'react-modal';
 import { Button } from '../Button';
 import { useState } from 'react';
+import { customStyles } from '../../consts/modalStyles';
 
 interface EditUserModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  styles: Modal.Styles;
   onSubmit: (values: string) => Promise<void>;
 }
 
 export const AddTelephoneModal = ({
   closeModal,
   isOpen,
-  styles,
   onSubmit
 }: EditUserModalProps) => {
   const [newPhone, setNewPhone] = useState('');
@@ -31,7 +30,7 @@ export const AddTelephoneModal = ({
       isOpen={isOpen}
       onRequestClose={closeModal}
       contentLabel="Adicionar"
-      style={styles}
+      style={customStyles}
     >
       <ModalContent>
         <ContainerTitleClose>

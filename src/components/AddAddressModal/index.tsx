@@ -12,11 +12,11 @@ import { Button } from '../Button';
 import { useState } from 'react';
 import { Address } from '../../types/Address';
 import { getAddressByCep } from '../../service/api/address';
+import { customStyles } from '../../consts/modalStyles';
 
 interface EditUserModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  styles: Modal.Styles;
   onSubmit: (values: Address) => Promise<void>;
   address?: Address;
 }
@@ -24,7 +24,6 @@ interface EditUserModalProps {
 export const AddAddressModal = ({
   closeModal,
   isOpen,
-  styles,
   onSubmit,
   address
 }: EditUserModalProps) => {
@@ -69,7 +68,7 @@ export const AddAddressModal = ({
       isOpen={isOpen}
       onRequestClose={closeModal}
       contentLabel="Editar Endereços"
-      style={styles}
+      style={customStyles}
     >
       <ModalContent>
         <ContainerTitleClose>

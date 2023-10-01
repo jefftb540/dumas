@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { User } from '../../types/Users';
 import { Button } from '../../components/Button';
@@ -24,12 +24,10 @@ import { AddressProfile } from '../../components/Addresses';
 import { editClient, getClientData } from '../../service/api/client';
 import { createAddress } from '../../service/api/address';
 import { Address } from '../../types/Address';
-import { useTheme } from '../../contexts/themeContext';
 import { createTelephones } from '../../service/api/telephone';
 import { EditUserModal } from '../../components/EditUserModal';
 import { AddTelephoneModal } from '../../components/AddTelephoneModal';
 import { AddAddressModal } from '../../components/AddAddressModal';
-import { getCustomStyles } from '../../consts/modalStyles';
 
 Modal.setAppElement('#root');
 
@@ -38,8 +36,6 @@ export const Profile: React.FC = () => {
   const [nameEmailModalIsOpen, setNameEmailModalIsOpen] = useState(false);
   const [phonesModalIsOpen, setPhonesModalIsOpen] = useState(false);
   const [addressesModalIsOpen, setAddressesModalIsOpen] = useState(false);
-  const { theme } = useTheme();
-  const [customStyles, setCustomStyles] = useState(getCustomStyles(theme));
 
   const { user } = useAuth();
   const { data, isLoading } = useQuery(['profile'], getClientData);
@@ -94,10 +90,6 @@ export const Profile: React.FC = () => {
     closeAddressesModal();
   };
 
-  useMemo(() => {
-    setCustomStyles(getCustomStyles(theme));
-  }, [theme]);
-
   if (isLoading) {
     return <h2>Carregando Dados...</h2>;
   }
@@ -110,7 +102,6 @@ export const Profile: React.FC = () => {
             isOpen={nameEmailModalIsOpen}
             closeModal={closeNameEmailModal}
             onSubmit={sendEditClient}
-            styles={customStyles}
             user={clientData}
           />
 
@@ -145,7 +136,6 @@ export const Profile: React.FC = () => {
         <AddTelephoneModal
           isOpen={phonesModalIsOpen}
           closeModal={closePhonesModal}
-          styles={customStyles}
           onSubmit={addPhoneNumber}
         />
 
@@ -153,12 +143,13 @@ export const Profile: React.FC = () => {
           <UserInfoContainer>
             <Title3>Telefones</Title3>
 
-            {clientData.telephones.map((telephone, index) => (
-              <TelephoneProfile
-                key={`telephone_${index}`}
-                telephone={telephone}
-              />
-            ))}
+            {clientData.telephones?.length &&
+              clientData.telephones?.map((telephone, index) => (
+                <TelephoneProfile
+                  key={`telephone_${index}`}
+                  telephone={telephone}
+                />
+              ))}
           </UserInfoContainer>
         ) : (
           <SpinnerContainer>
@@ -181,7 +172,6 @@ export const Profile: React.FC = () => {
         <AddAddressModal
           closeModal={closeAddressesModal}
           isOpen={addressesModalIsOpen}
-          styles={customStyles}
           onSubmit={addAddress}
         />
 

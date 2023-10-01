@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Formik } from 'formik';
+import { ErrorMessage, Formik } from 'formik';
 import { FiMail, FiLock } from 'react-icons/fi';
 import { useAuth } from '../../contexts/authContext';
 import { routes } from '../../routes';
@@ -29,7 +29,7 @@ export const initialValues = {
 };
 
 export const Login = () => {
-  const { signIn, error } = useAuth();
+  const { signIn } = useAuth();
   const [loading, setIsLoading] = useState(false);
 
   const onSubmit = async (values: FormLoginProps) => {
@@ -63,15 +63,13 @@ export const Login = () => {
       validationSchema={validation}
       validateOnMount={true}
     >
-      {({ isSubmitting, errors, touched, isValid }) => (
+      {({ isSubmitting, isValid }) => (
         <FormContainer>
           <Title>Login</Title>
           <SubTitle>Entre e faça seu pedido</SubTitle>
           <InputContainer>
             <Input Icon={FiMail} placeholder="Email" name="email" />
-            {touched.email && errors.email && (
-              <MessageErrorsContainer>{errors.email}</MessageErrorsContainer>
-            )}
+            <ErrorMessage name="email" component={MessageErrorsContainer} />
 
             <Input
               placeholder="Senha"
@@ -79,10 +77,7 @@ export const Login = () => {
               name="password"
               Icon={FiLock}
             />
-            {touched.password && errors.password && (
-              <MessageErrorsContainer>{errors.password}</MessageErrorsContainer>
-            )}
-            {error && <MessageErrorsContainer>{error}</MessageErrorsContainer>}
+            <ErrorMessage name="password" component={MessageErrorsContainer} />
 
             <Button
               variant="primary"
