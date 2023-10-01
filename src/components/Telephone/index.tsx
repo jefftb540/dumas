@@ -38,7 +38,7 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
   };
   return (
     <ContainerTelephoneProfile>
-      <strong>Número:</strong>:
+      <strong>Número</strong>:
       {isEditing ? (
         <WrapperInputsPhones>
           <InputPhone

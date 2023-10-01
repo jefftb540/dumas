@@ -11,6 +11,9 @@ import Modal from 'react-modal';
 import { Button } from '../Button';
 import { useState } from 'react';
 import { customStyles } from '../../consts/modalStyles';
+import * as Yup from 'yup';
+import { messageErrors } from '../../consts/messageErrors';
+import { MessageErrorsContainer } from '../../pages/Login/styled';
 
 interface EditUserModalProps {
   isOpen: boolean;
@@ -24,6 +27,33 @@ export const AddTelephoneModal = ({
   onSubmit
 }: EditUserModalProps) => {
   const [newPhone, setNewPhone] = useState('');
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+
+  const validateAndSubmit = async () => {
+    try {
+      await validation.validate({ number: newPhone }, { abortEarly: false });
+
+      await onSubmit(newPhone);
+
+      setValidationErrors([]);
+
+      closeModal();
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const errors = error.inner.map(e => e.message);
+        setValidationErrors(errors);
+      }
+    }
+  };
+
+  const validation = Yup.object().shape({
+    number: Yup.string()
+      .matches(
+        /^[0-9]{11}$/,
+        messageErrors.telephones_attributes.number.invalid
+      )
+      .required(messageErrors.telephones_attributes.number.required)
+  });
 
   return (
     <Modal
@@ -51,11 +81,15 @@ export const AddTelephoneModal = ({
           />
         </ContainerInput>
 
+        {validationErrors.map((error, index) => (
+          <MessageErrorsContainer key={index}>{error}</MessageErrorsContainer>
+        ))}
+
         <Button
           variant="primary"
           size="medium"
           type="button"
-          onClick={() => onSubmit(newPhone)}
+          onClick={validateAndSubmit}
         >
           Adicionar
         </Button>
