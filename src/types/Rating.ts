@@ -3,4 +3,5 @@ export interface Rating {
   rate: number;
   comment: string;
   dishId?: string;
+  user_name: string;
 }

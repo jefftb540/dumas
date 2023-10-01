@@ -9,7 +9,8 @@ import {
   MessageErrorsContainer,
   Paragrafo,
   SubTitle,
-  Title
+  Title,
+  WrapperLink
 } from './styled';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
@@ -100,10 +101,16 @@ export const Login = () => {
           </DefaultLink>
 
           <Paragrafo>
-            Não possui conta? Então
-            <DefaultLink variant="primary" to={routes.signUp.profile}>
+            Não possui conta?
+            <WrapperLink>
+              Então
+              <DefaultLink variant="primary" to={routes.signUp.profile}>
+                Faça seu cadastro.
+              </DefaultLink>
+            </WrapperLink>
+            {/* <DefaultLink variant="primary" to={routes.signUp.profile}>
               Faça seu cadastro.
-            </DefaultLink>
+            </DefaultLink> */}
           </Paragrafo>
         </FormContainer>
       )}

@@ -16,7 +16,7 @@ import { OrderItem } from '../../types/Order';
 import { createOrder } from '../../service/api/order';
 
 interface CartContextProps {
-  addToCart: (item: Dish) => void;
+  addToCart: (item: Dish, quantity?: number) => void;
   removeFromCart: (item: Dish) => void;
   deleteFromCart: (item: Dish) => void;
   getTotalPrice: () => number;
@@ -73,7 +73,7 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
     }
   }, [activeAddress]);
 
-  const addToCart = (item: Dish) => {
+  const addToCart = (item: Dish, quantity = 1) => {
     setIsPaid(false);
     const isItemInCart = cartItems.find(
       cartItem => cartItem.item.id === item.id
@@ -83,12 +83,12 @@ export const CartProviderContext = ({ children }: CartProviderProps) => {
       setCartItems(
         cartItems.map(cartItem =>
           cartItem.item.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            ? { ...cartItem, quantity: cartItem.quantity + quantity }
             : cartItem
         )
       );
     } else {
-      setCartItems([...cartItems, { item, quantity: 1 }]);
+      setCartItems([...cartItems, { item, quantity: quantity }]);
     }
   };
 

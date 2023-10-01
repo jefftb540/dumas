@@ -8,6 +8,11 @@ export const Title = styled.h1`
   font-style: italic;
   font-weight: ${({ theme }) => theme.fonts.weight.bold};
   color: ${({ theme }) => theme.colors.text.main};
+
+  ${media.mobile`
+    font-size: 14px;
+    width: 249px;
+  `}
 `;
 
 export const SubTitle = styled.h2`
@@ -19,12 +24,13 @@ export const SubTitle = styled.h2`
   color: ${({ theme }) => theme.colors.text.main};
 
   ${media.mobile`
-  font-size: 14px;
+    font-size: 14px;
+    width: 249px;
   `}
 `;
 
 export const FormContainer = styled(Form)`
-  width: 50%;
+  width: 100%;
   display: flex;
   padding-top: 20px;
   flex-direction: column;
@@ -40,7 +46,6 @@ export const InputContainer = styled.div`
 `;
 
 export const Paragrafo = styled.p`
-  width: 413px;
   display: flex;
   align-items: center;
   font-size: ${({ theme }) => theme.fonts.text.medium};
@@ -51,9 +56,16 @@ export const Paragrafo = styled.p`
 
   ${media.mobile`
   font-size: 14px;
+  flex-direction: column;
   `}
 `;
 
+export const WrapperLink = styled.span`
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+`;
 export const MessageErrorsContainer = styled.div`
   color: ${({ theme }) => theme.colors.error.main};
   font-size: ${({ theme }) => theme.fonts.text.errorSize};

@@ -13,7 +13,7 @@ import { useTheme } from 'styled-components';
 interface AddressProfileProps {
   address: Address;
 }
-
+//TODO resolver bug enviar nulos no put
 export const AddressProfile: React.FC<AddressProfileProps> = ({
   address
 }: AddressProfileProps) => {

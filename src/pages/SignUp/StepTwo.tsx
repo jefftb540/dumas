@@ -1,4 +1,4 @@
-import { Formik, FormikErrors, FormikHelpers } from 'formik';
+import { ErrorMessage, Formik, FormikErrors, FormikHelpers } from 'formik';
 import { StepProps } from '.';
 import {
   FormContainer,
@@ -7,18 +7,20 @@ import {
   SubTitle,
   Title
 } from '../Login/styled';
+import { messageErrors } from '../../consts/messageErrors';
 import { FiHome } from 'react-icons/fi';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { WrapperButton } from './styled';
-import { useNavigate } from 'react-router-dom';
-import { apiRoutes, routes } from '../../routes';
+import { apiRoutes } from '../../routes';
 import { User } from '../../types/Users';
 import { useAuth } from '../../contexts/authContext';
 import { api } from '../../service/api';
 import { useEffect, useState } from 'react';
 import { getAndUseLocation } from '../../consts/getLocation';
 import { Address } from '../../types/Address';
+import { DefaultLink } from '../../components/DefaultLink';
+import * as Yup from 'yup';
 
 interface Cep {
   cep: string;
@@ -37,9 +39,8 @@ interface Cep {
   city_id: string;
 }
 
-export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
+export const StepTwo: React.FC<StepProps> = ({ prev, next, data, setData }) => {
   const { error } = useAuth();
-  const navigate = useNavigate();
   const [cities, setCities] = useState<{ id: string; name: string }[]>([]);
   const [state, setState] = useState<string>();
   const [states, setStates] = useState<{ id: string; name: string }[]>([]);
@@ -121,28 +122,66 @@ export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
       setStates(prev => [...prev, { id: 'stateFromCep', name: data.state }]);
       setFieldValue('addresses_attributes[0].city_id', data.city_id);
       setFieldValue('addresses_attributes[0].state', 'stateFromCep');
-      setFieldValue('addresses_attributes[0].name', 'Endereço Principal');
 
       console.log(data);
     } catch (error) {
       console.error('Erro ao buscar CEP:', error);
     }
   };
+  const validation = Yup.object().shape({
+    addresses_attributes: Yup.array().of(
+      Yup.object({
+        zip_code: Yup.string()
+          .matches(
+            /^\d{8}$/,
+            messageErrors.addresses_attributes.zip_code.invalid
+          )
+          .required(messageErrors.addresses_attributes.zip_code.required),
+        public_place: Yup.string().required(
+          messageErrors.addresses_attributes.public_place.required
+        ),
+        neighborhood: Yup.string().required(
+          messageErrors.addresses_attributes.neighborhood.required
+        ),
+        number: Yup.string().required(
+          messageErrors.addresses_attributes.number.required
+        ),
+        city_id: Yup.string().required(
+          messageErrors.addresses_attributes.city_id.required
+        )
+      })
+    )
+  });
   const handleSubmit = (
     values: User,
     { setSubmitting }: FormikHelpers<User>
   ) => {
-    console.log(values);
     next(values, true);
     setSubmitting(false);
-    navigate(routes.home);
+  };
+
+  const initialValues = {
+    ...data,
+    addresses_attributes: [
+      {
+        name: 'Endereço Principal',
+        zip_code: '',
+        public_place: '',
+        neighborhood: '',
+        number: '',
+        city_id: '',
+        reference: '',
+        complement: ''
+      }
+    ]
   };
 
   return (
     <Formik
-      initialValues={data}
+      initialValues={initialValues}
       onSubmit={handleSubmit}
       validateOnMount={true}
+      validationSchema={validation}
       enableReinitialize
     >
       {({ values, isSubmitting, isValid, setFieldValue }) => (
@@ -159,23 +198,37 @@ export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
                 handleCepChange(e.target.value, values, setFieldValue)
               }
             />
+            <ErrorMessage
+              name="addresses_attributes[0].zip_code"
+              component={MessageErrorsContainer}
+            />
 
             <Input
               Icon={FiHome}
               placeholder="Rua"
               name="addresses_attributes[0].public_place"
             />
-
+            <ErrorMessage
+              name="addresses_attributes[0].public_place"
+              component={MessageErrorsContainer}
+            />
             <Input
               Icon={FiHome}
               placeholder="Bairro"
               name="addresses_attributes[0].neighborhood"
             />
-
+            <ErrorMessage
+              name="addresses_attributes[0].neighborhood"
+              component={MessageErrorsContainer}
+            />
             <Input
               Icon={FiHome}
               placeholder="Número"
               name="addresses_attributes[0].number"
+            />
+            <ErrorMessage
+              name="addresses_attributes[0].number"
+              component={MessageErrorsContainer}
             />
             <Input
               Icon={FiHome}
@@ -188,6 +241,10 @@ export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
                   <option value={city.id}>{city.name}</option>
                 ))}
             </Input>
+            <ErrorMessage
+              name="addresses_attributes[0].city_id"
+              component={MessageErrorsContainer}
+            />
             <Input
               onChange={e => setState(e.target.value)}
               Icon={FiHome}
@@ -211,9 +268,7 @@ export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
               placeholder="Complemento"
               name="addresses_attributes[0].complement"
             />
-
             {error && <MessageErrorsContainer>{error}</MessageErrorsContainer>}
-
             <WrapperButton>
               <Button
                 variant="secondary"
@@ -221,10 +276,17 @@ export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
                 type="submit"
                 disabled={isSubmitting || !isValid}
               >
-                Ir para Login
+                Salvar
               </Button>
             </WrapperButton>
           </InputContainer>
+          <DefaultLink
+            to={''}
+            variant="primary"
+            onClick={() => prev && prev(data)}
+          >
+            Voltar
+          </DefaultLink>
         </FormContainer>
       )}
     </Formik>

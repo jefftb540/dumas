@@ -7,6 +7,8 @@ export interface User {
   email: string;
   password: string;
   password_confirmation?: string;
-  telephones: Telephone[];
+  telephones?: Telephone[];
   addresses?: Address[];
+  telephones_attributes?: Telephone[];
+  addresses_attributes?: Address[];
 }
