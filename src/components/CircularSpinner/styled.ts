@@ -9,10 +9,10 @@ export const SpinnerContainer = styled.div`
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 2px solid rgba(255, 255, 300, 0.3);
-  border-top: 4px solid rgba(255, 255, 300, 0.3);
+  border: 2px solid;
+  border-color: ${({ theme }) => theme.colors.background.dark};
+  border-top: 4px solid;
+  border-top-color: ${({ theme }) => theme.colors.background.dark};
   border-radius: 50%;
   animation: ${spin} 1s linear infinite;
 `;
-
-//TODO consertar cor do spinner para theme border-color e border-top-color
