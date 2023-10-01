@@ -101,6 +101,12 @@ export const dislikeDish = async (dishId: string) => {
   }
 };
 
+export const getDishId = async (dishId: string) => {
+  const response = await api.get<Dish>(apiRoutes.dish.detail(dishId));
+
+  return response.data;
+};
+
 export const rateDish = async (rating: Rating) => {
   try {
     rating.dishId &&
@@ -108,4 +114,10 @@ export const rateDish = async (rating: Rating) => {
   } catch (error) {
     handleRequestError(error as AxiosError);
   }
+};
+
+export const getDishRatings = async (dishId: string) => {
+  const response = await api.get<Rating[]>(apiRoutes.dish.ratings(dishId));
+
+  return response.data;
 };

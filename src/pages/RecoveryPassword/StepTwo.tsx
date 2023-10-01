@@ -41,7 +41,7 @@ export const StepTwo = ({
   };
 
   const validationSchema = Yup.object().shape({
-    password = Yup.string()
+    password: Yup.string()
       .required('A nova senha é obrigatória.')
       .min(6, 'A senha deve conter pelo menos 6 caracteres.'),
     passwordConfirm: Yup.string()
