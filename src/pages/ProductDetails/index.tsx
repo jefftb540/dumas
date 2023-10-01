@@ -19,11 +19,14 @@ import {
   CountDisplay,
   AddButton,
   FavouriteIconContainer,
-  ImageAndLike
+  ImageAndLike,
+  ContainerChefsDishes,
+  ContainerCards
 } from './styled';
 import { BsFillStarFill } from 'react-icons/bs';
 import { Title } from '../../components/Title';
 import { Button } from '../../components/Button';
+import { DishCard } from '../../components/DishCard';
 import { Dish } from '../../types/Dish';
 import { formatCurrency } from '../../utils/formatCurrency';
 import {
@@ -80,6 +83,8 @@ export const ProductDetails = () => {
     getData();
   }, [dishDetail]);
 
+  console.log('Pratos do chefe', chefDishes);
+
   useEffect(() => {
     if (
       chef.length > 0 &&
@@ -129,68 +134,84 @@ export const ProductDetails = () => {
   };
 
   return (
-    <Container>
-      <TopContainer>
-        <Title color="accent">{dishDetail?.name}</Title>
-      </TopContainer>
+    <>
+      <Container>
+        <TopContainer>
+          <Title color="accent">{dishDetail?.name}</Title>
+        </TopContainer>
 
-      <IntermediateContainer>
-        <LeftContainer>
-          <ImageAndLike>
-            <FavouriteIconContainer
-              onClick={() => dishDetail && toogleLiked(dishDetail)}
-            >
-              {liked ? <BsHeartFill /> : <BsHeart />}
-            </FavouriteIconContainer>
-            <ProductImage src={dishDetail?.images[0]} alt="Imagem do produto" />
-          </ImageAndLike>
-          <TextContainer>
-            <ChefContainer>
+        <IntermediateContainer>
+          <LeftContainer>
+            <ImageAndLike>
+              <FavouriteIconContainer
+                onClick={() => dishDetail && toogleLiked(dishDetail)}
+              >
+                {liked ? <BsHeartFill /> : <BsHeart />}
+              </FavouriteIconContainer>
+              <ProductImage
+                src={dishDetail?.images[0]}
+                alt="Imagem do produto"
+              />
+            </ImageAndLike>
+            <TextContainer>
+              <ChefContainer>
+                <Text>
+                  <strong>Chefe:</strong> {dishDetail?.chef.name}
+                </Text>
+                <ChefAvaliation>
+                  {rating.toFixed(0)}
+                  <BsFillStarFill />
+                </ChefAvaliation>
+              </ChefContainer>
               <Text>
-                <strong>Chefe:</strong> {dishDetail?.chef.name}
+                <strong>Descrição:</strong> {dishDetail?.description}
               </Text>
-              <ChefAvaliation>
-                {rating.toFixed(0)}
-                <BsFillStarFill />
-              </ChefAvaliation>
-            </ChefContainer>
-            <Text>
-              <strong>Descrição:</strong> {dishDetail?.description}
-            </Text>
-          </TextContainer>
-        </LeftContainer>
-        <RightContainer>
-          <MapContainer>
-            <NearDishesMap chefs={chef} />
-          </MapContainer>
-          <DistanceDetails>
-            <Text>{distance.toFixed(1)} Km</Text>
-          </DistanceDetails>
-          <QuantityPrice>
-            <CounterContainer>
-              <CountButton onClick={decreaseQuantity}>-</CountButton>
-              <CountDisplay>{quantity}</CountDisplay>
-              <AddButton onClick={increaseQuantity}>+</AddButton>
-            </CounterContainer>
-            <Title color="accent">{formatCurrency(totalPrice)}</Title>
-          </QuantityPrice>
-          <ButtonContainer>
-            <Button
-              variant="primary"
-              size="medium"
-              disabled={quantity === 0}
-              onClick={() => {
-                if (dishDetail) {
-                  addToCart(dishDetail, quantity);
-                  toast.success('Item adicionado');
-                }
-              }}
-            >
-              Comprar
-            </Button>
-          </ButtonContainer>
-        </RightContainer>
-      </IntermediateContainer>
-    </Container>
+            </TextContainer>
+          </LeftContainer>
+          <RightContainer>
+            <MapContainer>
+              <NearDishesMap chefs={chef} />
+            </MapContainer>
+            <DistanceDetails>
+              <Text>{distance.toFixed(1)} Km</Text>
+            </DistanceDetails>
+            <QuantityPrice>
+              <CounterContainer>
+                <CountButton onClick={decreaseQuantity}>-</CountButton>
+                <CountDisplay>{quantity}</CountDisplay>
+                <AddButton onClick={increaseQuantity}>+</AddButton>
+              </CounterContainer>
+              <Title color="accent">{formatCurrency(totalPrice)}</Title>
+            </QuantityPrice>
+            <ButtonContainer>
+              <Button
+                variant="primary"
+                size="medium"
+                disabled={quantity === 0}
+                onClick={() => {
+                  if (dishDetail) {
+                    addToCart(dishDetail, quantity);
+                    toast.success('Item adicionado');
+                  }
+                }}
+              >
+                Comprar
+              </Button>
+            </ButtonContainer>
+          </RightContainer>
+        </IntermediateContainer>
+      </Container>
+
+      <ContainerChefsDishes>
+        <Title>Outros pratos do mesmo chef</Title>
+      </ContainerChefsDishes>
+      <ContainerCards>
+        {chefDishes
+          .filter(chefDish => chefDish.id !== dishDetail?.id)
+          .map((chefDish, index) => (
+            <DishCard key={index} chefDish={chefDish} />
+          ))}
+      </ContainerCards>
+    </>
   );
 };

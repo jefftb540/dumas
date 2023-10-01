@@ -325,3 +325,17 @@ export const FavouriteIconContainer = styled.button`
     flex: 1; 
  `}
 `;
+export const ContainerChefsDishes = styled.div`
+  padding: 30px 72px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+`;
+
+export const ContainerCards = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+`;
