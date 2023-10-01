@@ -31,11 +31,7 @@ import { Button } from '../../components/Button';
 import { DishCard } from '../../components/DishCard';
 import { Dish } from '../../types/Dish';
 import { formatCurrency } from '../../utils/formatCurrency';
-import {
-  getDishId,
-  getDishRatings,
-  getDishesPerChef
-} from '../../service/api/dishes';
+import { getDishId, getDishesPerChef } from '../../service/api/dishes';
 import { useParams } from 'react-router-dom';
 import { NearDishesMap } from '../../components/NearDishesMap';
 import { getChef } from '../../service/api/chefs';
@@ -205,17 +201,23 @@ export const ProductDetails = () => {
       <ContainerComents>
         <Title>Avaliações: </Title>
       </ContainerComents>
-      {ratings.map((rating, index) => (
-        <Coments key={index}>
-          <Text>
-            <strong>{rating.user_name}:</strong> {rating.comment}
-          </Text>
-
-          <ChefAvaliation>
-            {rating.rate} <BsFillStarFill />
-          </ChefAvaliation>
+      {ratings.length === 0 ? (
+        <Coments>
+          <Text>Não há comentários</Text>
         </Coments>
-      ))}
+      ) : (
+        ratings.map((rating, index) => (
+          <Coments key={index}>
+            <Text>
+              <strong>{rating.user_name}:</strong> {rating.comment}
+            </Text>
+
+            <ChefAvaliation>
+              {rating.rate} <BsFillStarFill />
+            </ChefAvaliation>
+          </Coments>
+        ))
+      )}
 
       <ContainerChefsDishes>
         <Title>Outros pratos do mesmo chef</Title>
