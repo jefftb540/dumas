@@ -225,6 +225,7 @@ export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
               </Button>
             </WrapperButton>
           </InputContainer>
+          
         </FormContainer>
       )}
     </Formik>

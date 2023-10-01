@@ -15,6 +15,8 @@ import { User } from '../../types/Users';
 import { useAuth } from '../../contexts/authContext';
 import { messageErrors } from '../../consts/messageErrors';
 import * as Yup from 'yup';
+import { DefaultLink } from '../../components/DefaultLink';
+import { routes } from '../../routes';
 
 export const StepOne: React.FC<StepProps> = ({ next, data }) => {
   const { signUp, error } = useAuth();
@@ -127,6 +129,9 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
               </Button>
             </WrapperButton>
           </InputContainer>
+          <DefaultLink variant="primary" to={routes.login}>
+            Voltar
+          </DefaultLink>
         </FormContainer>
       )}
     </Formik>
