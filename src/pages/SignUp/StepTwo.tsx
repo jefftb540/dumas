@@ -1,4 +1,4 @@
-import { Formik, FormikErrors, FormikHelpers } from 'formik';
+import { ErrorMessage, Formik, FormikErrors, FormikHelpers } from 'formik';
 import { StepProps } from '.';
 import {
   FormContainer,
@@ -19,6 +19,7 @@ import { useEffect, useState } from 'react';
 import { getAndUseLocation } from '../../consts/getLocation';
 import { Address } from '../../types/Address';
 import { DefaultLink } from '../../components/DefaultLink';
+import * as Yup from 'yup';
 
 interface Cep {
   cep: string;
@@ -126,6 +127,19 @@ export const StepTwo: React.FC<StepProps> = ({ prev, next, data, setData }) => {
       console.error('Erro ao buscar CEP:', error);
     }
   };
+  const validation = Yup.object().shape({
+    addresses_attributes: Yup.array().of(
+      Yup.object({
+        zip_code: Yup.string()
+          .matches(/^\d{8}$/, 'CEP deve conter 8 números')
+          .required('CEP é obrigatório'),
+        public_place: Yup.string().required('A rua é obrigatória'),
+        neighborhood: Yup.string().required('O bairro é obrigatório'),
+        number: Yup.string().required('O número é obrigatório'),
+        city_id: Yup.string().required('A cidade é obrigatória')
+      })
+    )
+  });
   const handleSubmit = (
     values: User,
     { setSubmitting }: FormikHelpers<User>
@@ -134,11 +148,28 @@ export const StepTwo: React.FC<StepProps> = ({ prev, next, data, setData }) => {
     setSubmitting(false);
   };
 
+  const initialValues = {
+    ...data,
+    addresses_attributes: [
+      {
+        name: 'Endereço Principal',
+        zip_code: '',
+        public_place: '',
+        neighborhood: '',
+        number: '',
+        city_id: '',
+        reference: '',
+        complement: ''
+      }
+    ]
+  };
+
   return (
     <Formik
-      initialValues={data}
+      initialValues={initialValues}
       onSubmit={handleSubmit}
       validateOnMount={true}
+      validationSchema={validation}
       enableReinitialize
     >
       {({ values, isSubmitting, isValid, setFieldValue }) => (
@@ -155,23 +186,37 @@ export const StepTwo: React.FC<StepProps> = ({ prev, next, data, setData }) => {
                 handleCepChange(e.target.value, values, setFieldValue)
               }
             />
+            <ErrorMessage
+              name="addresses_attributes[0].zip_code"
+              component={MessageErrorsContainer}
+            />
 
             <Input
               Icon={FiHome}
               placeholder="Rua"
               name="addresses_attributes[0].public_place"
             />
-
+            <ErrorMessage
+              name="addresses_attributes[0].public_place"
+              component={MessageErrorsContainer}
+            />
             <Input
               Icon={FiHome}
               placeholder="Bairro"
               name="addresses_attributes[0].neighborhood"
             />
-
+            <ErrorMessage
+              name="addresses_attributes[0].neighborhood"
+              component={MessageErrorsContainer}
+            />
             <Input
               Icon={FiHome}
               placeholder="Número"
               name="addresses_attributes[0].number"
+            />
+            <ErrorMessage
+              name="addresses_attributes[0].number"
+              component={MessageErrorsContainer}
             />
             <Input
               Icon={FiHome}
@@ -184,6 +229,10 @@ export const StepTwo: React.FC<StepProps> = ({ prev, next, data, setData }) => {
                   <option value={city.id}>{city.name}</option>
                 ))}
             </Input>
+            <ErrorMessage
+              name="addresses_attributes[0].city_id"
+              component={MessageErrorsContainer}
+            />
             <Input
               onChange={e => setState(e.target.value)}
               Icon={FiHome}
@@ -207,9 +256,7 @@ export const StepTwo: React.FC<StepProps> = ({ prev, next, data, setData }) => {
               placeholder="Complemento"
               name="addresses_attributes[0].complement"
             />
-
             {error && <MessageErrorsContainer>{error}</MessageErrorsContainer>}
-
             <WrapperButton>
               <Button
                 variant="secondary"
