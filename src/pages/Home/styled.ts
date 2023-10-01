@@ -51,13 +51,13 @@ export const TitleContainer = styled.div`
 `;
 
 interface SeeMoreToggleProps {
-  accent?: boolean;
+  $accent?: boolean;
 }
 
 export const SeeMoreToggle = styled.span<SeeMoreToggleProps>`
   cursor: pointer;
-  color: ${({ theme, accent }) =>
-    accent ? theme.colors.text.secondaryAccent : theme.colors.secondary.main};
+  color: ${({ theme, $accent }) =>
+    $accent ? theme.colors.text.secondaryAccent : theme.colors.secondary.main};
   font-weight: ${({ theme }) => theme.fonts.weight.bold};
   font-size: ${({ theme }) => theme.fonts.text.medium};
 `;

@@ -93,6 +93,7 @@ export const Home = () => {
       ),
     {
       getNextPageParam: currentPage =>
+        currentPage &&
         currentPage.meta.next_page &&
         currentPage.meta.next_page <= currentPage.meta.total_pages
           ? currentPage.meta.next_page
@@ -134,7 +135,9 @@ export const Home = () => {
     if (nearDishesData)
       setNearDishes(
         insertDistances(
-          nearDishesData?.pages.flatMap(page => (page.data ? page.data : [])),
+          nearDishesData?.pages.flatMap(page =>
+            page && page.data ? page.data : []
+          ),
           userLocation
         )
       );
@@ -150,7 +153,7 @@ export const Home = () => {
   useEffect(() => {
     const getData = async () => {
       const chefsData = await getAllChefs();
-      setChefs(chefsData.data);
+      chefsData && setChefs(chefsData.data);
     };
 
     getData();
@@ -229,14 +232,14 @@ export const Home = () => {
                 {!isTablet &&
                   (displaying === 'favorites' && !isTablet ? (
                     <SeeMoreToggle
-                      accent={true}
+                      $accent={true}
                       onClick={() => setDisplaying('default')}
                     >
                       Voltar
                     </SeeMoreToggle>
                   ) : (
                     <SeeMoreToggle
-                      accent={true}
+                      $accent={true}
                       onClick={() => setDisplaying('favorites')}
                     >
                       {' '}
