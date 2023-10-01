@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           response.user
         );
         setIsAuthenticated(true);
-        setIsLoading(true);
+        setUser(response.user);
         configureAxiosToken();
         navigate(routes.home);
       }

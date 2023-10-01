@@ -11,8 +11,7 @@ import { FiHome } from 'react-icons/fi';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { WrapperButton } from './styled';
-import { useNavigate } from 'react-router-dom';
-import { apiRoutes, routes } from '../../routes';
+import { apiRoutes } from '../../routes';
 import { User } from '../../types/Users';
 import { useAuth } from '../../contexts/authContext';
 import { api } from '../../service/api';
@@ -38,9 +37,8 @@ interface Cep {
   city_id: string;
 }
 
-export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
+export const StepTwo: React.FC<StepProps> = ({ prev, next, data, setData }) => {
   const { error } = useAuth();
-  const navigate = useNavigate();
   const [cities, setCities] = useState<{ id: string; name: string }[]>([]);
   const [state, setState] = useState<string>();
   const [states, setStates] = useState<{ id: string; name: string }[]>([]);
@@ -122,7 +120,6 @@ export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
       setStates(prev => [...prev, { id: 'stateFromCep', name: data.state }]);
       setFieldValue('addresses_attributes[0].city_id', data.city_id);
       setFieldValue('addresses_attributes[0].state', 'stateFromCep');
-      setFieldValue('addresses_attributes[0].name', 'Endereço Principal');
 
       console.log(data);
     } catch (error) {
@@ -133,10 +130,8 @@ export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
     values: User,
     { setSubmitting }: FormikHelpers<User>
   ) => {
-    console.log(values);
     next(values, true);
     setSubmitting(false);
-    navigate(routes.home);
   };
 
   return (
@@ -222,11 +217,15 @@ export const StepTwo: React.FC<StepProps> = ({ next, data, setData }) => {
                 type="submit"
                 disabled={isSubmitting || !isValid}
               >
-                Ir para Login
+                Salvar
               </Button>
             </WrapperButton>
           </InputContainer>
-          <DefaultLink variant="primary" to={routes.login}>
+          <DefaultLink
+            to={''}
+            variant="primary"
+            onClick={() => prev && prev(data)}
+          >
             Voltar
           </DefaultLink>
         </FormContainer>
