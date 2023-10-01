@@ -67,7 +67,6 @@ export const Login = () => {
         <FormContainer>
           <Title>Login</Title>
           <SubTitle>Entre e faça seu pedido</SubTitle>
-
           <InputContainer>
             <Input Icon={FiMail} placeholder="Email" name="email" />
             {touched.email && errors.email && (
@@ -108,9 +107,6 @@ export const Login = () => {
                 Faça seu cadastro.
               </DefaultLink>
             </WrapperLink>
-            {/* <DefaultLink variant="primary" to={routes.signUp.profile}>
-              Faça seu cadastro.
-            </DefaultLink> */}
           </Paragrafo>
         </FormContainer>
       )}
