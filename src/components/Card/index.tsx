@@ -12,7 +12,6 @@ import {
   DishInfo,
   DishInfoContainer,
   DishTitle,
-  DistanceContainer,
   FavouriteIconContainer,
   PriceAndRatingContainer,
   TitleAndIconContainer
@@ -81,9 +80,6 @@ export const Card = ({ dish }: CardProps) => {
               <BsFillStarFill />
             </DishInfo>
           </PriceAndRatingContainer>
-          <DistanceContainer>
-            <DishInfo>{dish.distance} km</DishInfo>
-          </DistanceContainer>
         </DishInfoContainer>
       </DishContainer>
     </CardContainer>

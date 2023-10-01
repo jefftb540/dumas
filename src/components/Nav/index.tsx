@@ -15,7 +15,8 @@ import {
   MobileIconToggle,
   AddressSelectorToggle,
   AddressInfo,
-  AddressToggleIcon
+  AddressToggleIcon,
+  NoResults
 } from './styled';
 
 import { BsSearch } from 'react-icons/bs';
@@ -90,7 +91,7 @@ export const Navbar = () => {
 
   useEffect(() => {
     if (data) {
-      setSearchResultDishes(data?.pages.flatMap(p => p.data));
+      setSearchResultDishes(data?.pages.flatMap(p => (p ? p.data : [])));
     }
   }, [data]);
 
@@ -126,9 +127,7 @@ export const Navbar = () => {
           <AddressContainer>
             {activeAddress ? (
               <>
-                <AddressToggleIcon
-                  onClick={() => setShowAddressSelector(prev => !prev)}
-                >
+                <AddressToggleIcon>
                   <FaLocationDot />
                 </AddressToggleIcon>
                 <AddressInfo
@@ -162,6 +161,9 @@ export const Navbar = () => {
                 ref={inputRef}
                 onChange={handleSearchChange}
                 value={inputText}
+                onBlur={() => {
+                  if (!searchResultDishes?.length) setInputText('');
+                }}
               />
             )}
             <BsSearch
@@ -169,20 +171,21 @@ export const Navbar = () => {
                 setOpenSearch(prev => !prev);
               }}
             />
-            {searchResultDishes?.length ? (
-              <>
-                <SearchResults
-                  closeResults={closeSearchResults}
-                  dishes={searchResultDishes}
-                  fetchNextPage={() => {
-                    hasNextPage && fetchNextPage();
-                  }}
-                  isFetching={isFetching}
-                />
-              </>
-            ) : (
-              ''
-            )}
+            {searchText &&
+              (searchResultDishes?.length ? (
+                <>
+                  <SearchResults
+                    closeResults={closeSearchResults}
+                    dishes={searchResultDishes}
+                    fetchNextPage={() => {
+                      hasNextPage && fetchNextPage();
+                    }}
+                    isFetching={isFetching}
+                  />
+                </>
+              ) : (
+                <NoResults>Sua pesquisa não retornou resultados</NoResults>
+              ))}
           </SearchContainer>
 
           <UserMenuToggle onClick={toggleMenu}>

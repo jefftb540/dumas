@@ -50,7 +50,7 @@ export const MenuItem = styled.div`
   font-size: ${({ theme }) => theme.fonts.text.medium};
   z-index: 3;
   border-bottom: 2px solid ${({ theme }) => theme.colors.white};
-
+  cursor: pointer;
   svg {
     margin-top: 4px;
   }
