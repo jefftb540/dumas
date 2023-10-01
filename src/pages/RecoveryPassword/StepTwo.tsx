@@ -41,12 +41,9 @@ export const StepTwo = ({
   };
 
   const validationSchema = Yup.object().shape({
-    password: Yup.string()
+    password = Yup.string()
       .required('A nova senha é obrigatória.')
-      .matches(
-        /^\d{6,}$/,
-        'A senha deve conter pelo menos 6 dígitos numéricos.'
-      ),
+      .min(6, 'A senha deve conter pelo menos 6 caracteres.'),
     passwordConfirm: Yup.string()
       .oneOf([Yup.ref('password'), undefined], 'As senhas não coincidem.')
       .required('A confirmação de senha é obrigatória.')
