@@ -2,7 +2,6 @@ import { styled } from 'styled-components';
 import { TabletBreakpoint } from '../../consts/breakpoint';
 
 export const Title3 = styled.h3`
-  /* width: 233px; */
   color: ${({ theme }) => theme.colors.secondary.main};
   top: -18px;
   position: absolute;
