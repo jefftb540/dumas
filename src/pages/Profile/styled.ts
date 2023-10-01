@@ -42,8 +42,16 @@ export const WrapperModal = styled.div`
   }
 `;
 
+export const UserInfoAndModalContainer = styled.div``;
+export const UserInfoContainer = styled.div``;
+export const UserInfo = styled.div``;
+export const Strong = styled.strong``;
+export const ButtonContainer = styled.strong``;
+export const SpinnerContainer = styled.p``;
+
 export const ContainerImg = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
 `;
+export const DecorativeImage = styled.img``;

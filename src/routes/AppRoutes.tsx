@@ -9,7 +9,7 @@ import { SignUp } from '../pages/SignUp';
 import { PasswordRecovery } from '../pages/RecoveryPassword';
 import { ProductDetails } from '../pages/ProductDetails';
 import { useAuth } from '../contexts/authContext';
-import { Profile } from '../pages/Profile';
+import { Profile } from '../pages/Profile/';
 import { Cart } from '../pages/Cart';
 import { Checkout } from '../pages/Checkout';
 import { RateDishes } from '../pages/RateDishes';
