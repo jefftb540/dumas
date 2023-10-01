@@ -51,33 +51,15 @@ export const HalfScreen = styled.div`
   justify-content: center;
   padding: 20px;
   width: 100%;
-  height: 107px;
+  height: 100%;
 
   ${media.desktop`
     flex: 1; 
-    height: 100vh;
   `}
 `;
 
 export const Logo = styled.img`
-  width: 12%;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-
-  ${media.mobile`
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding-top: 24px;
-  `}
-
-  ${media.tablet`
-    width: 12%;
-    position: absolute;
-    top: 20px;
-    right: 20px;
-  `}
+  width: 94px;
 `;
 
 export const CenteredImage = styled.img`

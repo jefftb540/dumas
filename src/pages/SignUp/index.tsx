@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { handleSignup } from '../../service/api/auth';
 import { StepOne } from './StepOne';
 import { StepTwo } from './StepTwo';
 import { User } from '../../types/Users';
+import { useAuth } from '../../contexts/authContext';
 
 export const SignUp = () => {
   const [data, setData] = useState<User>({
@@ -16,10 +16,11 @@ export const SignUp = () => {
   });
 
   const [currentStep, setCurrentStep] = useState(0);
-
+  const { signUp } = useAuth();
   const makeRequest = async (values: User) => {
     try {
-      const response = await handleSignup(values);
+      const response = await signUp(values);
+
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -35,10 +36,19 @@ export const SignUp = () => {
     }
     setCurrentStep(prev => prev + 1);
   };
+  const handlePrevStep = (newData: User) => {
+    setData(prev => ({ ...prev, ...newData }));
+    setCurrentStep(prev => prev - 1);
+  };
 
   const steps = [
     <StepOne next={handleNextStep} data={data} />,
-    <StepTwo next={handleNextStep} data={data} setData={setData} />
+    <StepTwo
+      next={handleNextStep}
+      prev={handlePrevStep}
+      data={data}
+      setData={setData}
+    />
   ];
 
   return <div>{steps[currentStep]}</div>;

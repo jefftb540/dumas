@@ -51,27 +51,20 @@ export async function handleSignup({
   telephones_attributes,
   addresses_attributes
 }: User) {
-  try {
-    const response = await api.post<LoginResponseProps>(
-      '/registrations/signup',
-      {
-        user: {
-          name,
-          email,
-          password,
-          password_confirmation,
-          telephones_attributes,
-          addresses_attributes
-        }
-      }
-    );
+  const response = await api.post<LoginResponseProps>('/registrations/signup', {
+    user: {
+      name,
+      email,
+      password,
+      password_confirmation,
+      telephones_attributes,
+      addresses_attributes
+    }
+  });
 
-    const { data } = response;
+  const { data } = response;
 
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
+  return data;
 }
 
 export const handleForgotPassword = async ({ email }: ForgotPasswordProps) => {
