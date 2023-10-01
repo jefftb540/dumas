@@ -38,7 +38,7 @@ width: 10px ;
 
 ::-webkit-scrollbar-thumb {
   width: 10px ;
-  background-color: ${({ theme }) => theme.colors.primary.main}; 
+  background-color: ${({ theme }) => theme.colors.background.dark}; 
   border-radius: 6px;
 } 
 `;
