@@ -13,6 +13,8 @@ import * as Yup from 'yup';
 import { messageErrors } from '../../consts/messageErrors';
 import { MessageErrorsContainer } from '../../pages/Login/styled';
 import { updateTelephone } from '../../service/api/telephone';
+import { handleRequestError } from '../../utils/handleRequestError';
+import { AxiosError } from 'axios';
 
 interface TelephoneProfileProps {
   telephone: Telephone;
@@ -41,7 +43,6 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
         );
         setValidationError(null);
 
-        console.log('enviar os dados', newTelephone);
         await updateTelephone(newTelephone, telephone.id);
         queryClient.invalidateQueries({ queryKey: ['profile'] });
         setIsEditing(false);
@@ -60,7 +61,6 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
       );
       setValidationError(null);
 
-      console.log('enviar os dados', newTelephone);
       await updateTelephone(newTelephone, telephone.id);
       queryClient.invalidateQueries({ queryKey: ['profile'] });
       setIsEditing(false);
@@ -76,7 +76,7 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
       await api.delete(`/clients/telephones/${telephone_id}`);
       queryClient.invalidateQueries({ queryKey: ['profile'] });
     } catch (error) {
-      console.log(error);
+      handleRequestError(error as AxiosError);
     }
   };
 

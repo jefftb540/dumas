@@ -71,7 +71,6 @@ export const StepTwo = ({
         navigate('/login');
       }, 2000);
     } catch (error) {
-      console.log(error);
       const errorMessage = handleResetPasswordErrors(error as AxiosError);
       toast.error(errorMessage, {
         position: 'top-right',

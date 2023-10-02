@@ -19,7 +19,7 @@ export const createAddress = async (address: Address) => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
+    handleRequestError(error as AxiosError);
   }
 };
 

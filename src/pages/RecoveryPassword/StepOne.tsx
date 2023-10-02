@@ -54,7 +54,6 @@ export const StepOne = ({
         onSuccess(response.reset_password_token);
       }
     } catch (error) {
-      console.log(error);
       const errorMessage = handleForgotPasswordErrors(error as AxiosError);
       setError(errorMessage);
     } finally {

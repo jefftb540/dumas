@@ -23,7 +23,6 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
 
   const handleSubmit = (values: User) => {
     signUp(values);
-    console.log(values);
   };
 
   const handleContinueToAddress = async (values: User) => {
