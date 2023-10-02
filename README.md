@@ -6,7 +6,7 @@
 
 No Dumas, mergulhe em uma experiência gastronômica única e memorável, inspirada na camaradagem e na paixão por pratos excepcionais. Nosso nome é uma homenagem aos lendários Três Mosqueteiros, mas nossa história é ainda mais cativante.  
 
-O Dumas nasceu quando um de nossos amigos se despediu, deixando-nos como um trio e nos intitulamos "Os três Mosqueteiros. Foi então que descobrimos que Alexandre Dumas, o ilustre autor, também compartilhava uma paixão pela culinária. A sincronicidade nos surpreendeu, e decidimos adotar o nome "Dumas" como símbolo da nossa amizade, aventura e amor pela boa comida.
+O Dumas nasceu quando um de nossos amigos se despediu, deixando-nos como um trio e nos intitulamos "Os três Mosqueteiros". Foi então que descobrimos que Alexandre Dumas, o ilustre autor, também compartilhava uma paixão pela culinária. A sincronicidade nos surpreendeu, e decidimos adotar o nome "Dumas" como símbolo da nossa amizade, aventura e amor pela boa comida.
 
 Navegue pelo Dumas e descubra uma seleção exclusiva de pratos preparados por chefs renomados que estão mais próximos de você. Deleite-se com criações extraordinárias e mergulhe no universo da alta gastronomia como nunca antes. Guarde seus pratos favoritos na lista de favoritos para revivê-los sempre que desejar.
 

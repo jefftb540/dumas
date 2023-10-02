@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Telephone } from '../../types/Telephone';
 import { api } from '../../service/api';
 import queryClient from '../../service/reactQuery/queryClient';
-import { FiEdit, FiTrash2 } from 'react-icons/fi';
+import { FiEdit, FiSave, FiTrash2 } from 'react-icons/fi';
 import {
   ContainerTelephoneProfile,
   InputPhone,
@@ -42,13 +42,31 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
         setValidationError(null);
 
         console.log('enviar os dados', newTelephone);
-        await updateTelephone(telephone.id, newTelephone);
+        await updateTelephone(newTelephone, telephone.id);
         queryClient.invalidateQueries({ queryKey: ['profile'] });
         setIsEditing(false);
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           setValidationError(error.message);
         }
+      }
+    }
+  };
+  const handleSaveClick = async () => {
+    try {
+      await validation.validate(
+        { number: newTelephone },
+        { abortEarly: false }
+      );
+      setValidationError(null);
+
+      console.log('enviar os dados', newTelephone);
+      await updateTelephone(newTelephone, telephone.id);
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
+      setIsEditing(false);
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        setValidationError(error.message);
       }
     }
   };
@@ -67,12 +85,18 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
       <strong>Número:</strong>
       {isEditing ? (
         <WrapperInputsPhones>
-          <InputPhone
-            type="tel"
-            onKeyUp={handlePressEnter}
-            value={newTelephone}
-            onChange={e => setNewTelephone(e.target.value)}
-          />
+          <WrapperEditDelete>
+            <InputPhone
+              type="tel"
+              onKeyUp={handlePressEnter}
+              value={newTelephone}
+              onChange={e => setNewTelephone(e.target.value)}
+            />
+            <span onClick={() => handleSaveClick()}>
+              {' '}
+              <FiSave />
+            </span>
+          </WrapperEditDelete>
           {validationError && (
             <MessageErrorsContainer>{validationError}</MessageErrorsContainer>
           )}
