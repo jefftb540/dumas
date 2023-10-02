@@ -50,13 +50,16 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
     password_confirmation: Yup.string()
       .oneOf([Yup.ref('password')], messageErrors.password_confirm.invalid)
       .required(messageErrors.password_confirm.required),
-
-    number: Yup.string()
-      .matches(
-        /^[0-9]{10,11}$/,
-        messageErrors.telephones_attributes.number.invalid
-      )
-      .required(messageErrors.telephones_attributes.number.required)
+    telephones_attributes: Yup.array().of(
+      Yup.object({
+        number: Yup.string()
+          .matches(
+            /^[0-9]{10,11}$/,
+            messageErrors.telephones_attributes.number.invalid
+          )
+          .required(messageErrors.telephones_attributes.number.required)
+      })
+    )
   });
 
   return (
@@ -102,10 +105,13 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
             <Input
               placeholder="Telefone"
               type="phone"
-              name="number"
+              name="telephones_attributes[0].number"
               Icon={FiPhone}
             />
-            <ErrorMessage name="number" component={MessageErrorsContainer} />
+            <ErrorMessage
+              name="telephones_attributes[0].number"
+              component={MessageErrorsContainer}
+            />
 
             <WrapperButton>
               <Button

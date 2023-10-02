@@ -143,13 +143,14 @@ export const Profile: React.FC = () => {
           <UserInfoContainer>
             <Title3>Telefones</Title3>
 
-            {clientData.telephones?.length &&
-              clientData.telephones?.map((telephone, index) => (
-                <TelephoneProfile
-                  key={`telephone_${index}`}
-                  telephone={telephone}
-                />
-              ))}
+            {clientData.telephones?.length
+              ? clientData.telephones?.map((telephone, index) => (
+                  <TelephoneProfile
+                    key={`telephone_${index}`}
+                    telephone={telephone}
+                  />
+                ))
+              : ''}
           </UserInfoContainer>
         ) : (
           <SpinnerContainer>
@@ -179,10 +180,11 @@ export const Profile: React.FC = () => {
           <UserInfoContainer>
             <Title3>Endereços</Title3>
 
-            {clientData.addresses?.length &&
-              clientData.addresses.map((address, index) => (
-                <AddressProfile key={`address_${index}`} address={address} />
-              ))}
+            {clientData.addresses?.length
+              ? clientData.addresses.map((address, index) => (
+                  <AddressProfile key={`address_${index}`} address={address} />
+                ))
+              : ''}
           </UserInfoContainer>
         ) : (
           <SpinnerContainer>
