@@ -1,9 +1,10 @@
 import { Container } from './styled';
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Chef } from '../../types/Chef';
 import { useTheme } from '../../contexts/themeContext';
 import { useAuth } from '../../contexts/authContext';
+import { useCart } from '../../contexts/cartContex';
 
 interface NearDishesMapProps {
   chefs: Chef[];
@@ -16,11 +17,25 @@ const lightMapId = import.meta.env.VITE_LIGHT_MAP_ID;
 export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const { user, userLocation } = useAuth();
+  const [cartLocation, setCartLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const { activeAddress } = useCart();
 
   const containerStyle = {
     width: '100%',
     height: containerRef.current?.offsetHeight
   };
+
+  useEffect(() => {
+    if (activeAddress && activeAddress.latitude && activeAddress.longitude) {
+      setCartLocation({
+        lat: activeAddress.latitude,
+        lng: activeAddress.longitude
+      });
+    }
+  }, [activeAddress]);
 
   const { theme } = useTheme();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -59,7 +74,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
       {isLoaded ? (
         <GoogleMap
           mapContainerStyle={containerStyle}
-          center={userLocation}
+          center={cartLocation || userLocation}
           options={{ disableDefaultUI: true }}
           zoom={15}
           onLoad={onLoad}
@@ -68,7 +83,7 @@ export const NearDishesMap = ({ chefs }: NearDishesMapProps) => {
         >
           <MarkerF
             key={'marker_user'}
-            position={userLocation}
+            position={cartLocation || userLocation}
             icon={{
               url: window.location.origin + userMarkerPath,
               labelOrigin: new google.maps.Point(25, -12)

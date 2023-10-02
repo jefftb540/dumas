@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import secureLocalStorage from 'react-secure-storage';
-import { Navigate } from 'react-router-dom';
 import { routes } from '../routes';
 import { toast } from 'react-toastify';
 
@@ -10,8 +9,9 @@ export const handleRequestError = (error: AxiosError) => {
     if (status === 401) {
       secureLocalStorage.removeItem('token');
       secureLocalStorage.removeItem('refreshToken');
+      secureLocalStorage.removeItem('activeAddress');
       toast.warn('Sessão expirada. Faça login novamente');
-      Navigate({ to: routes.login });
+      window.location.href = routes.login;
       return;
     }
 
