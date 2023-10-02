@@ -7,8 +7,7 @@
 ## 🔗 Links Úteis
 
   <a href="https://www.figma.com/file/LK8CW3OQ04g5UVSDFVaeq2/teste1?type=design&node-id=0-1&mode=design&t=hxOZ7ETVxXjpEnhW-0" target= "_blank">Design Figma</a>  
-  <a href="/" target= "_blank">Acrescentar aqui</a>  
-  <a href="/" target= "_blank">Acrescentar aqui</a>  
+
 
 ## 📋 Guia de Padronização
 
@@ -18,7 +17,7 @@
 - Apenas um component react por arquivo, sem uso de export default;
 - Arquivos e pastas devem seguir o padrão camelCase;
 - Components devem estar numa pasta com o nome do component em PascalCase;
-- A pasta do componente terá: index.tsx - arquivo do componente, styled.ts - syled-component, <component>.test.ts - arquivo de teste;
+- A pasta do componente terá: index.tsx - arquivo do componente, styled.ts - syled-component, component.test.ts - arquivo de teste;
 - Quando o componente necessitar de mais de uma tipagem, colocar as tipagens num arquivo chamado types.ts dentro da pasta do componente;
 - Tipagem de props deve seguir o padrao ComponentNameProps;
 - Todos os arquivos deverão estar nas suas devidas pastas, conforme está estruturado o repositório;
@@ -27,11 +26,25 @@
 
 ## 🎲 Tecnologias e Bibliotecas
 
+    axios: 1.5.0,
+    formik: 2.4.4,
+    react-icons: 4.11.0,
+    react-modal: 3.16.1,
+    react-qr-code: 2.0.12,
+    react-query: 3.39.3,
+    react-router-dom: 6.16.0,
+    react-secure-storage: 1.3.0,
+    react-toastify: 9.1.3,
+    styled-components: 6.0.8,
+    yup: 1.2.0,
+    cypress: 13.3.0,
+    eslint: 8.45.0
+
+
+
 ## 🔧 Funcionalidades
 
 ### 🔓 Área de Usuários não Logados:
-
-- Deverão ser criadas 3 telas: Login, Cadastro e Recuperar Senha conforme demonstrado no Mock-up de baixa resolução.
 
 #### Autenticação:
 
@@ -44,7 +57,13 @@
 ### 🔒 Área do Usuário logado (Consumidor):
 
 - Aqui fica a critério de cada grupo a quantidade de telas. Devem existir telas de: Home, Carrinho e Prato.
-- Telas adicionais ficam a critério dos grupos.
+- Home
+- Carrinho
+- Página de descrição do prato
+- Lista de pratos próximos
+- Lista de pratos
+- Lista de favoritos
+- Página de perfil e edição de perfil do usuário
 
 #### Home:
 
@@ -57,13 +76,13 @@
 
 #### Edição do Usuário:
 
-- Edição de dados do usuário:
-- Salvar endereços do consumidor (possibilidade de vários endereços)
+- Edição de nome e email
+- Adição e edição de endereços
 - Adição e edição de números de telefone
 
 #### Carrinho:
 
-- Simulação de checkout com opções de pagamento (link ou QR code)
+- Simulação de checkout com opções de pagamento (QR code)
 - Escolha ou adição de endereço
 - Opção de retirada de produto do Carrinho
 
@@ -97,7 +116,7 @@
 
 <img src="" alt="Gif exibindo uma demonstração do site">
 
-> <a href="" target= "_blank">Acesse a página online</a>
+
 
 ## 👩‍💻 Desenvolvedores
 
