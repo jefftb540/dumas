@@ -23,7 +23,6 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
 
   const handleSubmit = (values: User) => {
     signUp(values);
-    console.log(values);
   };
 
   const handleContinueToAddress = async (values: User) => {
@@ -110,10 +109,6 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
             />
             <ErrorMessage
               name="telephones_attributes[0].number"
-              component={MessageErrorsContainer}
-            />
-            <ErrorMessage
-              name="password_confirmation"
               component={MessageErrorsContainer}
             />
 

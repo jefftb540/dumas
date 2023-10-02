@@ -23,7 +23,6 @@ export const RateDishes = () => {
   };
 
   useEffect(() => {
-    console.log(isPaid);
     if (!isPaid) navigate(routes.checkout);
   }, []);
 

@@ -18,18 +18,11 @@ export const SignUp = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const { signUp } = useAuth();
   const makeRequest = async (values: User) => {
-    try {
-      const response = await signUp(values);
-
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-    }
+    await signUp(values);
   };
 
   const handleNextStep = (newData: User, final = false) => {
     setData(prev => ({ ...prev, ...newData }));
-    console.log(data);
     if (final) {
       makeRequest(newData);
       return;

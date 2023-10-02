@@ -45,7 +45,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const getLocation = async () => {
     const data = await getLocationWithIPAddress();
     if (data) {
-      console.log(data);
       setUserLocation({ lat: Number(data.lat), lng: Number(data.lng) });
     }
   };
@@ -75,13 +74,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
             lng: response.user.addresses[0].longitude
           });
         } else {
-          console.log(response.user.addresses);
           getLocation();
         }
         navigate(routes.home);
       }
     } catch (error) {
-      console.log(error);
       const messageError = handleLoginErrors(error as AxiosError);
       setError(messageError);
     } finally {
@@ -120,7 +117,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const authUser = secureLocalStorage.getItem('user');
     const token = secureLocalStorage.getItem('token');
-    console.log('auth');
 
     if (!token) {
       setIsAuthenticated(false);

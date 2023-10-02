@@ -33,14 +33,10 @@ export const Login = () => {
   const [loading, setIsLoading] = useState(false);
 
   const onSubmit = async (values: FormLoginProps) => {
-    try {
-      setIsLoading(true);
-      await signIn(values);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-    }
+    setIsLoading(true);
+    await signIn(values);
+
+    setIsLoading(false);
   };
 
   const validation = Yup.object().shape({

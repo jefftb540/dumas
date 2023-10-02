@@ -20,7 +20,6 @@ export function configureAxiosToken() {
           configureLocalStorage(data.access_token, data.refresh_token);
 
           config.headers.Authorization = `Bearer ${data.access_token}`;
-          console.log(config);
           return api(config);
         } catch (error) {
           secureLocalStorage.removeItem('refreshToken');

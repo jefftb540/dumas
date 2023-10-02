@@ -8,9 +8,8 @@ export const getLocationWithIPAddress = async () => {
         apiKey: accessKey
       }
     });
-    console.log(response);
     return { lat: response.data.latitude, lng: response.data.longitude };
   } catch (error) {
-    console.log(error);
+    console.error('Erro ao acessar serviço externo de geolocalização', error);
   }
 };

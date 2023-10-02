@@ -60,7 +60,6 @@ export const StepTwo: React.FC<StepProps> = ({ prev, next, data, setData }) => {
         params: { per_page: 226 }
       });
       setCities(data.data.data);
-      console.log(data);
     };
     getCities();
   }, [state]);
@@ -80,11 +79,9 @@ export const StepTwo: React.FC<StepProps> = ({ prev, next, data, setData }) => {
               } as Address
             ]
           }));
-        console.log(location);
       }
     };
     getLocation();
-    console.log(data);
   }, []);
 
   const handleCepChange = async (
@@ -122,8 +119,6 @@ export const StepTwo: React.FC<StepProps> = ({ prev, next, data, setData }) => {
       setStates(prev => [...prev, { id: 'stateFromCep', name: data.state }]);
       setFieldValue('addresses_attributes[0].city_id', data.city_id);
       setFieldValue('addresses_attributes[0].state', 'stateFromCep');
-
-      console.log(data);
     } catch (error) {
       console.error('Erro ao buscar CEP:', error);
     }
