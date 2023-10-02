@@ -80,6 +80,9 @@ export const dark: DefaultTheme = {
     },
     black: '#333333',
     white: '#EEEEEE',
+    secondary: {
+      main: '#D45513'
+    },
     text: {
       main: '#FDFDFD',
       primaryAccent: '#FFF',

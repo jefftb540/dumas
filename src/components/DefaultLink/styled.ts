@@ -12,28 +12,34 @@ export const Container = styled.span<ContainerProps>`
   font-size: 14px;
   `}
 
-  ${({ variant, theme }) =>
-    variant === 'primary'
-      ? `
+  ${({ variant, theme }) => {
+    if (variant === 'primary') {
+      return `
+        color: ${theme.colors.secondary.main};
+        font-size: ${theme.fonts.text.medium};
+        font-weight: ${theme.fonts.weight.bold};
+      `;
+    } else if (variant === 'secondary') {
+      return `
+        color: ${theme.colors.text.main};
+        font-size: ${theme.fonts.text.small};
+        font-weight: ${theme.fonts.weight.regular};
+      `;
+    } else {
+      return `
+        color: ${theme.colors.text.main};
+        font-size: ${theme.fonts.text.small};
+        font-weight: ${theme.fonts.weight.regular};
+      `;
+    }
+  }}
 
-      color: ${theme.colors.secondary.main};
-      font-size: ${theme.fonts.text.medium};
-      font-weight: ${theme.fonts.weight.bold};
-
-      a{
-        &:visited {
-          color: ${theme.colors.secondary.main}
-      }
-      `
-      : `
-      color: ${theme.colors.text.light};
-      font-size: ${theme.fonts.text.small};
-      font-weight: ${theme.fonts.weight.regular};
-      opacity
-
-      a{
-        &:visited {
-          color: ${theme.colors.text.main}
-      }
-      `}
+  a {
+    &:visited {
+      color: ${({ variant, theme }) =>
+        variant === 'primary'
+          ? theme.colors.secondary.main
+          : theme.colors.text.main};
+    }
+  }
 `;
