@@ -14,6 +14,9 @@ export const WrapperEditDelete = styled.div`
   gap: 2px;
   font-size: 25px;
   color: ${({ theme }) => theme.colors.secondary.main};
+  svg {
+    cursor: pointer;
+  }
 `;
 
 export const WrapperInputsPhones = styled.div`

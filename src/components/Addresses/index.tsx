@@ -17,14 +17,17 @@ export const AddressProfile: React.FC<AddressProfileProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const { activeAddress, setActiveAddress } = useCart();
 
-  const handleSubmit = async (address: Address) => {
+  const handleSubmit = async (address: Partial<Address>) => {
     console.log('enviar dados', address);
-    await api.put<Address>(`/clients/addresses/${address.id}`, {
-      address
-    });
+    const response = await api.put<Address>(
+      `/clients/addresses/${address.id}`,
+      {
+        address
+      }
+    );
 
     if (address.id === activeAddress?.id) {
-      setActiveAddress(address);
+      setActiveAddress(response.data);
     }
     queryClient.invalidateQueries({ queryKey: ['profile'] });
     queryClient.invalidateQueries({ queryKey: ['addresses'] });

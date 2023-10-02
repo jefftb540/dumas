@@ -9,13 +9,14 @@ import {
 } from '../EditProfile/styled';
 import Modal from 'react-modal';
 import { Button } from '../Button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Address } from '../../types/Address';
 import { getAddressByCep } from '../../service/api/address';
 import { customStyles } from '../../consts/modalStyles';
 import { messageErrors } from '../../consts/messageErrors';
 import * as Yup from 'yup';
 import { MessageErrorsContainer } from '../../pages/Login/styled';
+import { getAndUseLocation } from '../../consts/getLocation';
 
 interface EditUserModalProps {
   isOpen: boolean;
@@ -51,6 +52,21 @@ export const AddAddressModal = ({
   const handleFieldChange = (field: string, value: string) => {
     setNewAddress({ ...newAddress, [field]: value });
   };
+
+  useEffect(() => {
+    const insertLocation = async () => {
+      const location = await getAndUseLocation();
+      if (!address) {
+        setNewAddress(prev => ({
+          ...prev,
+          latitude: location?.latitude,
+          longitude: location?.longitude
+        }));
+      }
+    };
+
+    insertLocation();
+  }, []);
 
   const handleCepChange = async (cep: string) => {
     const cleanedCep = cep.replace(/[^0-9]/g, '');
@@ -208,7 +224,7 @@ export const AddAddressModal = ({
           type="button"
           onClick={validateAndSubmit}
         >
-          Adicionar
+          Salvar
         </Button>
       </ModalContent>
     </Modal>

@@ -12,6 +12,7 @@ import {
 import * as Yup from 'yup';
 import { messageErrors } from '../../consts/messageErrors';
 import { MessageErrorsContainer } from '../../pages/Login/styled';
+import { updateTelephone } from '../../service/api/telephone';
 
 interface TelephoneProfileProps {
   telephone: Telephone;
@@ -41,9 +42,7 @@ export const TelephoneProfile = ({ telephone }: TelephoneProfileProps) => {
         setValidationError(null);
 
         console.log('enviar os dados', newTelephone);
-        await api.put(`clients/telephones/${telephone.id}`, {
-          telephone: { number: newTelephone }
-        });
+        await updateTelephone(telephone.id, newTelephone);
         queryClient.invalidateQueries({ queryKey: ['profile'] });
         setIsEditing(false);
       } catch (error) {
