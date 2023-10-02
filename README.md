@@ -24,7 +24,11 @@
 - Todo o código-fonte deve ser escrito em inglês. Isso inclui nomes de variáveis, funções, classes, etc;
 - Todos os commits devem seguir a  convenção de commits semânticos no tempo presente, ex: "adiciona tal funcionalidade";
 
-## 🎲 Tecnologias e Bibliotecas
+## 🎲 Tecnologias e Bibliotecas 
+<img  src="src/assets/vrt.png"  alt="Gif exibindo uma demonstração do site">
+<img  src="src/assets/Formik.png"  alt="Gif exibindo uma demonstração do site">
+<img  src="src/assets/yup.png"  alt="Gif exibindo uma demonstração do site">
+<img  src="src/assets/sc.png"  alt="Gif exibindo uma demonstração do site">
 
     axios: 1.5.0,
     formik: 2.4.4,
@@ -36,10 +40,9 @@
     react-secure-storage: 1.3.0,
     react-toastify: 9.1.3,
     styled-components: 6.0.8,
-    yup: 1.2.0,
+    yup: 1.2.0,
     cypress: 13.3.0,
     eslint: 8.45.0
-
 
 
 ## 🔧 Funcionalidades
@@ -114,7 +117,7 @@
 
 ## 💻 Telas
 
-<img src="" alt="Gif exibindo uma demonstração do site">
+<img src="src/assets/telas.gif" alt="Gif exibindo uma demonstração do site">
 
 
 
