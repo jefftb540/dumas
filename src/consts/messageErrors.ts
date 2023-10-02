@@ -23,6 +23,9 @@ export const messageErrors = {
     }
   },
   addresses_attributes: {
+    tipo_endereco: {
+      required: 'O tipo do endereço é obrigatório'
+    },
     zip_code: {
       invalid: 'O CEP deve conter 8 números',
       required: 'O CEP é obrigatório'

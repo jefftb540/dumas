@@ -19,7 +19,7 @@ import { DefaultLink } from '../../components/DefaultLink';
 import { routes } from '../../routes';
 
 export const StepOne: React.FC<StepProps> = ({ next, data }) => {
-  const { signUp, error } = useAuth();
+  const { signUp } = useAuth();
 
   const handleSubmit = (values: User) => {
     signUp(values);
