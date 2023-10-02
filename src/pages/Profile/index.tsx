@@ -28,6 +28,7 @@ import { createTelephones } from '../../service/api/telephone';
 import { EditUserModal } from '../../components/EditUserModal';
 import { AddTelephoneModal } from '../../components/AddTelephoneModal';
 import { AddAddressModal } from '../../components/AddAddressModal';
+import { useCart } from '../../contexts/cartContex';
 
 Modal.setAppElement('#root');
 
@@ -38,6 +39,7 @@ export const Profile: React.FC = () => {
   const [addressesModalIsOpen, setAddressesModalIsOpen] = useState(false);
 
   const { user } = useAuth();
+  const { activeAddress, setActiveAddress } = useCart();
   const { data, isLoading } = useQuery(['profile'], getClientData);
 
   useEffect(() => {
@@ -85,7 +87,10 @@ export const Profile: React.FC = () => {
   };
 
   const addAddress = async (newAddress: Address) => {
-    await createAddress(newAddress);
+    const addressData = await createAddress(newAddress);
+    if (!activeAddress && addressData) {
+      setActiveAddress(addressData);
+    }
     queryClient.invalidateQueries({ queryKey: ['profile'] });
     closeAddressesModal();
   };
