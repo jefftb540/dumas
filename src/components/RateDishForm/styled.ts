@@ -36,7 +36,7 @@ export const RatingInnerContainer = styled.div`
 
 export const TitleComment = styled.h4`
   text-align: center;
-`
+`;
 export const RatingContainer = styled.div`
   display: flex;
   flex-direction: column;

@@ -15,8 +15,6 @@ import { Rating } from '../../types/Rating';
 import { BsStar, BsStarFill } from 'react-icons/bs';
 import { Dish } from '../../types/Dish';
 import { Title } from '../Title';
-import { Title3 } from '../../pages/Profile/styled';
-import { SubTitle } from '../../pages/Login/styled';
 
 interface RateDishFormProps {
   dish: Dish;
