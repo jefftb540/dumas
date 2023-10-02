@@ -10,13 +10,11 @@ import { EditProfile } from '../EditProfile';
 import { CircularSpinner } from '../CircularSpinner';
 import { SpinnerContainer } from '../../pages/Profile/styled';
 import { User } from '../../types/Users';
-
-// import { Container } from './styles';
+import { customStyles } from '../../consts/modalStyles';
 
 interface EditUserModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  styles: Modal.Styles;
   user?: User;
   onSubmit: (values: User) => Promise<void>;
 }
@@ -24,7 +22,6 @@ interface EditUserModalProps {
 export const EditUserModal = ({
   closeModal,
   isOpen,
-  styles,
   user,
   onSubmit
 }: EditUserModalProps) => {
@@ -33,7 +30,7 @@ export const EditUserModal = ({
       isOpen={isOpen}
       onRequestClose={closeModal}
       contentLabel="Editar"
-      style={styles}
+      style={customStyles}
     >
       <ModalContent>
         <ContainerTitleClose>

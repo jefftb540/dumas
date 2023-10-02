@@ -12,11 +12,14 @@ import { Button } from '../Button';
 import { useState } from 'react';
 import { Address } from '../../types/Address';
 import { getAddressByCep } from '../../service/api/address';
+import { customStyles } from '../../consts/modalStyles';
+import { messageErrors } from '../../consts/messageErrors';
+import * as Yup from 'yup';
+import { MessageErrorsContainer } from '../../pages/Login/styled';
 
 interface EditUserModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  styles: Modal.Styles;
   onSubmit: (values: Address) => Promise<void>;
   address?: Address;
 }
@@ -24,7 +27,6 @@ interface EditUserModalProps {
 export const AddAddressModal = ({
   closeModal,
   isOpen,
-  styles,
   onSubmit,
   address
 }: EditUserModalProps) => {
@@ -43,6 +45,12 @@ export const AddAddressModal = ({
           reference: ''
         }
   );
+  const [validationErrors, setValidationErrors] = useState<Partial<Address>>(
+    {}
+  );
+  const handleFieldChange = (field: string, value: string) => {
+    setNewAddress({ ...newAddress, [field]: value });
+  };
 
   const handleCepChange = async (cep: string) => {
     const cleanedCep = cep.replace(/[^0-9]/g, '');
@@ -64,12 +72,49 @@ export const AddAddressModal = ({
     }
   };
 
+  const validation = Yup.object().shape({
+    name: Yup.string().required(
+      messageErrors.addresses_attributes.tipo_endereco.required
+    ),
+    zip_code: Yup.string()
+      .matches(/^\d{8}$/, messageErrors.addresses_attributes.zip_code.invalid)
+      .required(messageErrors.addresses_attributes.zip_code.required),
+    public_place: Yup.string().required(
+      messageErrors.addresses_attributes.public_place.required
+    ),
+    number: Yup.string().required(
+      messageErrors.addresses_attributes.number.required
+    ),
+    neighborhood: Yup.string().required(
+      messageErrors.addresses_attributes.neighborhood.required
+    ),
+    city_id: Yup.string().required(
+      messageErrors.addresses_attributes.city_id.required
+    )
+  });
+
+  const validateAndSubmit = async () => {
+    try {
+      await validation.validate(newAddress, { abortEarly: false });
+      await onSubmit(newAddress);
+      closeModal();
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const errors: Record<string, string> = {};
+        error.inner.forEach(err => {
+          errors[err.path as string] = err.message;
+        });
+        setValidationErrors(errors);
+      }
+    }
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={closeModal}
       contentLabel="Editar Endereços"
-      style={styles}
+      style={customStyles}
     >
       <ModalContent>
         <ContainerTitleClose>
@@ -79,6 +124,20 @@ export const AddAddressModal = ({
             <FiXCircle />
           </ButtonClose>
         </ContainerTitleClose>
+        <ContainerInput size="large">
+          <FiHome />
+          <InputModal
+            type="text"
+            placeholder="Tipo de endereço"
+            value={newAddress.name}
+            onChange={e => handleFieldChange('name', e.target.value)}
+          />
+        </ContainerInput>
+        {validationErrors.name && (
+          <MessageErrorsContainer>
+            {validationErrors.name}
+          </MessageErrorsContainer>
+        )}
 
         <ContainerInput size="large">
           <FiHome />
@@ -87,11 +146,16 @@ export const AddAddressModal = ({
             placeholder="CEP"
             value={newAddress.zip_code}
             onChange={e => {
-              setNewAddress({ ...newAddress, zip_code: e.target.value });
+              handleFieldChange('zip_code', e.target.value);
             }}
             onBlur={e => handleCepChange(e.target.value)}
           />
         </ContainerInput>
+        {validationErrors.zip_code && (
+          <MessageErrorsContainer>
+            {validationErrors.zip_code}
+          </MessageErrorsContainer>
+        )}
 
         <ContainerInput size="large">
           <FiHome />
@@ -99,11 +163,14 @@ export const AddAddressModal = ({
             type="text"
             placeholder="Logradouro"
             value={newAddress.public_place}
-            onChange={e =>
-              setNewAddress({ ...newAddress, public_place: e.target.value })
-            }
+            onChange={e => handleFieldChange('public_place', e.target.value)}
           />
         </ContainerInput>
+        {validationErrors.public_place && (
+          <MessageErrorsContainer>
+            {validationErrors.public_place}
+          </MessageErrorsContainer>
+        )}
 
         <ContainerInput size="large">
           <FiHome />
@@ -111,11 +178,14 @@ export const AddAddressModal = ({
             type="text"
             placeholder="Número"
             value={newAddress.number}
-            onChange={e =>
-              setNewAddress({ ...newAddress, number: e.target.value })
-            }
+            onChange={e => handleFieldChange('number', e.target.value)}
           />
         </ContainerInput>
+        {validationErrors.number && (
+          <MessageErrorsContainer>
+            {validationErrors.number}
+          </MessageErrorsContainer>
+        )}
 
         <ContainerInput size="large">
           <FiHome />
@@ -123,19 +193,20 @@ export const AddAddressModal = ({
             type="text"
             placeholder="Bairro"
             value={newAddress.neighborhood}
-            onChange={e =>
-              setNewAddress({ ...newAddress, neighborhood: e.target.value })
-            }
+            onChange={e => handleFieldChange('neighborhood', e.target.value)}
           />
         </ContainerInput>
+        {validationErrors.neighborhood && (
+          <MessageErrorsContainer>
+            {validationErrors.neighborhood}
+          </MessageErrorsContainer>
+        )}
 
         <Button
           variant="primary"
           size="medium"
           type="button"
-          onClick={() => {
-            onSubmit(newAddress);
-          }}
+          onClick={validateAndSubmit}
         >
           Adicionar
         </Button>

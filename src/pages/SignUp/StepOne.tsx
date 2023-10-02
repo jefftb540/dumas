@@ -19,7 +19,7 @@ import { DefaultLink } from '../../components/DefaultLink';
 import { routes } from '../../routes';
 
 export const StepOne: React.FC<StepProps> = ({ next, data }) => {
-  const { signUp, error } = useAuth();
+  const { signUp } = useAuth();
 
   const handleSubmit = (values: User) => {
     signUp(values);
@@ -54,7 +54,7 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
       Yup.object({
         number: Yup.string()
           .matches(
-            /^[0-9]{8,9}$/,
+            /^[0-9]{10,11}$/,
             messageErrors.telephones_attributes.number.invalid
           )
           .required(messageErrors.telephones_attributes.number.required)
@@ -112,8 +112,6 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
               name="telephones_attributes[0].number"
               component={MessageErrorsContainer}
             />
-
-            {error && <MessageErrorsContainer>{error}</MessageErrorsContainer>}
 
             <WrapperButton>
               <Button
