@@ -4,6 +4,7 @@ import { media } from '../../consts/mediaquery';
 export const Wrapper = styled.div`
   display: flex;
   width: 100%;
+  min-height: 100vh;
 
   ${media.mobile`
     flex-direction: column;
@@ -55,6 +56,7 @@ export const HalfScreen = styled.div`
 
   ${media.desktop`
     flex: 1; 
+    min-height: 10vh;
   `}
 `;
 
@@ -66,10 +68,6 @@ export const CenteredImage = styled.img`
   padding-top: 180px;
   width: 65%;
   margin: auto;
-
-  ${media.mobile`
-    display: none;
-  `}
 
   ${media.tablet`
     display: none;
@@ -83,4 +81,5 @@ export const RightContent = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 100%;
 `;
