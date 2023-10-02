@@ -59,7 +59,7 @@ export const HalfScreen = styled.div`
 `;
 
 export const Logo = styled.img`
-  width: 94px;
+  width: 95px;
 `;
 
 export const CenteredImage = styled.img`

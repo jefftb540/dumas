@@ -54,7 +54,7 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
       Yup.object({
         number: Yup.string()
           .matches(
-            /^[0-9]{11}$/,
+            /^[0-9]{10,11}$/,
             messageErrors.telephones_attributes.number.invalid
           )
           .required(messageErrors.telephones_attributes.number.required)

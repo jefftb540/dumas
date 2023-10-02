@@ -1,6 +1,6 @@
 export const customStyles = {
   content: {
-    maxWidth: '500px',
+    maxWidth: '530px',
     maxHeight: '470px',
     margin: 'auto',
     padding: '20px',
