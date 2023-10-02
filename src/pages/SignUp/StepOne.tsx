@@ -112,6 +112,10 @@ export const StepOne: React.FC<StepProps> = ({ next, data }) => {
               name="telephones_attributes[0].number"
               component={MessageErrorsContainer}
             />
+            <ErrorMessage
+              name="password_confirmation"
+              component={MessageErrorsContainer}
+            />
 
             <WrapperButton>
               <Button

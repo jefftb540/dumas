@@ -8,7 +8,8 @@ import {
   RatingContainer,
   RatingInnerContainer,
   Star,
-  StarsContainer
+  StarsContainer,
+  TitleComment
 } from './styled';
 import { Rating } from '../../types/Rating';
 import { BsStar, BsStarFill } from 'react-icons/bs';
@@ -22,6 +23,7 @@ interface RateDishFormProps {
 
 export const RateDishForm = ({ dish, addRating }: RateDishFormProps) => {
   const [rating, setRating] = useState<Rating>({
+    user_name: '',
     dishId: dish.id,
     rate: 1,
     comment: ''
@@ -47,6 +49,7 @@ export const RateDishForm = ({ dish, addRating }: RateDishFormProps) => {
               </Star>
             ))}
           </StarsContainer>
+          <TitleComment>Deixa aqui seu comentário</TitleComment>
           <RatingCommentContainer>
             <RatingComment
               onChange={e =>
