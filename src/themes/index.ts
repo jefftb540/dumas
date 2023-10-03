@@ -34,7 +34,8 @@ export const light: DefaultTheme = {
       main: '#FF0000'
     },
     border: {
-      main: '#FF5600'
+      main: '#FF5600',
+      light: '#ccc'
     }
   },
   fonts: {
