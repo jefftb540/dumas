@@ -90,7 +90,8 @@ export const dark: DefaultTheme = {
       secondaryAccent: '#FFF'
     },
     border: {
-      main: '#FFF'
+      main: '#FFF',
+      light: '#eee'
     }
   },
   logoSrc: 'ImagesMainLayout/dark/logo.png',
